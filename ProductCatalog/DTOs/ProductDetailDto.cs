@@ -2,7 +2,7 @@
 
 namespace ProductCatalog.DTOs
 {
-    public class ProductDto
+    public class ProductDetailDto
     {
         public long Id { get; set; }
         public string Name { get; set; } = null!;
@@ -11,8 +11,8 @@ namespace ProductCatalog.DTOs
         public string BrandName = null!;
         public string SellerName = null!;
         public decimal Rating { get; set; }
-        public ICollection<Varient> Varients { get; set; } = null!;
-        public ICollection<Attachment> Attachments { get; set; } = null!;
-        public ICollection<Review> Reviews { get; set; } = null!;
+        public IEnumerable<Varient> Varients { get; set; } = null!;
+        public IEnumerable<Attachment> Attachments { get; set; } = null!;
+        public IEnumerable<Review> Reviews { get; set; } = null!;
     }
 }

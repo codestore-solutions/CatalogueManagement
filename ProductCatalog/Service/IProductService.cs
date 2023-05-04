@@ -5,6 +5,8 @@ namespace ProductCatalog.Service
 {
     public interface IProductService
     {
-        Task<IEnumerable<ProductDto>> GetAll();
+        Task<IEnumerable<ProductOverview>> GetAll();
+
+        Task<ProductDetailDto> GetProductDetail(long id);
     }
 }

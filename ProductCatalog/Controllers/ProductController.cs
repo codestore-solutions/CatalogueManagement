@@ -18,10 +18,18 @@ namespace ProductCatalog.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductDto>>> Get()
+        public async Task<ActionResult<ProductOverview>> Get()
         {
-            var pDto =  await _productService.GetAll();
-            return Ok(pDto);
+            var productOverviews =  await _productService.GetAll();
+
+            return Ok(productOverviews);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ProductDetailDto>> GetProductDetailAsync(long id)
+        {
+            var detail = await _productService.GetProductDetail(id);
+            return Ok(detail);
         }
 
     }

@@ -24,7 +24,10 @@ namespace Models.ProductModels
         [DataType("decimal(3,2)")]
         public decimal Rating { get; set; }
 
-        public string Comment { get; set; } = string.Empty;
+        public string? Comment { get; set; }
+
+        [ForeignKey(nameof(AttachmentId))]
+        public long? AttachmentId { get; set; }
 
 
     }

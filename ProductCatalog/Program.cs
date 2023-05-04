@@ -1,4 +1,6 @@
 using DataAccessLayer.Data;
+using DataAccessLayer.Interface;
+using DataAccessLayer.Repository;
 using Microsoft.EntityFrameworkCore;
 using ProductCatalog.Service;
 
@@ -13,6 +15,7 @@ builder.Services.AddDbContext<ProductDbContext>(option =>
     option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IProductService, ProductService>();
 
 
