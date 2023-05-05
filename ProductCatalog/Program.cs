@@ -3,6 +3,7 @@ using DataAccessLayer.Interface;
 using DataAccessLayer.Repository;
 using Microsoft.EntityFrameworkCore;
 using ProductCatalog.Service;
+using ProductCatalog.Service.Interface;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +17,13 @@ builder.Services.AddDbContext<ProductDbContext>(option =>
 });
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IBrandService, BrandService>();
+builder.Services.AddScoped<IAttachmentService, AttachmentService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IReviewService, ReviewService>();
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<ISubCategoryService, SubCategoryService>();
+builder.Services.AddScoped<IVarientService, VarientService>();
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

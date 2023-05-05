@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Models.ProductModels;
 using ProductCatalog.DTOs;
-using ProductCatalog.Service;
+using ProductCatalog.Service.Interface;
 
 namespace ProductCatalog.Controllers
 {

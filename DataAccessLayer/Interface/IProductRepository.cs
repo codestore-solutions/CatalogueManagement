@@ -13,7 +13,7 @@ namespace DataAccessLayer.Interface
         string GetAttachment(long id);
         Task<IEnumerable<Varient>> GetVarientsByProductId(long id);
         Task<IEnumerable<Attachment>> GetAttachmentsByProductId(long id);
-        Task<IEnumerable<Review>> GetReviewsByProductId(long id);
+        //Task<IEnumerable<Review>> GetReviewsByProductId(long id);
 
 
     }

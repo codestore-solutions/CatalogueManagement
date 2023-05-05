@@ -9,5 +9,6 @@ namespace DataAccessLayer.Interface
 {
     public interface IReviewRepository : IGenericRepository<Review>
     {
+        Task<IEnumerable<Review>> GetReviewsByProductId(long id);
     }
 }

@@ -9,5 +9,6 @@ namespace DataAccessLayer.Interface
 {
     public interface IBrandRepository : IGenericRepository<Brand>
     {
+        Task<IEnumerable<Product>> GetProductsByBrand(long id);
     }
 }

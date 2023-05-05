@@ -17,6 +17,11 @@ namespace DataAccessLayer.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            //modelBuilder.Entity<Varient>(entity =>
+            //{
+            //    entity.HasData
+            //});
+
         }
 
         public DbSet<Product> Products { get; set; }

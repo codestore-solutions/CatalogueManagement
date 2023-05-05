@@ -1,6 +1,7 @@
 ﻿using DataAccessLayer.Data;
 using DataAccessLayer.Interface;
 using ProductCatalog.DTOs;
+using ProductCatalog.Service.Interface;
 
 namespace ProductCatalog.Service
 {
@@ -41,7 +42,7 @@ namespace ProductCatalog.Service
             var product = await _repository.GetAsync(id);
             var varients = await _repository.GetVarientsByProductId(id);
             var attachments = await _repository.GetAttachmentsByProductId(id);
-            var reviews = await _repository.GetReviewsByProductId(id);
+            //var reviews = await _repository.GetReviewsByProductId(id);
 
             return new ProductDetailDto()
             {
@@ -50,7 +51,7 @@ namespace ProductCatalog.Service
                 Rating = _repository.GetRating(product.Id),
                 Varients = varients,
                 Attachments = attachments,
-                Reviews = reviews
+                //Reviews = reviews
             };
         }
     }

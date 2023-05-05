@@ -9,5 +9,6 @@ namespace DataAccessLayer.Interface
 {
     public interface ISubCategoryRepository : IGenericRepository<SubCategory>
     {
+        Task<IEnumerable<SubCategory>> GetSubCategoryByCategory(long id);
     }
 }

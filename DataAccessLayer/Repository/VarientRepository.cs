@@ -18,6 +18,22 @@ namespace DataAccessLayer.Repository
             _context = dbContext;
         }
 
+        public async Task<IEnumerable<Varient>> GetVarientsOfProduct(long productId)
+        {
+            var varients = await _context.Varients.Where(x => x.ProductId == productId).ToListAsync();
+            return varients;
+        }
+
+        public async Task MarkVarientInactive(long varientId)
+        {
+            var existingVarient = _context.Varients.FirstOrDefault(x => x.Id == varientId);
+            existingVarient.IsActive = false;
+            _context.Varients.Update(existingVarient);
+            await _context.SaveChangesAsync();
+
+
+        }
+
         
     }
 }

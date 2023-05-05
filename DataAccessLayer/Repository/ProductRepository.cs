@@ -37,14 +37,8 @@ namespace DataAccessLayer.Repository
 
         public async Task<IEnumerable<Attachment>> GetAttachmentsByProductId(long id)
         {
-            var attachments = await _context.Attachments.Where(x => x.ProductId == id).ToListAsync();
+            var attachments = await _context.Attachments.Where(x => x.ProductId == id && x.IsUploadedByAdmin).ToListAsync();
             return attachments;
-        }
-
-        public async Task<IEnumerable<Review>> GetReviewsByProductId(long id)
-        {
-            var reviews = await _context.Reviews.Where(x => x.ProductId == id).ToListAsync();
-            return reviews;
         }
     }
 }

@@ -9,5 +9,7 @@ namespace DataAccessLayer.Interface
 {
     public interface IVarientRepository : IGenericRepository<Varient>
     {
+        Task<IEnumerable<Varient>> GetVarientsOfProduct(long productId);
+        Task MarkVarientInactive(long varientId);
     }
 }

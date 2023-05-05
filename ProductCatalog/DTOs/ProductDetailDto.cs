@@ -13,6 +13,6 @@ namespace ProductCatalog.DTOs
         public decimal Rating { get; set; }
         public IEnumerable<Varient> Varients { get; set; } = null!;
         public IEnumerable<Attachment> Attachments { get; set; } = null!;
-        public IEnumerable<Review> Reviews { get; set; } = null!;
+        //public IEnumerable<Review> Reviews { get; set; } = null!;
     }
 }
