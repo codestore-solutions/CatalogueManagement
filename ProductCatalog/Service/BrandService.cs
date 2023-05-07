@@ -16,17 +16,28 @@ namespace ProductCatalog.Service
             _brandRepository = unitOfWork.BrandRepository;
         }
 
-
-
-        public async Task AddNewBrand(Brand brand)
+        public async Task<long> AddNewBrand(string brandName)
         {
+            Brand brand = new()
+            {
+                Name = brandName,
+            };
             _brandRepository.Add(brand);
             await _unitOfWork.SaveAsync();
+            return brand.Id;
+            
         }
 
-        public Task DeleteBrand(long id)
+        public async Task<bool> DeleteBrand(long id)
         {
-            throw new NotImplementedException();
+            var brand = await _brandRepository.GetAsync(id);
+            if (brand == null)
+            {
+                return false;
+            }
+            _brandRepository.Delete(brand);
+            await _unitOfWork.SaveAsync();
+            return true;
         }
 
         public async Task<IEnumerable<Brand>> GetAllBrands()
@@ -53,9 +64,14 @@ namespace ProductCatalog.Service
 
         }
 
-        public Task UpdateBrand(long id, Brand brand)
+        public async Task<bool> UpdateBrand(long id, Brand brand)
         {
-            throw new NotImplementedException();
+            var existing = await _brandRepository.GetAsync(id);
+            if (existing == null) return false;
+
+            _brandRepository.Update(brand);
+            await _unitOfWork.SaveAsync();
+            return true;
         }
     }
 }

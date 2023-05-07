@@ -19,6 +19,9 @@ namespace Models.ProductModels
 
         public bool IsUploadedByAdmin { get; set; }
 
+        public long? ReviewId { get; set; }
+        [ForeignKey(nameof(ReviewId))]
+
         public string AttachmentURL { get; set; } = string.Empty;
     }
 }

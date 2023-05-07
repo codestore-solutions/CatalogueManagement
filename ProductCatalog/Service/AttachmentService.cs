@@ -22,9 +22,13 @@ namespace ProductCatalog.Service
             return attachment.Id;
         }
 
-        public Task<bool> DeleteAttachment(long attachmentId)
+        public async Task<bool> DeleteAttachment(long attachmentId)
         {
-            throw new NotImplementedException();
+            var attachment = await _attachmentRepository.GetAsync(attachmentId);
+            if (attachment == null) return false;
+            _attachmentRepository.Delete(attachment);
+            await _unitOfWork.SaveAsync();
+            return true;
         }
 
         public Task<IEnumerable<Attachment>> GetAllAttachments()
@@ -32,9 +36,14 @@ namespace ProductCatalog.Service
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<Attachment>> GetAttachmentsByProductId(long productId)
+        public async Task<IEnumerable<string>> GetAttachmentsByProductId(long productId)
         {
             return await _attachmentRepository.GetAttachmentsByProductId(productId);
+        }
+
+        public async Task<IEnumerable<string>> GetAttachmentByReviewId(long reviewId)
+        {
+            return await _attachmentRepository.GetAttachmentByReviewId(reviewId);
         }
     }
 }

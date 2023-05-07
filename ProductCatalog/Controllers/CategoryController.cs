@@ -29,7 +29,7 @@ namespace ProductCatalog.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] string category)
         {
-            await _categoryService.AddCategory(category);
+            var res =  await _categoryService.AddCategory(category);
             return Ok("Category Created Successfully");
         }
 
@@ -41,8 +41,11 @@ namespace ProductCatalog.Controllers
             {
                 return BadRequest();
             }
-            await _categoryService.UpdateCategory(id, category);
-            return Ok();
+            var res = await _categoryService.UpdateCategory(id, category);
+
+            return !res 
+                ? NotFound("Category not found") 
+                : Ok("Category Updated Successfully");
 
         }
 

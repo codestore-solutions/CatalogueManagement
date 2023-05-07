@@ -9,6 +9,7 @@ namespace DataAccessLayer.Interface
 {
     public interface IAttachmentRepository : IGenericRepository<Attachment>
     {
-        Task<ICollection<Attachment>> GetAttachmentsByProductId(long id);
+        Task<ICollection<string>> GetAttachmentsByProductId(long id);
+        Task<ICollection<string>> GetAttachmentByReviewId(long id);
     }
 }

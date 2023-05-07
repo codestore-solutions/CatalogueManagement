@@ -18,9 +18,26 @@ namespace DataAccessLayer.Repository
             _dbContext = dbContext;
         }
 
-        public async Task<ICollection<Attachment>> GetAttachmentsByProductId(long id)
+        public async Task<ICollection<string>> GetAttachmentsByProductId(long id)
         {
-            return await _dbContext.Attachments.Where(x => x.ProductId == id && x.IsUploadedByAdmin).ToListAsync();
+            var attachments = await _dbContext.Attachments.Where(x => x.ProductId == id && x.IsUploadedByAdmin).ToListAsync();
+            List<String> result = new();
+            foreach (var item in attachments)
+            {
+                result.Add(item.AttachmentURL);
+            }
+            return result;
+        }
+
+        public async Task<ICollection<string>> GetAttachmentByReviewId(long id)
+        {
+            var attachments = await _dbContext.Attachments.Where(x => x.ReviewId == id).ToListAsync();
+            List<string> result = new();
+            foreach (var item in attachments)
+            {
+                result.Add(item.AttachmentURL.ToString());
+            }
+            return result;
         }
     }
 }

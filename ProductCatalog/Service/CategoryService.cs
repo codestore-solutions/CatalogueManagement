@@ -17,18 +17,18 @@ namespace ProductCatalog.Service
             _categoryRepository = unitOfWork.CategoryRepository;
         }
 
-        public async Task AddCategory(string categoryName)
+        public async Task<long> AddCategory(string categoryName)
         {
             Category c = new Category()
             {
                 Name = categoryName,
             };
             _categoryRepository.Add(c);
-
             await _unitOfWork.SaveAsync();
+            return c.Id;
         }
 
-        public Task DeleteCategoryAsync(long id)
+        public Task<bool> DeleteCategoryAsync(long id)
         {
             throw new NotImplementedException();
         }
@@ -43,15 +43,16 @@ namespace ProductCatalog.Service
             throw new NotImplementedException();
         }
 
-        public async Task UpdateCategory(long id, Category category)
+        public async Task<bool> UpdateCategory(long id, Category category)
         {
-            if (id != category.Id) return;
             var cat = await _categoryRepository.GetAsync(id);
             if(cat != null)
             {
-                _categoryRepository.Update(category);
+                _categoryRepository.Update(cat);
                 await _unitOfWork.SaveAsync();
+                return true;
             }
+            return false;
         }
     }
 }

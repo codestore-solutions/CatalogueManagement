@@ -32,9 +32,9 @@ namespace ProductCatalog.Controllers
         }
 
         [HttpGet("{categoryId}")]
-        public async Task<ActionResult<SubCategory>> GetSubCategory([FromQuery] int id )
+        public async Task<ActionResult<SubCategory>> GetSubCategory(long categoryId)
         {
-            var sc = await _subCategoryService.GetSubCategoriesByCategory(id);
+            var sc = await _subCategoryService.GetSubCategoriesByCategory(categoryId);
             return Ok(sc);
         }
     }

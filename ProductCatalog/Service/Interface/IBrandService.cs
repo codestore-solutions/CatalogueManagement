@@ -7,9 +7,9 @@ namespace ProductCatalog.Service.Interface
     {
         Task<IEnumerable<Brand>> GetAllBrands();
         Task<IEnumerable<ProductOverview>> GetProductsByBrand(long id);
-        Task AddNewBrand(Brand brand);
-        Task UpdateBrand(long id, Brand brand);
-        Task DeleteBrand(long id);
+        Task<long> AddNewBrand(string brandName);
+        Task<bool> UpdateBrand(long id, Brand brand);
+        Task<bool> DeleteBrand(long id);
 
     }
 }
