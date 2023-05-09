@@ -21,7 +21,7 @@ namespace Models.ProductModels
 
         public long? ReviewId { get; set; }
         [ForeignKey(nameof(ReviewId))]
-
+         
         public string AttachmentURL { get; set; } = string.Empty;
     }
 }

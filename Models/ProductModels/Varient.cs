@@ -22,7 +22,6 @@ namespace Models.ProductModels
         public bool IsActive { get; set; }
 
         [Required]
-        [DataType("decimal(8,2)")]
         public decimal Price { get; set; }
 
         [Required]

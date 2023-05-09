@@ -18,7 +18,6 @@ namespace DataAccessLayer.Repository
             _context = dbContext;
         }
 
-
         public decimal GetRating(long id)
         {
             return _context.Reviews.Where(x => x.ProductId == id).Average(x => x.Rating);

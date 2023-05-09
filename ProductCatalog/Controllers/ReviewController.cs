@@ -7,5 +7,6 @@ namespace ProductCatalog.Controllers
     [ApiController]
     public class ReviewController : ControllerBase
     {
+        
     }
 }

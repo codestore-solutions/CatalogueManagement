@@ -15,6 +15,8 @@ namespace Models.ProductModels
         public long Id { get; set; }
 
         [Required]
+        [MinLength(2)]
+        [MaxLength(50)]
         public string Name { get; set; } = null!;
 
         public bool IsActive { get; set; }
@@ -35,5 +37,6 @@ namespace Models.ProductModels
         [ForeignKey("BrandId")]
         public long BrandId { get; set; }
 
+        public virtual ICollection<ProductCategory> ProductCategory { get; set; } = new List<ProductCategory>();
     }
 }

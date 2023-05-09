@@ -11,18 +11,15 @@ namespace DataAccessLayer.Repository
     public class UnitOfWork : IUnitOfWork
     {
         private readonly ProductDbContext _context;
-        private IAttachmentRepository _attachmentRepository;
-        private IBrandRepository _brandRepository;
-        private ICategoryRepository _categoryRepository;
-        private IProductRepository _productRepository;
-        private IReviewRepository _reviewRepository;
-        private ISubCategoryRepository _subCategoryRepository;
-        private IVarientRepository _varientRepository;
+        private IAttachmentRepository? _attachmentRepository;
+        private IBrandRepository? _brandRepository;
+        private ICategoryRepository? _categoryRepository;
+        private IProductRepository? _productRepository;
+        private IReviewRepository? _reviewRepository;
+        private ISubCategoryRepository? _subCategoryRepository;
+        private IVarientRepository? _varientRepository;
 
-        public UnitOfWork(ProductDbContext context)
-        {
-            _context = context;
-        }
+        public UnitOfWork(ProductDbContext context) => _context = context;
 
         public IAttachmentRepository AttachmentRepository => _attachmentRepository ??= new AttachmentRepository(_context);
 

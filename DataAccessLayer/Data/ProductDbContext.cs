@@ -17,12 +17,25 @@ namespace DataAccessLayer.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            //modelBuilder.Entity<Varient>(entity =>
-            //{
-            //    entity.HasData
-            //});
+            modelBuilder.Entity<ProductCategory>(entity =>
+            {
+                entity.HasKey(pk => new { pk.CategoryId, pk.ProoductId});
+
+                entity.HasOne(x => x.Product).WithMany(y => y.ProductCategory)
+                    .HasForeignKey(x => x.ProoductId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
+
+                entity.HasOne(x => x.Category).WithMany(y => y.ProductCategory)
+                    .HasForeignKey(x => x.CategoryId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
+            });
 
         }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            base.OnConfiguring(optionsBuilder);
+        }
+        
 
         public DbSet<Product> Products { get; set; }
 
@@ -39,5 +52,6 @@ namespace DataAccessLayer.Data
         public DbSet<Varient> Varients { get; set; }
 
         public DbSet<Seller> Sellers { get; set; }
+
     }
 }
