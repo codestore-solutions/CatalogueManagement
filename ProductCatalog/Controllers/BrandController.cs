@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Models.ProductModels;
 using ProductCatalog.DTOs;
+using ProductCatalog.DTOs.Incoming;
 using ProductCatalog.Service.Interface;
 
 namespace ProductCatalog.Controllers
@@ -18,14 +19,14 @@ namespace ProductCatalog.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostBrand(string brandName)
+        public async Task<IActionResult> PostBrand(BrandIn brand)
         {
-            await _brandService.AddNewBrand(brandName);
-            return Ok("Brand Created Successfully");
+            var res = await _brandService.AddNewBrand(brand);
+            return Ok("Brand Created Successfully " + res);
         }
 
         [HttpGet]
-        public async Task<ActionResult<Brand>> GetAllBrand()
+        public async Task<ActionResult<ResponseDto<IEnumerable<Brand>>>> GetAllBrand()
         {
             var brands = await _brandService.GetAllBrands();
             return Ok(brands);
@@ -43,6 +44,7 @@ namespace ProductCatalog.Controllers
                 NotFound("Brand Not found") : 
                 Ok("Brand Updated Successfully");
         }
+
         [HttpDelete("{brandId}")]
         public async Task<IActionResult> DeleteBrand(long brandId)
         {
@@ -51,7 +53,7 @@ namespace ProductCatalog.Controllers
         }
 
         [HttpGet("{brandId}")]
-        public async Task<ActionResult<ProductOverview>> GetAllProductsOfBrand(long brandId)
+        public async Task<ActionResult<ResponseDto<IEnumerable<ProductOverview>>>> GetAllProductsOfBrand(long brandId)
         {
             var products = await _brandService.GetProductsByBrand(brandId);
             return Ok(products);

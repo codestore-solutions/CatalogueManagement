@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace Models.ProductModels
 {
-    public class Product
+    public class Product : EntityBase
     {
-        [Key]
-        public long Id { get; set; }
+        //[Key]
+        //public long Id { get; set; }
 
         [Required]
         [MinLength(2)]
@@ -38,5 +38,6 @@ namespace Models.ProductModels
         public long BrandId { get; set; }
 
         public virtual ICollection<ProductCategory> ProductCategory { get; set; } = new List<ProductCategory>();
+        //public string TanentId { get; set; }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using DataAccessLayer.Interface;
 using Models.ProductModels;
+using ProductCatalog.DTOs;
+using ProductCatalog.DTOs.Outgoing;
 using ProductCatalog.Service.Interface;
 
 namespace ProductCatalog.Service
@@ -22,14 +24,21 @@ namespace ProductCatalog.Service
             return subCategory.Id;
         }
 
-        public async Task<IEnumerable<SubCategory>> GetAllSubCategories()
+        public async Task<ResponseDto<IEnumerable<SubCategoryOut>>> GetAllSubCategories()
         {
-            return await _subCategoryRepository.GetAllAsync();
+            var subcategories = await _subCategoryRepository.GetAllAsync();
+            var subCategoriesOut = Mapper.Mapper.SubCategoryToSubCategoryOut(subcategories);
+            var res = ResponseDto<IEnumerable<SubCategoryOut>>.CreateSuccessResponse(subCategoriesOut);
+            return res;
+            
         }
 
-        public async Task<IEnumerable<SubCategory>> GetSubCategoriesByCategory(long categoryId)
+        public async Task<ResponseDto<IEnumerable<SubCategoryOut>>> GetSubCategoriesByCategory(long categoryId)
         {
-            return await _subCategoryRepository.GetSubCategoryByCategory(categoryId);
+            var subcategories = await _subCategoryRepository.GetSubCategoryByCategory(categoryId);
+            var subCategoriesOut = Mapper.Mapper.SubCategoryToSubCategoryOut(subcategories);
+            var res = ResponseDto<IEnumerable<SubCategoryOut>>.CreateSuccessResponse(subCategoriesOut);
+            return res;
         }
     }
 }

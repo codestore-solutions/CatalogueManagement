@@ -1,6 +1,9 @@
 ﻿using DataAccessLayer.Interface;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Models.ProductModels;
+using ProductCatalog.DTOs;
+using ProductCatalog.DTOs.Incoming;
+using ProductCatalog.DTOs.Outgoing;
 using ProductCatalog.Service.Interface;
 
 namespace ProductCatalog.Service
@@ -17,11 +20,11 @@ namespace ProductCatalog.Service
             _categoryRepository = unitOfWork.CategoryRepository;
         }
 
-        public async Task<long> AddCategory(string categoryName)
+        public async Task<long> AddCategory(CategoryIn category)
         {
-            Category c = new Category()
+            Category c = new()
             {
-                Name = categoryName,
+                Name = category.Name,
             };
             _categoryRepository.Add(c);
             await _unitOfWork.SaveAsync();
@@ -33,9 +36,13 @@ namespace ProductCatalog.Service
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<Category>> GetAllCategoriesAsync()
+        public async Task<ResponseDto<IEnumerable<CategoryOut>>> GetAllCategoriesAsync()
         {
-            return await _categoryRepository.GetAllAsync();
+            var categories =  await _categoryRepository.GetAllAsync();
+            var categoriesOutoging = Mapper.Mapper.CategoryToCategoryOut(categories);
+            var res = ResponseDto<IEnumerable<CategoryOut>>.CreateSuccessResponse((int)StatusCodes.Status200OK, true, categoriesOutoging);
+            return res;
+            
         }
 
         public Task<Category> GetCategoryAsync(long id)

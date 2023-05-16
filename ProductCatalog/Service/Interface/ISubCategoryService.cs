@@ -1,12 +1,14 @@
 ﻿using Models.ProductModels;
+using ProductCatalog.DTOs;
+using ProductCatalog.DTOs.Outgoing;
 
 namespace ProductCatalog.Service.Interface
 {
     public interface ISubCategoryService
     {
-        Task<IEnumerable<SubCategory>> GetAllSubCategories();
+        Task<ResponseDto<IEnumerable<SubCategoryOut>>> GetAllSubCategories();
 
-        Task<IEnumerable<SubCategory>> GetSubCategoriesByCategory(long categoryId);
+        Task<ResponseDto<IEnumerable<SubCategoryOut>>> GetSubCategoriesByCategory(long categoryId);
 
         Task<long> AddSubCategory(SubCategory subCategory);
     }

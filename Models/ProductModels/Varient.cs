@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace Models.ProductModels
 {
-    public class Varient
+    public class Varient : EntityBase
     {
-        [Key]
-        public long Id { get; set; }
+        //[Key]
+        //public long Id { get; set; }
 
         public long ProductId { get; set; }
         [ForeignKey(nameof(ProductId))]
@@ -26,6 +26,7 @@ namespace Models.ProductModels
 
         [Required]
         public int AvailableStock { get; set; }
+        //public string TanentId { get; set; }
 
     }
 }

@@ -1,6 +1,7 @@
 ﻿using DataAccessLayer.Interface;
 using Models.ProductModels;
 using ProductCatalog.DTOs;
+using ProductCatalog.DTOs.Incoming;
 using ProductCatalog.Service.Interface;
 
 namespace ProductCatalog.Service
@@ -16,11 +17,11 @@ namespace ProductCatalog.Service
             _brandRepository = unitOfWork.BrandRepository;
         }
 
-        public async Task<long> AddNewBrand(string brandName)
+        public async Task<long> AddNewBrand(BrandIn brandIn)
         {
             Brand brand = new()
             {
-                Name = brandName,
+                Name = brandIn.Name,
             };
             _brandRepository.Add(brand);
             await _unitOfWork.SaveAsync();
@@ -40,12 +41,15 @@ namespace ProductCatalog.Service
             return true;
         }
 
-        public async Task<IEnumerable<Brand>> GetAllBrands()
+        public async Task<ResponseDto<IEnumerable<Brand>>> GetAllBrands()
         {
-            return await _brandRepository.GetAllAsync();
+            var brands =  await _brandRepository.GetAllAsync();
+            var res = ResponseDto<IEnumerable<Brand>>.CreateSuccessResponse(brands);
+            return res;
+
         }
 
-        public async Task<IEnumerable<ProductOverview>> GetProductsByBrand(long id)
+        public async Task<ResponseDto<IEnumerable<ProductOverview>>> GetProductsByBrand(long id)
         {
             var products = await  _brandRepository.GetProductsByBrand(id);
             List<ProductOverview> productOverviews = new List<ProductOverview>();
@@ -60,7 +64,7 @@ namespace ProductCatalog.Service
                     Attachment = _unitOfWork.ProductRepository.GetAttachment(item.Id)
                 });
             }
-            return productOverviews;
+            return ResponseDto<IEnumerable<ProductOverview>>.CreateSuccessResponse(productOverviews);
 
         }
 

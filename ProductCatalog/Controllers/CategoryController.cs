@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Models.ProductModels;
+using ProductCatalog.DTOs;
+using ProductCatalog.DTOs.Incoming;
+using ProductCatalog.DTOs.Outgoing;
 using ProductCatalog.Service.Interface;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -20,17 +23,20 @@ namespace ProductCatalog.Controllers
 
         // GET: api/<CategoryController>
         [HttpGet]
-        public async Task<IEnumerable<Category>> GetAllCategory()
+        public async Task<ActionResult<ResponseDto<IEnumerable<CategoryOut>>>> GetAllCategory()
         {
-            return await _categoryService.GetAllCategoriesAsync();
+            var  res = await _categoryService.GetAllCategoriesAsync();
+            return Ok(res);
         }
 
-        // POST api/<CategoryController>
+          // POST api/<CategoryController>
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] string category)
+        
+        public async Task<IActionResult> Post([FromBody] CategoryIn category)
         {
+
             var res =  await _categoryService.AddCategory(category);
-            return Ok("Category Created Successfully");
+            return Ok("Category Created Successfully " + res);
         }
 
         // PUT api/<CategoryController>/5

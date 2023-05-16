@@ -7,6 +7,7 @@ using ProductCatalog.Service.Interface;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -16,7 +17,14 @@ builder.Services.AddDbContext<ProductDbContext>(option =>
     option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+//option =>
+//{
+//    option.UseSqlServer(o => o.MigrationsAssembly(typeof(ProductDbContext).Assembly.FullName));
+//}
+
+builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IBrandService, BrandService>();
 builder.Services.AddScoped<IAttachmentService, AttachmentService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
@@ -24,6 +32,8 @@ builder.Services.AddScoped<IReviewService, ReviewService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ISubCategoryService, SubCategoryService>();
 builder.Services.AddScoped<IVarientService, VarientService>();
+
+//builder.Services.Configure<TenantSetting>(config)
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

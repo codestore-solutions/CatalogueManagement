@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace Models.ProductModels
 {
-    public class Review
+    public class Review : EntityBase
     {
-        [Key]
-        public long Id { get; set; }
+        //[Key]
+        //public long Id { get; set; }
 
         [Required]
         [ForeignKey(nameof(CustomerId))]
@@ -30,6 +30,8 @@ namespace Models.ProductModels
         [ForeignKey(nameof(AttachmentId))]
         public long? AttachmentId { get; set; }
 
+
+        //public string TanentId { get; set; }
 
     }
 }

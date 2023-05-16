@@ -16,10 +16,10 @@ namespace ProductCatalog.Service
             _repository = unitOfWork.ProductRepository;
         }
 
-        public async Task<IEnumerable<ProductOverview>> GetAll()
+        public async Task<ResponseDto<IEnumerable<ProductOverview>>> GetAll()
         {
             var query = await _repository.GetAllAsync();
-           
+
 
             List<ProductOverview> products = new List<ProductOverview>();
 
@@ -34,7 +34,9 @@ namespace ProductCatalog.Service
                 });
             }
 
-            return products;
+            var res = ResponseDto<IEnumerable<ProductOverview>>.CreateSuccessResponse((int)StatusCodes.Status200OK, true, products);
+
+            return res;
         }
 
         public async Task<ProductDetailDto> GetProductDetail(long id)

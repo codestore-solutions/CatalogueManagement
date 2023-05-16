@@ -18,7 +18,7 @@ namespace ProductCatalog.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<ProductOverview>> Get()
+        public async Task<ActionResult<ResponseDto<IEnumerable<ProductOverview>>>> Get()
         {
             var productOverviews =  await _productService.GetAll();
 

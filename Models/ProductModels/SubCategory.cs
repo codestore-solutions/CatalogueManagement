@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace Models.ProductModels
 {
-    public class SubCategory
+    public class SubCategory : EntityBase
     {
-        [Key]
-        public long Id { get; set; }
+        //[Key]
+        //public long Id { get; set; }
 
         [Required]
         [MinLength(2)]
@@ -20,6 +20,7 @@ namespace Models.ProductModels
 
         [ForeignKey("CatagoryId")]
         public long CatagoryId { get; set; }
+        //public string TanentId { get; set; }
 
     }
 }

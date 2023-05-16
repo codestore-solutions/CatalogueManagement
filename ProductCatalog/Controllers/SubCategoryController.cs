@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models.ProductModels;
+using ProductCatalog.DTOs.Outgoing;
+using ProductCatalog.DTOs;
 using ProductCatalog.Service.Interface;
 
 namespace ProductCatalog.Controllers
@@ -18,7 +20,7 @@ namespace ProductCatalog.Controllers
 
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<SubCategory>>> Get()
+        public async Task<ActionResult<ResponseDto<IEnumerable<SubCategoryOut>>>> Get()
         {
             var subCat =  await _subCategoryService.GetAllSubCategories();
             return Ok(subCat);
@@ -32,7 +34,7 @@ namespace ProductCatalog.Controllers
         }
 
         [HttpGet("{categoryId}")]
-        public async Task<ActionResult<SubCategory>> GetSubCategory(long categoryId)
+        public async Task<ActionResult<ResponseDto<IEnumerable<SubCategoryOut>>>> GetSubCategory(long categoryId)
         {
             var sc = await _subCategoryService.GetSubCategoriesByCategory(categoryId);
             return Ok(sc);

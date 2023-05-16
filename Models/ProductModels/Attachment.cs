@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace Models.ProductModels
 {
-    public class Attachment
+    public class Attachment : EntityBase
     {
-        [Key]
-        public long Id { get; set; }
+        //[Key]
+        //public long Id { get; set; }
 
         [Required]
         public long ProductId { get; set; }
@@ -23,5 +23,6 @@ namespace Models.ProductModels
         [ForeignKey(nameof(ReviewId))]
          
         public string AttachmentURL { get; set; } = string.Empty;
+        //public string TanentId { get; set; }
     }
 }
