@@ -17,6 +17,11 @@ builder.Services.AddDbContext<ProductDbContext>(option =>
     option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
+builder.Services.AddLogging(loggingBuilder =>
+{
+    loggingBuilder.AddSeq();   
+});
+
 //option =>
 //{
 //    option.UseSqlServer(o => o.MigrationsAssembly(typeof(ProductDbContext).Assembly.FullName));

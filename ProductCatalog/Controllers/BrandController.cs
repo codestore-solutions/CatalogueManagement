@@ -17,13 +17,17 @@ namespace ProductCatalog.Controllers
         {
             _brandService = brandService;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="brandIn"></param>
+        /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> PostBrand(BrandIn brand)
+        public async Task<IActionResult> PostBrand(BrandIn brandIn)
         {
-            var res = await _brandService.AddNewBrand(brand);
+            var res = await _brandService.AddNewBrand(brandIn);
             return Ok("Brand Created Successfully " + res);
-        }
+        }   
 
         [HttpGet]
         public async Task<ActionResult<ResponseDto<IEnumerable<Brand>>>> GetAllBrand()

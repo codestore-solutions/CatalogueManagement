@@ -20,7 +20,6 @@ namespace ProductCatalog.Service
         {
             var query = await _repository.GetAllAsync();
 
-
             List<ProductOverview> products = new List<ProductOverview>();
 
             foreach (var item in query)

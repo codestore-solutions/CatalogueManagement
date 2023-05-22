@@ -7,14 +7,13 @@ namespace ProductCatalog.DTOs
     {
         public int StatusCode { get; set; }
         public bool IsSuccess { get; set; }
-        List<Error>? errors { get; set; }
+        public ICollection<Error>? Errors { get; set; } = new List<Error>();
     }
 
-    public class ResponseDto<T> where T : class
+    public class ResponseDto<T> : ResponseDto where T : class
     {
-        public int StatusCode { get; set; }
-        public bool IsSuccess { get; set; }
-        public ICollection<Error>? Errors { get; set; } = new List<Error>();
+        //public int StatusCode { get; set; }
+        //public bool IsSuccess { get; set; }
         public T? Value { get; set; }
 
         public static ResponseDto<T> CreateSuccessResponse(int statusCode, bool isSuccess, T? value = null, string error = null)

@@ -1,5 +1,6 @@
 ﻿using DataAccessLayer.Interface;
 using Models.ProductModels;
+using ProductCatalog.DTOs.Incoming;
 using ProductCatalog.Service.Interface;
 
 namespace ProductCatalog.Service
@@ -15,8 +16,16 @@ namespace ProductCatalog.Service
             _varientRepository = unitOfWork.VarientRepository;
         }
 
-        public async Task<long> AddVarient(Varient varient)
+        public async Task<long> AddVarient(VarientIn varientIn)
         {
+            Varient varient = new()
+            {
+                Description = varientIn.Description,
+                AvailableStock = varientIn.AvailableStock,
+                Price = varientIn.Price,
+                ProductId = varientIn.ProductId,
+                IsActive = varientIn.IsActive,
+            };
             _varientRepository.Add(varient);
             await _unitOfWork.SaveAsync();
             return varient.Id;
@@ -38,16 +47,15 @@ namespace ProductCatalog.Service
             await _varientRepository.MarkVarientInactive(id);
         }
 
-        public async Task UpdateVarient(long id, Varient varient)
+        public async Task UpdateVarient(long id, VarientIn varientIn)
         {
-            await _varientRepository.GetAsync(id);
+            var varient = await _varientRepository.GetAsync(id);
             if (varient == null) return;
             if(id == varient.Id)
             {
                 _varientRepository.Update(varient);
                 await _unitOfWork.SaveAsync();
             }
-
 
         }
     }

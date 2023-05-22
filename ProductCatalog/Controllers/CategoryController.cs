@@ -14,10 +14,12 @@ namespace ProductCatalog.Controllers
     public class CategoryController : ControllerBase
     {
         private readonly ICategoryService _categoryService;
+        private readonly ILogger<ProductController> _logger;
 
-        public CategoryController(ICategoryService categoryService)
+        public CategoryController(ICategoryService categoryService, ILogger<ProductController> logger)
         {
             _categoryService = categoryService;
+            _logger = logger;
         }
 
 
@@ -25,18 +27,24 @@ namespace ProductCatalog.Controllers
         [HttpGet]
         public async Task<ActionResult<ResponseDto<IEnumerable<CategoryOut>>>> GetAllCategory()
         {
+            _logger.LogInformation("Inside get get all category");
             var  res = await _categoryService.GetAllCategoriesAsync();
+            if (res.Value == null || !res.Value.Any())
+            {
+                res.StatusCode = StatusCodes.Status404NotFound;
+                return NotFound(res);
+            }
+
             return Ok(res);
         }
 
           // POST api/<CategoryController>
-        [HttpPost]
-        
+        [HttpPost]        
         public async Task<IActionResult> Post([FromBody] CategoryIn category)
         {
 
             var res =  await _categoryService.AddCategory(category);
-            return Ok("Category Created Successfully " + res);
+            return Ok("Category Created Successfully " + res);  // constant String
         }
 
         // PUT api/<CategoryController>/5

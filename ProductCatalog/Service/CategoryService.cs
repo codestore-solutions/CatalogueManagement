@@ -35,6 +35,7 @@ namespace ProductCatalog.Service
         {
             throw new NotImplementedException();
         }
+        #region public methods
 
         public async Task<ResponseDto<IEnumerable<CategoryOut>>> GetAllCategoriesAsync()
         {
@@ -44,6 +45,7 @@ namespace ProductCatalog.Service
             return res;
             
         }
+        #endregion
 
         public Task<Category> GetCategoryAsync(long id)
         {
