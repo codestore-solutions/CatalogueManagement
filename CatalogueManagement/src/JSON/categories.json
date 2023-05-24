@@ -1,0 +1,32 @@
+[
+    {
+        "image": "https://th.bing.com/th/id/R.e356102b55cc2c5fb30099c0bf54b786?rik=5dgF5v76p2Tb1g&riu=http%3a%2f%2fthumbs.dreamstime.com%2fm%2ffrench-fries-17661700.jpg&ehk=W%2bKFzYxXv1ntCZI1qH6UcTI%2b4CpC0%2fyfefNq%2fgcoYmc%3d&risl=&pid=ImgRaw&r=0",
+        "title": "Food",
+        "id": "1"
+    },
+    {
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSCuhRCtW1hYsGkbuQ8EN7vteva88atKim7jg&usqp=CAU",
+        "title": "Electronics",
+        "id": "2"
+    },
+    {
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0O-DBPRPImn_rUwr4may8FGxctqwn6TBfBw&usqp=CAU",
+        "title": "Apparels",
+        "id": "3"
+    },
+    {
+        "image": "https://meerconsultants.com/wp-content/uploads/2020/08/AC-Technician-in-Islamabad-6-1.jpg",
+        "title": "Services",
+        "id": "4"
+    },
+    {
+        "image": "https://mcr.health/wp-content/uploads/2021/03/scheduling-annual-doctors-appointment.jpg",
+        "title": "Appointments",
+        "id": "5"
+    },
+    {
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRl6j-nwt0XneYHzuwCDK6tovG5IUU8IbWMBQ",
+        "title": "Gadgets",
+        "id": "6"
+    }
+]
