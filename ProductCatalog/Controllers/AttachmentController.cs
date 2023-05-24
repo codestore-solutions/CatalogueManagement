@@ -33,8 +33,8 @@ namespace ProductCatalog.Controllers
         [HttpPost]
         public async Task<IActionResult> PostAttachment(Attachment attachment)
         {
-            await _attachmentService.AddAttachment(attachment);
-            return Ok();
+            long id = await _attachmentService.AddAttachment(attachment);
+            return Ok(id);
         }
 
         [HttpDelete("{attachmentId}")]

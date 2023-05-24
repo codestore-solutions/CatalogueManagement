@@ -1,5 +1,6 @@
 ﻿using Models.ProductModels;
 using ProductCatalog.DTOs;
+using ProductCatalog.DTOs.Incoming;
 using ProductCatalog.DTOs.Outgoing;
 
 namespace ProductCatalog.Mapper
@@ -7,7 +8,20 @@ namespace ProductCatalog.Mapper
     public static class Mapper
     {
 
+        public static Product ProductInToProduct(ProductIn productIn)
+        {
+            Product product = new()
+            {
+                Name = productIn.Name,
+                BrandId = productIn.BrandId,
+                CategoryId = productIn.CategoryId,
+                SubCategoryId = productIn.SubCategoryId,
+                IsActive = true,
+                SellerId = productIn.SellerId,
+            };
 
+            return product;
+        }
 
 
         

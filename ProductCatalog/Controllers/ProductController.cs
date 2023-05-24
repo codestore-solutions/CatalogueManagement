@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Client;
 using Models.ProductModels;
 using ProductCatalog.DTOs;
+using ProductCatalog.DTOs.Incoming;
 using ProductCatalog.Service.Interface;
 
 namespace ProductCatalog.Controllers
@@ -32,5 +34,18 @@ namespace ProductCatalog.Controllers
             return Ok(detail);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> AddProduct(ProductIn productIn)
+        {
+            var id = await _productService.AddProduct(productIn);
+            return Ok(id);
+        }
+
+        [HttpPost("api/product/markInactive/{id}")]
+        public async Task<IActionResult> MarkProductInactive(long id)
+        {
+            await _productService.MarkInactive(id);
+            return Ok("Product marked Inactive");
+        }
     }
 }

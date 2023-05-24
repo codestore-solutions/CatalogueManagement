@@ -39,5 +39,15 @@ namespace DataAccessLayer.Repository
             var attachments = await _context.Attachments.Where(x => x.ProductId == id && x.IsUploadedByAdmin).ToListAsync();
             return attachments;
         }
+
+        public async Task<bool> MarkInactive(long id)
+        {
+            var product = _context.Products.FirstOrDefault(x => x.Id == id);
+            if (product == null) return false;
+            product.IsActive = false;
+            _context.Products.Update(product);
+            await _context.SaveChangesAsync();
+            return true;
+        }
     }
 }

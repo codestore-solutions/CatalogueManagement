@@ -7,7 +7,7 @@ namespace ProductCatalog.Service.Interface
     {
         Task<long> AddVarient(VarientIn varientIn);
 
-        Task UpdateVarient(long id, VarientIn varientIn);
+        Task UpdateVarient(long id, Varient varient);
 
         Task DeleteVarient(long id);
 

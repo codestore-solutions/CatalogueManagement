@@ -14,6 +14,7 @@ namespace DataAccessLayer.Interface
         Task<IEnumerable<Varient>> GetVarientsByProductId(long id);
         Task<IEnumerable<Attachment>> GetAttachmentsByProductId(long id);
         //Task<IEnumerable<Review>> GetReviewsByProductId(long id);
+        Task<bool> MarkInactive(long id);
 
 
     }

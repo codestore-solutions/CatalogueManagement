@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Models.ProductModels;
 using ProductCatalog.DTOs.Incoming;
 using ProductCatalog.Service.Interface;
 
@@ -21,6 +22,13 @@ namespace ProductCatalog.Controllers
         {
             var res = await _varientService.AddVarient(varientIn);
             return Ok(res);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateVarient(long id, Varient varient)
+        {
+            await _varientService.UpdateVarient(id, varient);
+            return Ok();
         }
 
 

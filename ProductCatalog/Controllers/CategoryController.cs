@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Models.ProductModels;
 using ProductCatalog.DTOs;
 using ProductCatalog.DTOs.Incoming;
@@ -14,9 +15,9 @@ namespace ProductCatalog.Controllers
     public class CategoryController : ControllerBase
     {
         private readonly ICategoryService _categoryService;
-        private readonly ILogger<ProductController> _logger;
+        private readonly ILogger<CategoryController> _logger;
 
-        public CategoryController(ICategoryService categoryService, ILogger<ProductController> logger)
+        public CategoryController(ICategoryService categoryService, ILogger<CategoryController> logger)
         {
             _categoryService = categoryService;
             _logger = logger;
@@ -25,6 +26,7 @@ namespace ProductCatalog.Controllers
 
         // GET: api/<CategoryController>
         [HttpGet]
+        //[Authorize(Roles = "Admin")]
         public async Task<ActionResult<ResponseDto<IEnumerable<CategoryOut>>>> GetAllCategory()
         {
             _logger.LogInformation("Inside get get all category");
@@ -40,10 +42,16 @@ namespace ProductCatalog.Controllers
 
           // POST api/<CategoryController>
         [HttpPost]        
-        public async Task<IActionResult> Post([FromBody] CategoryIn category)
+        public async Task<IActionResult> Post([FromBody] CategoryIn categoryIn)
         {
+            _logger.LogInformation("inside post request");
 
-            var res =  await _categoryService.AddCategory(category);
+            if (!ModelState.IsValid)
+            {
+                _logger.LogInformation($"Error in body {categoryIn}");
+                return BadRequest(ModelState);
+            }
+            var res =  await _categoryService.AddCategory(categoryIn);
             return Ok("Category Created Successfully " + res);  // constant String
         }
 
@@ -51,9 +59,15 @@ namespace ProductCatalog.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(long id, [FromBody] Category category)
         {
-            if(id != category.Id)
+            if(!ModelState.IsValid)
             {
-                return BadRequest();
+                _logger.LogError($"Error in body {category}");
+                return BadRequest(ModelState);
+            }
+            if (id != category.Id)
+            {
+                var badRes = ResponseDto.CreateErrorRespoonse(StatusCodes.Status400BadRequest, "parameter Id and body id is not same");
+                return BadRequest(badRes);
             }
             var res = await _categoryService.UpdateCategory(id, category);
 

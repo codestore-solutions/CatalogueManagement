@@ -8,6 +8,23 @@ namespace ProductCatalog.DTOs
         public int StatusCode { get; set; }
         public bool IsSuccess { get; set; }
         public ICollection<Error>? Errors { get; set; } = new List<Error>();
+
+        public static ResponseDto CreateErrorRespoonse(int code, string message)
+        {
+            return new ResponseDto
+            {
+                StatusCode = code,
+                IsSuccess = false,
+                Errors = new List<Error>()
+                {
+                    new Error()
+                    {
+                        StatusCode = code,
+                        Message = message
+                    }
+                }
+            };
+        }
     }
 
     public class ResponseDto<T> : ResponseDto where T : class

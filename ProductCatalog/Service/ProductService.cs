@@ -1,6 +1,7 @@
 ﻿using DataAccessLayer.Data;
 using DataAccessLayer.Interface;
 using ProductCatalog.DTOs;
+using ProductCatalog.DTOs.Incoming;
 using ProductCatalog.Service.Interface;
 
 namespace ProductCatalog.Service
@@ -14,6 +15,20 @@ namespace ProductCatalog.Service
         {
             _unitOfWork = unitOfWork;
             _repository = unitOfWork.ProductRepository;
+        }
+
+        public async Task<bool> MarkInactive(long  id)
+        {
+            var res = await _repository.MarkInactive(id);
+            return res == true;
+        }
+
+        public async Task<long> AddProduct(ProductIn productIn)
+        {
+            var product = Mapper.Mapper.ProductInToProduct(productIn);
+            _repository.Add(product);
+            await _unitOfWork.SaveAsync();
+            return product.Id;
         }
 
         public async Task<ResponseDto<IEnumerable<ProductOverview>>> GetAll()
