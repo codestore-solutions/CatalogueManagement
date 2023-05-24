@@ -47,13 +47,13 @@ namespace ProductCatalog.Service
             await _varientRepository.MarkVarientInactive(id);
         }
 
-        public async Task UpdateVarient(long id, Varient varient)
+        public async Task UpdateVarient(long id, Varient varientIn)
         {
             var varient = await _varientRepository.GetAsync(id);
             if (varient == null) return;
-            if(id == varient.Id)
+            if(id == varientIn.Id)
             {
-                _varientRepository.Update(varient);
+                _varientRepository.Update(varientIn);
                 await _unitOfWork.SaveAsync();
             }
 
