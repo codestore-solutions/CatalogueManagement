@@ -26,7 +26,7 @@ namespace ProductCatalog.Controllers
 
         // GET: api/<CategoryController>
         [HttpGet]
-        //[Authorize(Roles = "Admin")]
+        //[Authorize(Policy = "Admin")]
         public async Task<ActionResult<ResponseDto<IEnumerable<CategoryOut>>>> GetAllCategory()
         {
             _logger.LogInformation("Inside get get all category");

@@ -8,6 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using ProductCatalog.Service;
 using ProductCatalog.Service.Interface;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,10 +28,11 @@ builder.Services.AddLogging(loggingBuilder =>
     loggingBuilder.AddSeq();   
 });
 
-builder.Services.AddAuthentication(x =>
+
+builder.Services.AddAuthentication(o =>
 {
-    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    o.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 }).AddJwtBearer(t =>
 {
 
@@ -50,17 +52,15 @@ builder.Services.AddAuthentication(x =>
         },
         ValidIssuer = builder.Configuration["JWT:Issuer"],
         ValidAudience = builder.Configuration["JWT:Audience"],
-        //IssuerSigningKey = new SymmetricSecurityKey(key)
+        IssuerSigningKey = new SymmetricSecurityKey(key)
     };
 });
 
-//builder.Services.AddAuthentication().AddJwtBearer();
-
-
-//option =>
-//{
-//    option.UseSqlServer(o => o.MigrationsAssembly(typeof(ProductDbContext).Assembly.FullName));
-//}
+builder.Services.AddAuthorization(o =>
+{
+    o.AddPolicy("Admin", policy => policy.RequireAuthenticatedUser()
+        .RequireAssertion(c => c.User.HasClaim(ClaimTypes.Role, "Role.Admin")).Build());
+});
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
@@ -71,9 +71,6 @@ builder.Services.AddScoped<IReviewService, ReviewService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ISubCategoryService, SubCategoryService>();
 builder.Services.AddScoped<IVarientService, VarientService>();
-
-//builder.Services.Configure<TenantSetting>(config)
-
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -92,6 +89,7 @@ app.UseHttpLogging();
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
