@@ -1,48 +1,64 @@
 import {io} from 'socket.io-client';
 
-class webSocket {
+// class webSocket {
 
-    socket:any
+//     static socket:any
 
-  public async initializeSocket(socketurl: string) {
+//   public static async initializeSocket(socketurl: string) {
+//     let socket;
+//     try {
+//       socket = io('http://localhost:4000', {
+//         transports: ['websocket'],
+//       });
 
-    try {
-      this.socket = io('http://localhost:8081/', {
-        transports: ['websocket'],
-      });
+//       socket.on('connect', () => {
+//         console.log('Connected');
+//       });
 
-      this.socket.on('connect', () => {
-        console.log('Connected');
-      });
+//       socket.on('disconnect', () => {
+//         console.log('Disconnected');
+//       });
 
-      this.socket.on('disconnect', () => {
-        console.log('Disconnected');
-      });
+//       socket.on('error', () => {
+//         console.log('Error while initialization');
+//       });
 
-      this.socket.on('error', () => {
-        console.log('Error while initialization');
-      });
+//     } catch (error) {
+//       console.log('Error in Socket initialization');
 
+//       console.log(error);
+//     }
+//   }
 
-    } catch (error) {
-      console.log('Error in Socket initialization');
+//   emit(event:any,data={}){
+//     webSocket.socket.emit(event,data);
+//   }
 
-      console.log(error);
-    }
-  }
+//   on(event:any,data={}){
+//     webSocket.socket.on(event,data);
+//   }
 
-  emit(event:any,data={}){
-    this.socket.emit(event,data);
-  }
+//   removeListner(listner:any){
+//     webSocket.socket.emit(listner);
+//   }
+// }
 
-  on(event:any,data={}){
-    this.socket.on(event,data);
-  }
+// export default webSocket;
 
-  removeListner(listner:any){
-    this.socket.emit(listner);
-  }
+export default function Socket() {
+  const socket = io('https://app-orderingbooking-dev.azurewebsites.net/api', {
+    transports: ['websocket'],
+  });
+
+  socket.on('connect', () => {
+    console.log(socket.id); // x8WIv7-mJelg7on_ALbx
+  });
+
+  socket.on('connect_error', err => {
+    console.log(err);
+  });
+
+  socket.on('disconnect', () => {
+    console.log('Disconnected');
+  });
 }
-
-let WebSocket = new webSocket();
-export default WebSocket;

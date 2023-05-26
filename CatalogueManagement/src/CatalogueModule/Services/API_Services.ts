@@ -1,5 +1,6 @@
 import categories from '../../JSON/categories.json';
 import adbanner from '../../JSON/adBanner.json';
+import homescreen from '../../JSON/home.json'
 
 class API {
   // public static getProductDetails(prodID: number | string) {
@@ -33,6 +34,10 @@ class API {
 
   public static getAdBanner(){
     return adbanner;
+  }
+
+  public static getHomeScreen(){
+    return homescreen;
   }
 }
 

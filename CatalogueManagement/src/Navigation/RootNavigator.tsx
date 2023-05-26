@@ -19,6 +19,7 @@ const RootNavigator = () => {
           component={Products}
           options={{
             headerShown: false,
+            statusBarColor:'#7e72ff'
           }}
         />
         <Stack.Screen

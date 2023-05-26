@@ -9,3 +9,5 @@ const ErrorReducer = (state=false,action:{type:string,data:boolean}) => {
                 return false;
         }
 }
+
+export default ErrorReducer;

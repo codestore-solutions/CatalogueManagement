@@ -6,3 +6,5 @@ function showErrorPage(visiblity:boolean){
             data:visiblity
         }
 }
+
+export default showErrorPage;
