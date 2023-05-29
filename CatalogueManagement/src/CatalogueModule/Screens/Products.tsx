@@ -10,6 +10,7 @@ import  webSocket from "../../utils/socket";
 import Socket from '../../utils/socket'
 import HomeChild from '../../Components/HomeChild'
 import API from '../Services/API_Services'
+import SvgComponent from '../../Components/TabBarIcons/HomeIcon'
 
 const Products = (props: { navigation: { navigate: (arg0: string) => void } }) => {
   let visible = true;
@@ -42,6 +43,7 @@ const Products = (props: { navigation: { navigate: (arg0: string) => void } }) =
          />
       }
         />
+        
       </ScrollView>
     )
   }

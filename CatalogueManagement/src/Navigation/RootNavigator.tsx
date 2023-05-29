@@ -9,14 +9,17 @@ import {Text, View} from 'react-native';
 import Products from '../CatalogueModule/Screens/Products';
 import Wishlist from '../CatalogueModule/Screens/Wishlist';
 import ErrorScreen from '../CatalogueModule/Screens/ErrorScreen';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import TabNavigator from './TabNavigator';
 const RootNavigator = () => {
   const Stack = createNativeStackNavigator();
   return (
+
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
-          name="Home"
-          component={Products}
+          name="Tab"
+          component={TabNavigator}
           options={{
             headerShown: false,
             statusBarColor:'#7e72ff'

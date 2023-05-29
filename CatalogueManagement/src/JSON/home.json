@@ -8,11 +8,11 @@
         "data": {}
     },
     {
-        "type": "ProductList",
-        "data": {}
+        "type": "AdBanner",
+        "data": {}                                      
     },
     {
-        "type": "AdBanner",
+        "type": "ProductList",
         "data": {}
     },
     {
@@ -20,3 +20,5 @@
         "data": {}
     }
 ]
+                                                                      
+                                                        
