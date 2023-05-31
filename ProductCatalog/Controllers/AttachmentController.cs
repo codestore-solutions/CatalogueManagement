@@ -5,7 +5,7 @@ using ProductCatalog.Service.Interface;
 
 namespace ProductCatalog.Controllers
 {
-    [Route("api/attachment")]
+    [Route("api/Attachment")]
     [ApiController]
     public class AttachmentController : ControllerBase
     {
@@ -16,28 +16,28 @@ namespace ProductCatalog.Controllers
             _attachmentService = attachmentService;
         }
 
-        [HttpGet("/product/{productId}")]
+        [HttpGet("product/{productId}")]
         public async Task<ActionResult<IEnumerable<string>>> GetAllAttchmentOfProduct(long productId)
         {
             var attachhments =  await _attachmentService.GetAttachmentsByProductId(productId);
             return Ok(attachhments);
         }
 
-        [HttpGet("{reviewId}")]
+        [HttpGet("review/{reviewId}")]
         public async Task<ActionResult<IEnumerable<string>>> GetAttchmentOfReview(long reviewId)
         {
             var attachments = await _attachmentService.GetAttachmentByReviewId(reviewId);
             return Ok(attachments);
         }
 
-        [HttpPost]
+        [HttpPost("addAttachment")]
         public async Task<IActionResult> PostAttachment(Attachment attachment)
         {
             long id = await _attachmentService.AddAttachment(attachment);
             return Ok(id);
         }
 
-        [HttpDelete("{attachmentId}")]
+        [HttpDelete("delete/{attachmentId}")]
         public async Task<IActionResult> DeleteAttachment(long attachmentId)
         {
             var res = await _attachmentService.DeleteAttachment(attachmentId);

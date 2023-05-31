@@ -17,14 +17,14 @@ namespace ProductCatalog.Controllers
             _varientService = varientService;
         }
 
-        [HttpPost]
+        [HttpPost("addVarient")]
         public async Task<IActionResult> PostVarient(VarientIn varientIn)
         {
             var res = await _varientService.AddVarient(varientIn);
             return Ok(res);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("update/{id}")]
         public async Task<IActionResult> UpdateVarient(long id, Varient varient)
         {
             await _varientService.UpdateVarient(id, varient);

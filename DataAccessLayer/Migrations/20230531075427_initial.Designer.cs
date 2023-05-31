@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(ProductDbContext))]
-    [Migration("20230506084415_updatedAttachmentTable")]
-    partial class updatedAttachmentTable
+    [Migration("20230531075427_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -61,7 +61,8 @@ namespace DataAccessLayer.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -78,7 +79,8 @@ namespace DataAccessLayer.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -104,7 +106,8 @@ namespace DataAccessLayer.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<long>("SellerId")
                         .HasColumnType("bigint");
@@ -114,7 +117,24 @@ namespace DataAccessLayer.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("SellerId");
+
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("Models.ProductModels.ProductCategory", b =>
+                {
+                    b.Property<long>("CategoryId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("ProoductId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("CategoryId", "ProoductId");
+
+                    b.HasIndex("ProoductId");
+
+                    b.ToTable("ProductCategory");
                 });
 
             modelBuilder.Entity("Models.ProductModels.Review", b =>
@@ -129,7 +149,8 @@ namespace DataAccessLayer.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<string>("Comment")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<long>("CustomerId")
                         .HasColumnType("bigint");
@@ -153,7 +174,16 @@ namespace DataAccessLayer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -175,7 +205,8 @@ namespace DataAccessLayer.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -209,6 +240,47 @@ namespace DataAccessLayer.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Varients");
+                });
+
+            modelBuilder.Entity("Models.ProductModels.Product", b =>
+                {
+                    b.HasOne("Models.ProductModels.Seller", null)
+                        .WithMany("Products")
+                        .HasForeignKey("SellerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Models.ProductModels.ProductCategory", b =>
+                {
+                    b.HasOne("Models.ProductModels.Category", "Category")
+                        .WithMany("ProductCategory")
+                        .HasForeignKey("CategoryId")
+                        .IsRequired();
+
+                    b.HasOne("Models.ProductModels.Product", "Product")
+                        .WithMany("ProductCategory")
+                        .HasForeignKey("ProoductId")
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("Models.ProductModels.Category", b =>
+                {
+                    b.Navigation("ProductCategory");
+                });
+
+            modelBuilder.Entity("Models.ProductModels.Product", b =>
+                {
+                    b.Navigation("ProductCategory");
+                });
+
+            modelBuilder.Entity("Models.ProductModels.Seller", b =>
+                {
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

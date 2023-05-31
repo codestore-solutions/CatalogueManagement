@@ -19,21 +19,21 @@ namespace ProductCatalog.Controllers
         }
 
 
-        [HttpGet]
+        [HttpGet("allSubcategories")]
         public async Task<ActionResult<ResponseDto<IEnumerable<SubCategoryOut>>>> Get()
         {
             var subCat =  await _subCategoryService.GetAllSubCategories();
             return Ok(subCat);
         }
 
-        [HttpPost]
+        [HttpPost("addSubCategory")]
         public async Task<ActionResult<long>> Add(SubCategory subCategory)
         { 
             var res = await _subCategoryService.AddSubCategory(subCategory);
             return Ok(res);
         }
 
-        [HttpGet("{categoryId}")]
+        [HttpGet("byCategory/{categoryId}")]
         public async Task<ActionResult<ResponseDto<IEnumerable<SubCategoryOut>>>> GetSubCategory(long categoryId)
         {
             var sc = await _subCategoryService.GetSubCategoriesByCategory(categoryId);

@@ -8,7 +8,7 @@ using ProductCatalog.Service.Interface;
 
 namespace ProductCatalog.Controllers
 {
-    [Route("api/products")]
+    [Route("api/Products")]
     [ApiController]
     public class ProductController : ControllerBase
     {
@@ -22,7 +22,7 @@ namespace ProductCatalog.Controllers
 
 
 
-        [HttpGet]
+        [HttpGet("allProducts")]
         public async Task<ActionResult<ResponseDto<IEnumerable<ProductOverview>>>> Get()
         {
             var productOverviews =  await _productService.GetAll();
@@ -30,21 +30,21 @@ namespace ProductCatalog.Controllers
             return Ok(productOverviews);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("productDetail/{id}")]
         public async Task<ActionResult<ProductDetailDto>> GetProductDetailAsync(long id)
         {
             var detail = await _productService.GetProductDetail(id);
             return Ok(detail);
         }
 
-        [HttpPost]
+        [HttpPost("addProduct")]
         public async Task<IActionResult> AddProduct(ProductIn productIn)
         {
             var id = await _productService.AddProduct(productIn);
             return Ok(id);
         }
 
-        [HttpPost("api/product/markInactive/{id}")]
+        [HttpPost("markInactive/{id}")]
         public async Task<IActionResult> MarkProductInactive(long id)
         {
             await _productService.MarkInactive(id);

@@ -5,13 +5,14 @@ using ProductCatalog.DTOs;
 using ProductCatalog.DTOs.Incoming;
 using ProductCatalog.DTOs.Outgoing;
 using ProductCatalog.Service.Interface;
+using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace ProductCatalog.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class CategoryController : ControllerBase
     {
         private readonly ICategoryService _categoryService;
@@ -25,8 +26,13 @@ namespace ProductCatalog.Controllers
 
 
         // GET: api/<CategoryController>
-        [HttpGet]
-        //[Authorize(Policy = "Admin")]
+        /// <summary>
+        /// Get the list of All Available categories
+        /// </summary>
+        /// <returns>
+        /// List of all available categories
+        /// </returns>
+        [HttpGet("allCategories")]
         public async Task<ActionResult<ResponseDto<IEnumerable<CategoryOut>>>> GetAllCategory()
         {
             _logger.LogInformation("Inside get get all category");
@@ -41,7 +47,13 @@ namespace ProductCatalog.Controllers
         }
 
           // POST api/<CategoryController>
-        [HttpPost]        
+          /// <summary>
+          /// Add the category to the catalog (Only Admin/Seller Access)
+          /// </summary>
+          /// <param name="categoryIn"></param>
+          /// <returns></returns>
+        [HttpPost("addCategory")]
+        [Authorize(Roles = "Admin , Seller")]
         public async Task<IActionResult> Post([FromBody] CategoryIn categoryIn)
         {
             _logger.LogInformation("inside post request");
@@ -56,7 +68,14 @@ namespace ProductCatalog.Controllers
         }
 
         // PUT api/<CategoryController>/5
-        [HttpPut("{id}")]
+        /// <summary>
+        /// Update the existing category only access by SuperAdmin
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="category"></param>
+        /// <returns></returns>
+        [HttpPut("updateCategory/{id}")]
+        [Authorize(Roles = "SuperAdmin")]
         public async Task<IActionResult> Put(long id, [FromBody] Category category)
         {
             if(!ModelState.IsValid)
@@ -75,8 +94,6 @@ namespace ProductCatalog.Controllers
                 ? NotFound("Category not found") 
                 : Ok("Category Updated Successfully");
 
-        }
-
-       
+        }      
     }
 }
