@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View ,FlatList} from 'react-native'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import Scaffold from '../../Widgets/Scaffold'
-import ProductServices from '../Services/Products_Services'
+import ProductServices from '../Services/ProductsServices'
 import { ListTile } from 'react-native-widgetsui'
 import WishlistChild from '../../Components/WishlistChild'
 

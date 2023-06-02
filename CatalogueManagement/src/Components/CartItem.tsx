@@ -1,6 +1,8 @@
 import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import React, {useLayoutEffect, useState} from 'react';
-import ProductServices from '../CatalogueModule/Services/Products_Services';
+import ProductServices from '../CatalogueModule/Services/ProductsServices';
+import API from '../CatalogueModule/Services/API_Services';
+import Svg, { Path } from 'react-native-svg';
 
 const CartItem = (props: {
   id: string;
@@ -8,87 +10,75 @@ const CartItem = (props: {
   setQuantity: (arg0: string, arg1: boolean, arg2: number) => void;
   remove: (arg0: string) => void
 }) => {
-  const [data, setdata] = useState<{
-    id: string;
-    image: string;
-    title: string;
-    price: string;
-  }>(Object);
-  async function getData() {
-    const data = await ProductServices.getProduct(props.id);
-    // setdata(data);
-  }
-  if (data.title != undefined && data.title.length > 18) {
-    data.title = data.title.slice(0, 18);
-  }
-
-  useLayoutEffect(() => {
-    getData();
-  }, []);
-  if (data == undefined) {
-    return <Text>Loading...</Text>;
-  } else {
+  const data = API.getProductDetails('');
     return (
       <View style={styles.card}>
-        <Image style={styles.image} source={{uri: data.image}} />
+        <Image
+        style = {styles.image}
+        source={{uri:data.Attachment[0]}}
+        />
         <View>
-          <Text style={styles.header}>{data.title}...</Text>
-          <Text style={styles.header}>₹{data.price}</Text>
-          <View style={styles.quantity}>
-            <TouchableOpacity
-              onPress={() => {
-                if (props.quantity >= 2) {
-                  props.setQuantity(props.id, false, props.quantity);
-                }
-                if(props.quantity <= 1){
-                  props.remove(props.id);
-                }
-              }}>
-              <Text style={{fontSize: 24}}>-</Text>
-            </TouchableOpacity>
-            <View>
-              <Text style={{fontSize: 24}}>{props.quantity}</Text>
-            </View>
-            <TouchableOpacity
-              onPress={() => {
-                props.setQuantity(props.id, true, props.quantity);
-              }}>
-              <Text style={{fontSize: 24}}>+</Text>
-            </TouchableOpacity>
-          </View>
+        <View style={{flexDirection:'row'}}>
+        <Text numberOfLines={2}
+        style={{fontSize:18,color:'black',width:'70%'}}
+        >
+          {data.Name}
+        </Text>
+        <View
+        style={{alignItems:'center',justifyContent:'center',marginLeft:20}}
+        >
+        <Svg
+      width={22}
+      height={22}
+      viewBox="0 0 19 19"
+      fill="none"
+      {...props}
+    >
+      <Path
+        d="M2.375 4.75h14.25M6.333 4.75V3.167a1.583 1.583 0 011.584-1.584h3.166a1.583 1.583 0 011.584 1.584V4.75m2.375 0v11.083a1.583 1.583 0 01-1.584 1.584H5.542a1.583 1.583 0 01-1.584-1.584V4.75h11.084zM7.917 8.708v4.75M11.083 8.708v4.75"
+        stroke="#999"
+        strokeWidth={1.5}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </Svg>
         </View>
-        <View style={styles.bin}>
-          <Text
-            style={{textAlignVertical: 'center', fontSize: 22}}
-            onPress={() => {
-              props.remove(props.id);
-            }}>
-            🗑
-          </Text>
+        </View>
+        <View style={{flexDirection:'row'}}>
+        <View style={styles.varientCard}>
+        <Text>Varient :</Text>
+        <Text style={{color:'black',fontWeight:'500'}}>Charcoal</Text>
+        </View>
+        <View>
+          <Text style={{fontSize:20}}>Qty.</Text>
+          <View></View>
+        </View>
+        </View>
         </View>
       </View>
     );
   }
-};
+
 
 export default CartItem;
 
 const styles = StyleSheet.create({
+  varientCard:{
+    backgroundColor:'#F1F3F6',
+   flexDirection:'row',
+   marginVertical:5,
+   padding:5,
+   borderRadius:5
+  },
   card: {
-    backgroundColor: 'white',
-    height: 120,
-    borderRadius: 20,
-    marginHorizontal: 10,
-    marginVertical: 5,
-    flexDirection: 'row',
-    padding: 8,
-    elevation: 8,
-    flex: 1,
+    marginVertical:20,
+    flexDirection:'row'
   },
   image: {
     height: 100,
     width: 100,
-    marginRight: 8,
+    borderRadius:5,
+    marginRight:20
   },
   header: {
     fontSize: 18,
