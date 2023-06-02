@@ -52,7 +52,7 @@ axios.interceptors.request.use(function (config) {
   }, 
   function (error) {
     
-    store.dispatch(showErrorPage(true));
+    // store.dispatch(showErrorPage(true));
 
     return Promise.reject(error);
   });

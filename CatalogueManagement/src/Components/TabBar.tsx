@@ -21,7 +21,11 @@ function MyTabBar(props: propType) {
         (route: {key: string | number; name: any}, index: any) => {
           const {options} = props.descriptors[route.key];
           const label =
-            options.tabBarIcon 
+          options.tabBarLabel !== undefined
+            ? options.tabBarLabel
+            : options.title !== undefined
+            ? options.title
+            : route.name;
 
           const isFocused = props.state.index === index;
 
@@ -53,9 +57,9 @@ function MyTabBar(props: propType) {
               testID={options.tabBarTestID}
               onPress={onPress}
               onLongPress={onLongPress}>
-              <View style={{height:10,width:10,backgroundColor:'red'}}>
-                {label}
-              </View>
+                <Text style={{ color: isFocused ? '#673ab7' : '#222' }}>
+              {label}
+            </Text>
             </TouchableOpacity>
           );
         },

@@ -2,7 +2,7 @@ import { StyleSheet, Text, Image,View } from 'react-native'
 import React from 'react'
 import { ListTile, PillButton } from 'react-native-widgetsui'
 import { useEffect, useState } from 'react'
-import ProductServices from '../CatalogueModule/Services/Products_Services'
+import ProductServices from '../CatalogueModule/Services/ProductsServices'
 
 const WishlistChild = (props:{prodID:number|string}) => {
     const [data, setdata] = useState<{image:string,title:string,price:string}>(Object);

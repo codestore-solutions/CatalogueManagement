@@ -11,12 +11,49 @@ import Wishlist from '../CatalogueModule/Screens/Wishlist';
 import ErrorScreen from '../CatalogueModule/Screens/ErrorScreen';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import TabNavigator from './TabNavigator';
+import FlashScreen from '../CatalogueModule/Screens/FlashScreen';
+import Login from '../UserManagement/Screens/Login';
+import Signup from '../UserManagement/Screens/Signup';
+import Otpscreen from '../UserManagement/Screens/Otpscreen';
 const RootNavigator = () => {
   const Stack = createNativeStackNavigator();
   return (
 
     <NavigationContainer>
       <Stack.Navigator>
+        <Stack.Screen
+        name='Flash'
+        component={FlashScreen}
+        options={{
+          headerShown:false,
+          statusBarColor:'white'
+        }}
+        />
+        <Stack.Screen
+        name='Login'
+        component={Login}
+        
+        options={{
+          headerShadowVisible:false,
+          headerTitle:''
+        }}
+        />
+        <Stack.Screen
+        name='Signup'
+        component={Signup}
+        options={{
+          headerShown:false,
+          statusBarColor:'white'
+        }}
+        />
+        <Stack.Screen
+        name='OTP'
+        component={Otpscreen}
+        options={{
+          headerShown:false,
+          statusBarColor:'white'
+        }}
+        />
         <Stack.Screen
           name="Tab"
           component={TabNavigator}
@@ -56,6 +93,7 @@ const RootNavigator = () => {
           component={ProductDetails}
           options={{
             headerShown: false,
+            statusBarColor:'white'
           }}
         />
 

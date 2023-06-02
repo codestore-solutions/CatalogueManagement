@@ -54,6 +54,7 @@ export default Products
 
 const styles = StyleSheet.create({
    body:{
-    backgroundColor:'white'
+    backgroundColor:'white',
+    marginBottom:'15%'
    }
 })

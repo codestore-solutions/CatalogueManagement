@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 import DeliveryCard from '../../Components/DeliveryCard';
 import Bill from '../../Components/bill';
 import CartList from '../../Components/CartList';
-import UserServices from '../Services/User_Services';
+import UserServices from '../Services/UserServices';
 
 const BuyNow = (props:{route:any}) => {
   let data = [];

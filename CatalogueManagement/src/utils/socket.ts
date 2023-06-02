@@ -46,7 +46,7 @@ import {io} from 'socket.io-client';
 // export default webSocket;
 
 export default function Socket() {
-  const socket = io('https://app-orderingbooking-dev.azurewebsites.net/api', {
+  const socket = io('http://localhost:3000', {
     transports: ['websocket'],
   });
 

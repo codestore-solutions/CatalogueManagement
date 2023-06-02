@@ -2,13 +2,16 @@ import services from '../../JSON/services.json';
 import {getApiData} from './Axios';
 
 class ProductServices {
-  
+  private static baseUrl: string;
+   baseUrl = "https://catalog.azurewebsites.net/api/";
+
+   
   //TO FETCH ALL THE PRODUCTS OF A PERTICULAR CATEGORY
   public static async getAllProducts(category: string) {
     switch (category) {
       case 'Apparels': {
         let res = await getApiData(
-          'https://fakestoreapi.com/products',
+          this.baseUrl+'Products/allProducts',
           'GET',
         ).then(res => {return res})
         return res;
@@ -22,7 +25,7 @@ class ProductServices {
   //GET A SINGLE PRODUCT WITH THE PRODUCT ID
   public static async getProduct(prodId: string) {
     const res = await getApiData(
-      `https://fakestoreapi.com/products/${prodId}`,
+      this.baseUrl+'Products/productDetail/'+prodId,
       'GET',
     );
     return res;
