@@ -1,4 +1,4 @@
-import {StyleSheet, Text, TextInput, View} from 'react-native';
+import {StyleSheet, Text, TextInput, View, ScrollView} from 'react-native';
 import React from 'react';
 import Svg, {
   Circle,
@@ -12,7 +12,8 @@ import Svg, {
 
 const Login = (props: any) => {
   return (
-    <View style={styles.body}>
+    <ScrollView>
+      <View style={styles.body}>
       <View style={styles.iconBackground}>
         <Svg
           width={50}
@@ -131,6 +132,7 @@ const Login = (props: any) => {
       </Text>
       <View style={styles.button}>
         <Svg
+        onPress={()=>{props.navigation.navigate('Tab')}}
           width={85}
           height={24}
           viewBox="0 0 85 24"
@@ -239,6 +241,7 @@ const Login = (props: any) => {
       </Text>
       <Text onPress={()=>{props.navigation.navigate('Tab')}} style={{margin:20,fontSize:18,color:'blue'}}>Skip</Text>
     </View>
+    </ScrollView>
   );
 };
 
