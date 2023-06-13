@@ -34,7 +34,11 @@ namespace ProductCatalog.Service
         public async Task DeleteVarient(long id)
         {
             var existingVarient  = await _varientRepository.GetAsync(id);
-            _varientRepository.Delete(existingVarient);
+            if (existingVarient != null)
+            {
+                _varientRepository.Delete(existingVarient);
+            }
+            await _unitOfWork.SaveAsync();
         }
 
         public async Task<IEnumerable<Varient>> GetAllVarientsOfProduct(long productId)

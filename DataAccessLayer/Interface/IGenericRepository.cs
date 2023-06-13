@@ -10,7 +10,7 @@ namespace DataAccessLayer.Interface
     public interface IGenericRepository<T> where T : class
     {
         Task<IEnumerable<T>> GetAllAsync();
-        Task<T> GetAsync(long id);
+        Task<T?> GetAsync(long id);
         EntityEntry<T> Add(T entity);
         EntityEntry<T> Update(T entity);
         EntityEntry<T> Delete(T entity);

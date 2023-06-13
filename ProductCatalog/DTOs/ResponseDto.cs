@@ -33,7 +33,7 @@ namespace ProductCatalog.DTOs
         //public bool IsSuccess { get; set; }
         public T? Value { get; set; }
 
-        public static ResponseDto<T> CreateSuccessResponse(int statusCode, bool isSuccess, T? value = null, string error = null)
+        public static ResponseDto<T> CreateSuccessResponse(int statusCode, bool isSuccess, T? value = null)
         {
             return new ResponseDto<T>
             {

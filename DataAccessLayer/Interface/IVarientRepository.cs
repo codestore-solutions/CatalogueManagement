@@ -11,5 +11,6 @@ namespace DataAccessLayer.Interface
     {
         Task<IEnumerable<Varient>> GetVarientsOfProduct(long productId);
         Task MarkVarientInactive(long varientId);
+        Task<decimal> GetPriceOfOneVarient(long productId);
     }
 }

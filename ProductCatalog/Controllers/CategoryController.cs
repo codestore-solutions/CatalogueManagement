@@ -53,7 +53,7 @@ namespace ProductCatalog.Controllers
           /// <param name="categoryIn"></param>
           /// <returns></returns>
         [HttpPost("addCategory")]
-        [Authorize(Roles = "Admin , Seller")]
+        //[Authorize(Roles = "Admin , Seller")]
         public async Task<IActionResult> Post([FromBody] CategoryIn categoryIn)
         {
             _logger.LogInformation("inside post request");
@@ -75,7 +75,7 @@ namespace ProductCatalog.Controllers
         /// <param name="category"></param>
         /// <returns></returns>
         [HttpPut("updateCategory/{id}")]
-        [Authorize(Roles = "SuperAdmin")]
+        //[Authorize(Roles = "SuperAdmin")]
         public async Task<IActionResult> Put(long id, [FromBody] Category category)
         {
             if(!ModelState.IsValid)

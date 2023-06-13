@@ -37,7 +37,7 @@ namespace DataAccessLayer.Repository
             return await _dbSet.AsNoTracking().ToListAsync();
         }
 
-        public async Task<T> GetAsync(long id)
+        public async Task<T?> GetAsync(long id)
         {
             var entity =  await _dbSet.FindAsync(id);
             return entity;

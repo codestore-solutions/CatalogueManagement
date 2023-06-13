@@ -27,11 +27,17 @@ namespace DataAccessLayer.Repository
         public async Task MarkVarientInactive(long varientId)
         {
             var existingVarient = _context.Varients.FirstOrDefault(x => x.Id == varientId);
-            existingVarient.IsActive = false;
-            _context.Varients.Update(existingVarient);
+            if (existingVarient != null)
+            {
+                existingVarient.IsActive = false;
+                _context.Varients.Update(existingVarient);
+            }
             await _context.SaveChangesAsync();
+        }
 
-
+        public async Task<decimal> GetPriceOfOneVarient(long productId)
+        {
+            return (await _context.Varients.FirstAsync(i => i.ProductId == productId)).Price;
         }
 
         

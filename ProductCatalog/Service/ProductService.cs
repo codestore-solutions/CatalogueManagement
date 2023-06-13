@@ -45,6 +45,7 @@ namespace ProductCatalog.Service
                     Name = item.Name,
                     Rating = _repository.GetRating(item.Id),
                     Attachment = _repository.GetAttachment(item.Id),
+                    Price = await _unitOfWork.VarientRepository.GetPriceOfOneVarient(item.Id)
                 });
             }
 
