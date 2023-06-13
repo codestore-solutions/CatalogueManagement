@@ -27,7 +27,7 @@ namespace ProductCatalog.Controllers
         public async Task<IActionResult> PostBrand(BrandIn brandIn)
         {
             var res = await _brandService.AddNewBrand(brandIn);
-            return Ok("Brand Created Successfully " + res);
+            return Ok(StringConstants.CreatedSuccess + " id " + res);
         }   
 
         [HttpGet("allBrands")]
@@ -42,19 +42,19 @@ namespace ProductCatalog.Controllers
         {
             if(brand.Id !=  brandId)
             {
-                return BadRequest("Id does not Match!!");
+                return BadRequest(StringConstants.BadRequestError);
             }
             var res = await _brandService.UpdateBrand(brandId, brand);
             return !res ?
-                NotFound(StringConstants.Error) : 
-                Ok("Brand Updated Successfully");
+                NotFound(StringConstants.NotFoundError) : 
+                Ok(StringConstants.UpdatedSuccess);
         }
 
         [HttpDelete("delete/{brandId}")]
         public async Task<IActionResult> DeleteBrand(long brandId)
         {
             var res = await _brandService.DeleteBrand(brandId);
-            return !res ? NotFound("Brand Not Found") : Ok("Brand Deleted Successfully");
+            return !res ? NotFound(StringConstants.NotFoundError) : Ok(StringConstants.UpdatedSuccess);
         }
 
         [HttpGet("allProductOfBrand/{brandId}")]

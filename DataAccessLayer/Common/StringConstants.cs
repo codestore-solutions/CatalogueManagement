@@ -8,6 +8,14 @@ namespace DataAccessLayer.Common
 {
     public static class StringConstants
     {
-        public const string Error = "Error";
+        public const string NotFoundError = "Not foumd";
+
+        public const string BadRequestError = "Bad Request";
+
+        public const string CreatedSuccess = "Created successfully";
+
+        public const string DeletedSuccess = "Deleted successfully";
+
+        public const string UpdatedSuccess = "Updated successfully";
     }
 }

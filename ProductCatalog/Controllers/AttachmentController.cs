@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using DataAccessLayer.Common;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models.ProductModels;
 using ProductCatalog.Service.Interface;
@@ -42,8 +43,8 @@ namespace ProductCatalog.Controllers
         {
             var res = await _attachmentService.DeleteAttachment(attachmentId);
             return !res ?
-                NotFound("No Attachment found") :
-                Ok("Attachment deleted successfully");
+                NotFound(StringConstants.NotFoundError) :
+                Ok(StringConstants.DeletedSuccess);
         }
 
     }

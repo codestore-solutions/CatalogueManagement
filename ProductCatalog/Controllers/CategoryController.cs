@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using DataAccessLayer.Common;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models.ProductModels;
 using ProductCatalog.DTOs;
@@ -35,14 +36,12 @@ namespace ProductCatalog.Controllers
         [HttpGet("allCategories")]
         public async Task<ActionResult<ResponseDto<IEnumerable<CategoryOut>>>> GetAllCategory()
         {
-            _logger.LogInformation("Inside get get all category");
             var  res = await _categoryService.GetAllCategoriesAsync();
             if (res.Value == null || !res.Value.Any())
             {
                 res.StatusCode = StatusCodes.Status404NotFound;
-                return NotFound(res);
+                return NotFound(StringConstants.NotFoundError);
             }
-
             return Ok(res);
         }
 
@@ -64,7 +63,7 @@ namespace ProductCatalog.Controllers
                 return BadRequest(ModelState);
             }
             var res =  await _categoryService.AddCategory(categoryIn);
-            return Ok("Category Created Successfully " + res);  // constant String
+            return Ok(StringConstants.CreatedSuccess + " id " + res);
         }
 
         // PUT api/<CategoryController>/5
@@ -91,8 +90,8 @@ namespace ProductCatalog.Controllers
             var res = await _categoryService.UpdateCategory(id, category);
 
             return !res 
-                ? NotFound("Category not found") 
-                : Ok("Category Updated Successfully");
+                ? NotFound(StringConstants.NotFoundError) 
+                : Ok(StringConstants.UpdatedSuccess);
 
         }      
     }
