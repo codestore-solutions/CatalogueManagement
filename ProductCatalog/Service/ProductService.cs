@@ -1,5 +1,6 @@
 ﻿using DataAccessLayer.Data;
 using DataAccessLayer.Interface;
+using Microsoft.EntityFrameworkCore;
 using ProductCatalog.DTOs;
 using ProductCatalog.DTOs.Incoming;
 using ProductCatalog.Service.Interface;
@@ -54,12 +55,14 @@ namespace ProductCatalog.Service
             return res;
         }
 
-        public async Task<ProductDetailDto> GetProductDetail(long id)
+        public async Task<ProductDetailDto?> GetProductDetail(long id)
         {
             var product = await _repository.GetAsync(id);
             var varients = await _repository.GetVarientsByProductId(id);
             var attachments = await _repository.GetAttachmentsByProductId(id);
             //var reviews = await _repository.GetReviewsByProductId(id);
+
+            if (product == null) return null;
 
             return new ProductDetailDto()
             {

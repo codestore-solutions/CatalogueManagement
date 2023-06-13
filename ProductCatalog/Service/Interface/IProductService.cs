@@ -8,7 +8,7 @@ namespace ProductCatalog.Service.Interface
     {
         Task<ResponseDto<IEnumerable<ProductOverview>>> GetAll();
 
-        Task<ProductDetailDto> GetProductDetail(long id);
+        Task<ProductDetailDto?> GetProductDetail(long id);
 
         Task<long> AddProduct(ProductIn productIn);
 
