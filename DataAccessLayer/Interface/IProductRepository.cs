@@ -16,6 +16,9 @@ namespace DataAccessLayer.Interface
         //Task<IEnumerable<Review>> GetReviewsByProductId(long id);
         Task<bool> MarkInactive(long id);
 
+        Task<IEnumerable<Product>> GetProductByCategory(long categoryId);
+
+        Task<IEnumerable<Product>> GetProductBySubCategory(long subCategoryId);
 
     }
 }

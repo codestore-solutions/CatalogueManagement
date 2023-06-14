@@ -14,6 +14,10 @@ namespace ProductCatalog.Service.Interface
 
         Task<bool> MarkInactive(long id);
 
+        Task<ResponseDto<IEnumerable<ProductOverview>>> GetAllBySubCategory(long subCategoryId);
+
+        Task<ResponseDto<IEnumerable<ProductOverview>>> GetAllByCategory(long categoryId);
+
 
     }
 }

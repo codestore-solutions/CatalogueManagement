@@ -49,5 +49,15 @@ namespace DataAccessLayer.Repository
             await _context.SaveChangesAsync();
             return true;
         }
+
+        public async Task<IEnumerable<Product>> GetProductByCategory(long categoryId)
+        {
+            return await _context.Products.Where(x => x.CategoryId == categoryId).ToListAsync();
+        }
+
+        public async Task<IEnumerable<Product>> GetProductBySubCategory(long subCategoryId)
+        {
+            return await _context.Products.Where(x => x.SubCategoryId == subCategoryId).ToListAsync();
+        }
     }
 }

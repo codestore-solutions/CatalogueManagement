@@ -74,5 +74,52 @@ namespace ProductCatalog.Service
                 //Reviews = reviews
             };
         }
+
+        public async Task<ResponseDto<IEnumerable<ProductOverview>>> GetAllByCategory(long categoryId)
+        {
+            var query = await _repository.GetProductByCategory(categoryId);
+
+            List<ProductOverview> products = new List<ProductOverview>();
+
+            foreach (var item in query)
+            {
+                products.Add(new ProductOverview()
+                {
+                    Id = item.Id,
+                    Name = item.Name,
+                    Rating = _repository.GetRating(item.Id),
+                    Attachment = _repository.GetAttachment(item.Id),
+                    Price = await _unitOfWork.VarientRepository.GetPriceOfOneVarient(item.Id)
+                });
+            }
+
+            var res = ResponseDto<IEnumerable<ProductOverview>>.CreateSuccessResponse((int)StatusCodes.Status200OK, true, products);
+
+            return res;
+        }
+
+        public async Task<ResponseDto<IEnumerable<ProductOverview>>> GetAllBySubCategory(long subCategoryId)
+        {
+            var query = await _repository.GetProductBySubCategory(subCategoryId);
+
+            List<ProductOverview> products = new List<ProductOverview>();
+
+            foreach (var item in query)
+            {
+                products.Add(new ProductOverview()
+                {
+                    Id = item.Id,
+                    Name = item.Name,
+                    Rating = _repository.GetRating(item.Id),
+                    Attachment = _repository.GetAttachment(item.Id),
+                    Price = await _unitOfWork.VarientRepository.GetPriceOfOneVarient(item.Id)
+                });
+            }
+
+            var res = ResponseDto<IEnumerable<ProductOverview>>.CreateSuccessResponse((int)StatusCodes.Status200OK, true, products);
+
+            return res;
+        }
+
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using DataAccessLayer.Common;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Client;
 using Models.ProductModels;
@@ -30,11 +31,33 @@ namespace ProductCatalog.Controllers
             return Ok(productOverviews);
         }
 
-        [HttpGet("productDetail/{id}")]
-        public async Task<ActionResult<ProductDetailDto>> GetProductDetailAsync(long id)
+        [HttpGet("productDetail/{productId}")]
+        public async Task<ActionResult<ProductDetailDto>> GetProductDetailAsync(long productId)
         {
-            var detail = await _productService.GetProductDetail(id);
+            var detail = await _productService.GetProductDetail(productId);
             return Ok(detail);
+        }
+
+        [HttpGet("allProductsOfCategory/{categoryId}")]
+        public async Task<ActionResult<ProductOverview>> GetProductByCategory(long categoryId)
+        {
+            var products = await _productService.GetAllByCategory(categoryId);
+            if (products == null)
+            {
+                return NotFound(StringConstants.NotFoundError);
+            }
+            return Ok(products);
+        }
+
+        [HttpGet("allProductsOfSubCategory/{subCategoryId}")]
+        public async Task<ActionResult<ProductOverview>> GetProductBySubCategory(long subCategoryId)
+        {
+            var products = await _productService.GetAllBySubCategory(subCategoryId);
+            if (products == null)
+            {
+                return NotFound(StringConstants.NotFoundError);
+            }
+            return Ok(products);
         }
 
         [HttpPost("addProduct")]
