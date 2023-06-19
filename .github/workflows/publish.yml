@@ -7,7 +7,7 @@ on:
     - master
 
 env:
-  AZURE_WEBAPP_NAME: check-deployment
+  AZURE_WEBAPP_NAME: dev-backend-catalogue
   AZURE_WEBAPP_PACKAGE_PATH: "./publish"
 
 jobs:
