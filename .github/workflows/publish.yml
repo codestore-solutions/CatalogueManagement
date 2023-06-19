@@ -1,0 +1,41 @@
+name: Publish 🚀
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+    - master
+
+env:
+  AZURE_WEBAPP_NAME: check-deployment
+  AZURE_WEBAPP_PACKAGE_PATH: "./publish"
+
+jobs:
+  publish:
+    runs-on: windows-latest
+    environment: Production
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '6.0.x'
+          
+      - name: Restore
+        run: dotnet restore ./OrderingAndOrDelivery.sln
+        
+      - name: Build
+        run: dotnet build ./OrderingAndOrDelivery.sln --configuration Release --no-restore
+        
+      - name: Publish
+        run: dotnet publish ./OrderingAndOrDelivery.sln --configuration Release --no-build --output '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
+
+
+      - name: Deployment
+        uses: azure/webapps-deploy@v2
+        with:
+          publish-profile: ${{ secrets.AZURE_SECRET}}
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          package: "${{ env.AZURE_WEBAPP_PACKAGE_PATH }}"
