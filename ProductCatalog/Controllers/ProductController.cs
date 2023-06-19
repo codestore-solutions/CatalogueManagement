@@ -14,10 +14,13 @@ namespace ProductCatalog.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IProductService _productService;
+        private readonly ILogger<ProductController> _logger;
 
-        public ProductController(IProductService productService)
+
+        public ProductController(IProductService productService, ILogger<ProductController> logger)
         {
             _productService = productService;
+            _logger = logger;
         }
 
 
@@ -64,6 +67,13 @@ namespace ProductCatalog.Controllers
         public async Task<IActionResult> AddProduct(ProductIn productIn)
         {
             var id = await _productService.AddProduct(productIn);
+            return Ok(id);
+        }
+
+        [HttpPost("addProductWithDetail")]
+        public async Task<IActionResult> AddProductWithVarientsAndAttachment(ProductWithVarient productIn)
+        {
+            var id = await _productService.AddProductWithDetails(productIn);
             return Ok(id);
         }
 

@@ -2,11 +2,9 @@
 
 namespace ProductCatalog.DTOs.Incoming
 {
-    public class VarientIn
-    {
-        [Required]
-        public long ProductId { get; set; }
 
+    public class VarientAdd
+    {
         [Required]
         [MinLength(20, ErrorMessage = "Description should be more then 20 character")]
         [MaxLength(255, ErrorMessage = "Description should be less then 255 character")]
@@ -20,7 +18,24 @@ namespace ProductCatalog.DTOs.Incoming
 
         [Required]
         public int AvailableStock { get; set; }
-        
-        
+
+
     }
+    public class VarientIn : VarientAdd
+    {
+        [Required]
+        public long ProductId { get; set; }
+
+        public IList<string> Attachment { get; set; } = new List<string>();
+
+    }
+
+    public class VarientOut : VarientIn
+    {
+        public long Id { get; set; }
+    }
+    
+
 }
+
+// epPlus

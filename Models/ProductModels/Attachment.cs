@@ -13,9 +13,12 @@ namespace Models.ProductModels
         //[Key]
         //public long Id { get; set; }
 
-        [Required]
         public long ProductId { get; set; }
         [ForeignKey(nameof(ProductId))]
+
+        [Required]
+        public long VarientId { get; set; }
+        [ForeignKey(nameof(VarientId))]
 
         public bool IsUploadedByAdmin { get; set; }
 

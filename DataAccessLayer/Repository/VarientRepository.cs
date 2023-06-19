@@ -37,7 +37,12 @@ namespace DataAccessLayer.Repository
 
         public async Task<decimal> GetPriceOfOneVarient(long productId)
         {
-            return (await _context.Varients.FirstAsync(i => i.ProductId == productId)).Price;
+            var varient = _context.Varients.FirstOrDefault(i => i.ProductId == productId);
+            if(varient == null)
+            {
+                return decimal.MinusOne;
+            }
+            return varient.Price;
         }
 
         

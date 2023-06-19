@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(ProductDbContext))]
-    [Migration("20230531075427_initial")]
-    partial class initial
+    [Migration("20230615210714_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -44,6 +44,9 @@ namespace DataAccessLayer.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<long?>("ReviewId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("VarientId")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
@@ -200,7 +203,7 @@ namespace DataAccessLayer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<long>("CatagoryId")
+                    b.Property<long>("CategoryId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Name")

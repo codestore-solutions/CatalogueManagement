@@ -43,6 +43,9 @@ namespace DataAccessLayer.Migrations
                     b.Property<long?>("ReviewId")
                         .HasColumnType("bigint");
 
+                    b.Property<long>("VarientId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
 
                     b.ToTable("Attachments");
@@ -197,7 +200,7 @@ namespace DataAccessLayer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<long>("CatagoryId")
+                    b.Property<long>("CategoryId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Name")

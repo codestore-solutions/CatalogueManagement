@@ -20,12 +20,22 @@ namespace DataAccessLayer.Repository
 
         public decimal GetRating(long id)
         {
-            return _context.Reviews.Where(x => x.ProductId == id).Average(x => x.Rating);
+
+            try
+            {
+                var rating =  _context.Reviews.Where(x => x.ProductId == id).Average(x => x.Rating);
+                return rating;
+            }
+            catch
+            {
+                return decimal.Zero;
+            }
         }
 
-        public string GetAttachment(long id)
+        public string? GetAttachment(long id)
         {
-            return _context.Attachments.First(x => x.ProductId == id && x.IsUploadedByAdmin == true).AttachmentURL;
+            var attachment =  _context.Attachments.FirstOrDefault(x => x.ProductId == id && x.IsUploadedByAdmin);
+            return attachment != null ? attachment.AttachmentURL : null;
         }
 
         public async Task<IEnumerable<Varient>> GetVarientsByProductId(long id)

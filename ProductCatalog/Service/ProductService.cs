@@ -1,6 +1,9 @@
 ﻿using DataAccessLayer.Data;
 using DataAccessLayer.Interface;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Razor.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Models.ProductModels;
 using ProductCatalog.DTOs;
 using ProductCatalog.DTOs.Incoming;
 using ProductCatalog.Service.Interface;
@@ -10,12 +13,16 @@ namespace ProductCatalog.Service
     public class ProductService : IProductService
     {
         private readonly IUnitOfWork _unitOfWork;
-        private IProductRepository _repository;
+        private readonly IProductRepository _repository;
+        private readonly IVarientService _varientService;
+        private readonly IAttachmentService _attachmentService;
 
-        public ProductService(IUnitOfWork unitOfWork)
+        public ProductService(IUnitOfWork unitOfWork, IVarientService varientService, IAttachmentService attachmentService)
         {
             _unitOfWork = unitOfWork;
             _repository = unitOfWork.ProductRepository;
+            _varientService = varientService;
+            _attachmentService = attachmentService;
         }
 
         public async Task<bool> MarkInactive(long  id)
@@ -32,6 +39,45 @@ namespace ProductCatalog.Service
             return product.Id;
         }
 
+        public async Task<long> AddProductWithDetails(ProductWithVarient productdetail)
+        {
+            var productIn = new ProductIn
+            {
+                Name = productdetail.Name,
+                CategoryId = productdetail.CategoryId,
+                SubCategoryId = productdetail.SubcategoryId,
+                BrandId = productdetail.BrandId,
+                SellerId = productdetail.SellerId
+            };
+            var productId = await AddProduct(productIn);
+            foreach(var item in productdetail.Varients)
+            {
+                item.ProductId = productId;
+                var varientId = await _varientService.AddVarient(item);
+                foreach (var attachmentUrl in item.Attachment)
+                {
+                    Attachment attachment = new Attachment
+                    {
+                        ProductId = productId,
+                        VarientId = varientId,
+                        AttachmentURL = attachmentUrl,
+                        IsUploadedByAdmin = true
+                    };
+                    await _attachmentService.AddAttachment(attachment);
+                }
+            }
+            return productId;
+        }
+
+        
+
+        private string CheckAttachment(long itemId)
+        {
+            var attachment = _repository.GetAttachment(itemId);
+            return attachment == null ? "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930" : attachment;
+        }
+
+
         public async Task<ResponseDto<IEnumerable<ProductOverview>>> GetAll()
         {
             var query = await _repository.GetAllAsync();
@@ -45,7 +91,7 @@ namespace ProductCatalog.Service
                     Id = item.Id,
                     Name = item.Name,
                     Rating = _repository.GetRating(item.Id),
-                    Attachment = _repository.GetAttachment(item.Id),
+                    Attachment = CheckAttachment(item.Id), 
                     Price = await _unitOfWork.VarientRepository.GetPriceOfOneVarient(item.Id)
                 });
             }
@@ -59,8 +105,22 @@ namespace ProductCatalog.Service
         {
             var product = await _repository.GetAsync(id);
             var varients = await _repository.GetVarientsByProductId(id);
-            var attachments = await _repository.GetAttachmentsByProductId(id);
+            //var attachments = await _repository.GetAttachmentsByProductId(id);
             //var reviews = await _repository.GetReviewsByProductId(id);
+            List<VarientOut> varientOuts = new();
+            foreach (var item in varients)
+            {
+                varientOuts.Add(new VarientOut
+                {
+                    Id = item.Id,
+                    ProductId = item.ProductId,
+                    Price = item.Price,
+                    IsActive = item.IsActive,
+                    AvailableStock = item.AvailableStock,
+                    Description = item.Description,
+                    Attachment = (IList<string>)await _attachmentService.GetAttachmentsByVarientId(item.Id)
+                });
+            }
 
             if (product == null) return null;
 
@@ -69,9 +129,7 @@ namespace ProductCatalog.Service
                 Id = product.Id,
                 Name = product.Name,
                 Rating = _repository.GetRating(product.Id),
-                Varients = varients,
-                Attachments = attachments,
-                //Reviews = reviews
+                Varients = varientOuts,
             };
         }
 

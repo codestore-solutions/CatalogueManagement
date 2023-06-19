@@ -5,7 +5,7 @@
 namespace DataAccessLayer.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,6 +17,7 @@ namespace DataAccessLayer.Migrations
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProductId = table.Column<long>(type: "bigint", nullable: false),
+                    VarientId = table.Column<long>(type: "bigint", nullable: false),
                     IsUploadedByAdmin = table.Column<bool>(type: "bit", nullable: false),
                     ReviewId = table.Column<long>(type: "bigint", nullable: true),
                     AttachmentURL = table.Column<string>(type: "nvarchar(max)", nullable: false)
@@ -91,7 +92,7 @@ namespace DataAccessLayer.Migrations
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    CatagoryId = table.Column<long>(type: "bigint", nullable: false)
+                    CategoryId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {

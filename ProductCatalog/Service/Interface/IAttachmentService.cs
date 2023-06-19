@@ -10,5 +10,6 @@ namespace ProductCatalog.Service.Interface
         Task<long> AddAttachment(Attachment attachment);
         Task<bool> DeleteAttachment(long attachmentId);
         Task<IEnumerable<string>> GetAttachmentByReviewId(long reviewId);
+        Task<ICollection<string>> GetAttachmentsByVarientId(long varientId);
     }
 }

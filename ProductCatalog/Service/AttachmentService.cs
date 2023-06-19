@@ -41,6 +41,11 @@ namespace ProductCatalog.Service
             return await _attachmentRepository.GetAttachmentsByProductId(productId);
         }
 
+        public async Task<ICollection<string>> GetAttachmentsByVarientId(long varientId)
+        {
+            return await _attachmentRepository.GetAttachmentsByVarientId(varientId);
+        }
+
         public async Task<IEnumerable<string>> GetAttachmentByReviewId(long reviewId)
         {
             return await _attachmentRepository.GetAttachmentByReviewId(reviewId);

@@ -20,7 +20,7 @@ namespace DataAccessLayer.Repository
 
         public async Task<IEnumerable<SubCategory>> GetSubCategoryByCategory(long id)
         {
-            var subCategories = await _dbContext.SubCatagories.Where(x => x.CatagoryId == id).ToListAsync();
+            var subCategories = await _dbContext.SubCatagories.Where(x => x.CategoryId == id).ToListAsync();
             return subCategories;
         }
     }

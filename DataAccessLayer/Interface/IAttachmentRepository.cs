@@ -11,5 +11,6 @@ namespace DataAccessLayer.Interface
     {
         Task<ICollection<string>> GetAttachmentsByProductId(long id);
         Task<ICollection<string>> GetAttachmentByReviewId(long id);
+        Task<ICollection<string>> GetAttachmentsByVarientId(long id);
     }
 }

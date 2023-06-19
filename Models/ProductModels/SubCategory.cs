@@ -19,7 +19,7 @@ namespace Models.ProductModels
         public string Name { get; set; } = null!;
 
         [ForeignKey("CatagoryId")]
-        public long CatagoryId { get; set; }
+        public long CategoryId { get; set; }
         //public string TanentId { get; set; }
 
     }
