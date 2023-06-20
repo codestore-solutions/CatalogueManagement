@@ -31,7 +31,6 @@ const TabNavigator = () => {
         component={CategoriesScreen}
         name="Category"
         options={{
-          headerShown: false,
           tabBarIcon: props => <SvgComponent />,
         }}
       />

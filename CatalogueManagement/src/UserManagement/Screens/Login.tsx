@@ -12,8 +12,8 @@ import Svg, {
 
 const Login = (props: any) => {
   return (
-    <ScrollView>
-      <View style={styles.body}>
+    <ScrollView style={styles.body}>
+      <View style={{alignItems:'center'}}>
       <View style={styles.iconBackground}>
         <Svg
           width={50}
@@ -251,7 +251,6 @@ const styles = StyleSheet.create({
   body: {
     backgroundColor: 'white',
     height: '100%',
-    alignItems: 'center',
     paddingHorizontal: 20,
   },
   iconBackground: {

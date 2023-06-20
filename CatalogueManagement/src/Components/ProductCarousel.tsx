@@ -3,11 +3,12 @@ import React from 'react';
 import ProductCard from './ProductCard';
 
 const ProductCarousel = (props: {Attachment: string[]}) => {
+  
   return (
     <View>
-      <View style={styles.leftArrow}></View>
+      {/* <View style={styles.leftArrow}></View>
       <View></View>
-      <View></View>
+      <View></View> */}
       <FlatList
         data={props.Attachment}
         horizontal={true}

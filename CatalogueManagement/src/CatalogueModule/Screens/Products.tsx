@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View,TouchableOpacity, ScrollView, FlatList } from 'react-native'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Home_Header from '../../Components/Home_Header'
 import HeaderIcons from '../../Components/HeaderIcons'
 import AdBanner from '../../Components/AdBanner'
@@ -11,10 +11,14 @@ import Socket from '../../utils/socket'
 import HomeChild from '../../Components/HomeChild'
 import API from '../Services/API_Services'
 import SvgComponent from '../../Components/TabBarIcons/HomeIcon'
+import ProductServices from '../Services/ProductsServices'
 
 const Products = (props: { navigation: { navigate: (arg0: string) => void } }) => {
   let visible = true;
   let data = API.getHomeScreen();
+
+
+
   useEffect(() => {
   // Socket();
   }, [])
@@ -22,7 +26,7 @@ const Products = (props: { navigation: { navigate: (arg0: string) => void } }) =
   if(visible){
     return (
       <ScrollView style ={styles.body}>
-        <Home_Header/>
+        <Home_Header navigation={props.navigation}/>
         <HeaderIcons                                                    
         navigation={props.navigation}
         />
@@ -58,3 +62,4 @@ const styles = StyleSheet.create({
     marginBottom:'15%'
    }
 })
+

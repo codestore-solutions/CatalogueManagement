@@ -4,14 +4,17 @@ import UserServices from '../CatalogueModule/Services/UserServices';
 
 const FooterButtons = (props: {
   navigation: {navigate: (arg0: string, {}) => void};
-  id: string;
+  id: string|number;
+  vid: string|number;
+  qty: number;
+  price:number
 }) => {
   return (
     <View style={styles.body}>
       <TouchableOpacity
-        onPress={() => {
-          UserServices.addToCart(props.id);
-          props.navigation.navigate('Cart', {});
+        onPress={async() => {
+         await UserServices.addToCart(props.id,props.vid,props.qty);
+          props.navigation.navigate('Cart', {qty:props.qty,id:props.id});
         }}>
         <View style={styles.left}>
           <Text style={styles.text}>Add To Cart</Text>
@@ -19,7 +22,7 @@ const FooterButtons = (props: {
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.right}
-        onPress={() => props.navigation.navigate('Buynow', {root: ''})}>
+        onPress={() => props.navigation.navigate('Payment', [{id:props.id,qty:props.qty,price:props.price,vid:props.vid}])}>
         <View>
           <Text style={[styles.text, {color: 'white'}]}>Buy Now</Text>
         </View>

@@ -9,31 +9,16 @@ const ProductsList = (props: {
   navigation: {navigate: (arg0: string, arg: Object) => void};
   route: any;
 }) => {
-  const [data, setdata] = useState<
-    {
-      id: string;
-      image: string;
-      title: string;
-      price: string;
-      rating: {count: string; rate: string};
-      description: string;
-    }[]
-  >([]);
+  const [data, setdata] = useState([]);
 
   async function getData() {
-    let res = await ProductServices.getAllProducts(props.route.params.title);
-    setdata(res?.data);
+    let res = await ProductServices.getAllProducts(props.route.params.id);
+    setdata(res?.data.value);
   }
 
   const [visible, setvisible] = useState(false);
   useEffect(() => {
     getData();
-    
-    setTimeout(() => {
-      if(data.length == 0){
-        props.navigation.navigate('Error',{})
-      }
-    }, 20000);
   }, []);
 
   if (data.length == 0) {

@@ -1,4 +1,12 @@
-import {StyleSheet, Text, View, FlatList, Button} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  Button,
+  TouchableOpacity,
+  Modal,
+} from 'react-native';
 import React, {useState, useEffect} from 'react';
 import CartItem from '../../Components/CartItem';
 import UserServices from '../Services/UserServices';
@@ -9,26 +17,35 @@ const Cart = (
   props:
     | {
         navigation: {navigate: (arg0: string, arg1: {root: string}) => void};
-      }
-    | any,
+        route:any
+      }|any
 ) => {
-  const [data, setdata] = useState(UserServices.getCart());
-  const [state, setstate] = useState(true);
 
-  function setQuantity(id: string, increment: boolean, quantity: number) {
-    if (increment) {
-      UserServices.setCart(id, quantity + 1);
-    } else {
-      UserServices.setCart(id, quantity - 1);
-    }
-    setdata(UserServices.getCart());
+  
+  
+  const [data, setdata] = useState
+  <{
+     cartId: number, id: number, productId: number, quantity: number, varientId: number
+  }[]>([]);
+  const [state, setstate] = useState(true);
+  const [bottomSheet, setbottomSheet] = useState(false);
+
+  async function remove(id:string|number) {
+    await UserServices.remove(id);
     setstate(!state);
   }
-  function remove(id: string) {
-    UserServices.reove(id);
-    setdata(UserServices.getCart());
-    setstate(!state);
+
+  async function getData() {
+    let res = await UserServices.getCart();
+    setdata(res?.data.data.cartItems);
   }
+ 
+  useEffect(() => {
+    getData();
+  }, [])
+
+  const [list, setlist] = useState<{'id':number,'vid':number,'price':number,'qty':number}[]>([])
+  
   return (
     <View style={styles.body}>
       <View
@@ -83,28 +100,57 @@ const Cart = (
         </Svg>
       </View>
       <Divider width={'100%'} />
-      <View style={styles.list}>
-        <FlatList data={Array(1)} renderItem={() => 
-        <CartItem 
-        id=''
-        quantity={1}
-        setQuantity={()=>{}}
-        remove={()=>{}}
+      <View>
+        <FlatList
+          data={data}
+          extraData={state}
+          renderItem={({item}) => (
+            <View>
+              <CartItem
+              id={item.productId}
+              quantity={1}
+              setQuantity={() => {}}
+              remove={remove}
+              list={list}
+              setList={setlist}
+            />
+            <Divider
+            width={'100%'}
+            />
+            </View>
+          )}
         />
-        } />
       </View>
-      <View style={styles.footer}>
-        <View>
-          <Text style={{fontSize: 18}}>Total</Text>
-          <Text style={{fontSize: 18}}>₹{}/-</Text>
-        </View>
-        <Button
-          onPress={() => {
-            props.navigation.navigate('Buynow', {root: 'cart'});
-          }}
-          title="Check Out"
-        />
-      </View>
+      <TouchableOpacity style={styles.footer} onPress={() => {
+        setbottomSheet(true)
+      }}>
+        <Text style={{color: 'white'}}>Place Order</Text>
+      </TouchableOpacity>
+      <Modal transparent visible={bottomSheet} animationType='slide'>
+        <TouchableOpacity
+        onPress={()=>{
+          setbottomSheet(false)
+        }}
+          style={{
+            height:'100%',
+            backgroundColor:'rgba(0, 0, 0, 0.5)'
+          }}>
+          <View style={styles.bottom}>
+            <Text style={{fontSize:18,color:'black',fontWeight:'400',padding:20}}>Change Address</Text>
+            <View style={styles.addressBox}>
+              <Text>User Address</Text>
+              <Text>G-18 Noida sector - 63 Near Fortis Hospital
+Noida, Uttar Pradesh 2013021</Text>
+            </View>
+          <TouchableOpacity style={styles.footer} onPress={() => {
+            setbottomSheet(false)
+            props.navigation.navigate('Payment',[{'id':data[0].productId,'vid':data[0].varientId,'price':2000,'qty':1}])
+          }}>
+        <Text style={{color: 'white'}}>Place Order</Text>
+      </TouchableOpacity>
+          </View>
+        </TouchableOpacity>
+      </Modal>
     </View>
   );
 };
@@ -112,20 +158,39 @@ const Cart = (
 export default Cart;
 
 const styles = StyleSheet.create({
-  list: {
-    height: '91%',
+  addressBox:{
+    margin:20,
+    height:110,
+    width:'96%',
+    borderWidth:1,
+    alignSelf:'center',
+    elevation:5,
+    backgroundColor:'white',
+    padding:10
   },
   footer: {
-    height: '9%',
-    backgroundColor: 'white',
-    elevation: 100,
-    flexDirection: 'row',
+    width: '96%',
+    height: 50,
+    backgroundColor: '#7E72FF',
+    position: 'absolute',
+    bottom: 15,
+    alignSelf: 'center',
+    borderRadius: 15,
+    justifyContent: 'center',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    padding: 10,
   },
   body: {
     backgroundColor: 'white',
     paddingHorizontal: 10,
+    height: '100%',
+  },
+  bottom: {
+    height: '40%',
+    backgroundColor: 'white',
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
+    borderTopLeftRadius:15,
+    borderTopRightRadius:15
   },
 });

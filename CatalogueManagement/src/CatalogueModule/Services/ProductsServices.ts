@@ -1,33 +1,47 @@
-import services from '../../JSON/services.json';
 import {getApiData} from './Axios';
 
 class ProductServices {
   private static baseUrl: string;
-   baseUrl = "https://catalog.azurewebsites.net/api/";
 
-   
   //TO FETCH ALL THE PRODUCTS OF A PERTICULAR CATEGORY
-  public static async getAllProducts(category: string) {
-    switch (category) {
-      case 'Apparels': {
-        let res = await getApiData(
-          this.baseUrl+'Products/allProducts',
-          'GET',
-        ).then(res => {return res})
-        return res;
-      }
-      default: {
-        return {data:services};
-      }
-    }
+  public static async getAllProducts(id:string|number) {
+
+    let res = await getApiData(
+      `https://backend-catalogue-dev.azurewebsites.net/api/Products/allProductsOfCategory/${id}`,
+      'GET',
+    ).then(res => {
+      return res})
+    return res;
+    
+    // let res = await getApiData(
+    //   'https://backend-catalogue-dev.azurewebsites.net/api/Products/allProducts',
+    //   'GET',
+    // ).then(res => {
+    //   return res})
+    // return res;
+      
   }
 
-  //GET A SINGLE PRODUCT WITH THE PRODUCT ID
-  public static async getProduct(prodId: string) {
-    const res = await getApiData(
-      this.baseUrl+'Products/productDetail/'+prodId,
+
+  public static async getCategories() {
+    
+    let res = await getApiData(
+      'https://backend-catalogue-dev.azurewebsites.net/api/Category/allCategories',
       'GET',
-    );
+    ).then(res => {
+      return res})
+      console.log(res);
+      
+    return res;
+  
+}
+
+  //GET A SINGLE PRODUCT WITH THE PRODUCT ID
+  public static async getProduct(prodId: string|number) {
+    const res = await getApiData(
+      `https://backend-catalogue-dev.azurewebsites.net/api/Products/productDetail/${prodId}`,
+      'GET',
+    ).then(res => {return res})
     return res;
   }
 
@@ -43,6 +57,7 @@ class ProductServices {
       .catch(err => console.log(err));
     return res;
   }
+
 
   public static async addToWishlist(prodId:string,userID="17175963-5b43-4e6b-a8d3-4c8d2f9fe4ed"){
     await getApiData(

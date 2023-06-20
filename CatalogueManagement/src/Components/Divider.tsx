@@ -1,7 +1,7 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 
-const Divider = (props: {width: number | string,color?:string}) => {
+const Divider = (props: {width: number | string,color?:string,marginVertical?:number}) => {
   return (
     <View
       style={{
@@ -9,6 +9,7 @@ const Divider = (props: {width: number | string,color?:string}) => {
         width: props.width,
         backgroundColor: props.color == undefined? '#E5E7EA':props.color,
         alignSelf: 'center',
+        marginVertical:props.marginVertical
       }}></View>
   );
 };

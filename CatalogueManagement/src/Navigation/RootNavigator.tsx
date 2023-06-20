@@ -9,57 +9,61 @@ import {Text, View} from 'react-native';
 import Products from '../CatalogueModule/Screens/Products';
 import Wishlist from '../CatalogueModule/Screens/Wishlist';
 import ErrorScreen from '../CatalogueModule/Screens/ErrorScreen';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import TabNavigator from './TabNavigator';
 import FlashScreen from '../CatalogueModule/Screens/FlashScreen';
 import Login from '../UserManagement/Screens/Login';
 import Signup from '../UserManagement/Screens/Signup';
 import Otpscreen from '../UserManagement/Screens/Otpscreen';
+import Payment from '../OrderProcessing/Screens/Payment';
+import Gateway from '../OrderProcessing/Screens/Gateway';
+import Orders from '../OrderProcessing/Screens/Orders';
+import OrderDetails from '../OrderProcessing/Screens/OrderDetails';
+import CancelOrder from '../OrderProcessing/Screens/CancelOrder';
+import OrderTracking from '../OrderProcessing/Screens/OrderTracking';
 const RootNavigator = () => {
   const Stack = createNativeStackNavigator();
   return (
-
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
-        name='Flash'
-        component={FlashScreen}
-        options={{
-          headerShown:false,
-          statusBarColor:'white'
-        }}
+          name="Flash"
+          component={FlashScreen}
+          options={{
+            headerShown: false,
+            statusBarColor: 'white',
+          }}
         />
         <Stack.Screen
-        name='Login'
-        component={Login}
-        
-        options={{
-          headerShadowVisible:false,
-          headerTitle:''
-        }}
+          name="Login"
+          component={Login}
+          options={{
+            headerShadowVisible: false,
+            headerTitle: '',
+          }}
         />
         <Stack.Screen
-        name='Signup'
-        component={Signup}
-        options={{
-          headerShown:false,
-          statusBarColor:'white'
-        }}
+          name="Signup"
+          component={Signup}
+          options={{
+            headerShown: false,
+            statusBarColor: 'white',
+          }}
         />
         <Stack.Screen
-        name='OTP'
-        component={Otpscreen}
-        options={{
-          headerShown:false,
-          statusBarColor:'white'
-        }}
+          name="OTP"
+          component={Otpscreen}
+          options={{
+            headerShown: false,
+            statusBarColor: 'white',
+          }}
         />
         <Stack.Screen
           name="Tab"
           component={TabNavigator}
           options={{
             headerShown: false,
-            statusBarColor:'#7e72ff'
+            statusBarColor: '#7e72ff',
           }}
         />
         <Stack.Screen
@@ -67,24 +71,6 @@ const RootNavigator = () => {
           component={ProductsList}
           options={({navigation, route}: {navigation: any; route: any}) => ({
             headerTitle: route.params.title,
-            headerRight: props => (
-              <View style={{flexDirection: 'row'}}>
-                <Text
-                  style={{fontSize: 20}}
-                  onPress={() => {
-                    navigation.navigate('Wishlist');
-                  }}>
-                  ❤
-                </Text>
-                <Text
-                  style={{fontSize: 20, color: 'black', marginLeft: 8}}
-                  onPress={() => {
-                    navigation.navigate('Cart');
-                  }}>
-                  🛒
-                </Text>
-              </View>
-            ),
           })}
         />
 
@@ -93,7 +79,7 @@ const RootNavigator = () => {
           component={ProductDetails}
           options={{
             headerShown: false,
-            statusBarColor:'white'
+            statusBarColor: 'white',
           }}
         />
 
@@ -110,12 +96,24 @@ const RootNavigator = () => {
         <Stack.Screen name="Wishlist" component={Wishlist} />
 
         <Stack.Screen
-        name='Error'
-        component={ErrorScreen}
-        options={{
-          headerShown: false
-        }}
+          name="Error"
+          component={ErrorScreen}
+          options={{
+            headerShown: false,
+          }}
         />
+
+        <Stack.Screen name="Payment" component={Payment} />
+
+        <Stack.Screen name="Orders" component={Orders} />
+
+        <Stack.Screen name="CancelOrder" component={CancelOrder} />
+
+        <Stack.Screen name="OrderDetails" component={OrderDetails} />
+
+        <Stack.Screen name="Gateway" component={Gateway} />
+
+        <Stack.Screen name="OrderTracking" component={OrderTracking} />
       </Stack.Navigator>
     </NavigationContainer>
   );

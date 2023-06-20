@@ -41,7 +41,6 @@ async function getApiData(url: string, method: string, body?: Object) {
 
 
 axios.interceptors.request.use(function (config) {
-  config.headers['request-context'] = 'appId=cid-v1:731bc473-3220-4d5a-a549-3391acb13416 '
     return config;
   }, 
   function (error) {

@@ -1,63 +1,101 @@
-import {FlatList, ScrollView, StyleSheet, Text, View,Image} from 'react-native';
+import {
+  FlatList,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  ActivityIndicator
+} from 'react-native';
 import React, {useState, useEffect, useLayoutEffect} from 'react';
-import Services from '../../Services/API_Services';
-import ProductCard from '../../Components/ProductCard';
-import StarRating from 'react-native-star-rating-widget';
-import DeliveryCard from '../../Components/DeliveryCard';
 import FooterButtons from '../../Components/FooterButtons';
 import Recommended from '../../Components/Recommmended';
-import BookingFooter from '../../Components/BookingFooter';
 import ProductServices from '../Services/ProductsServices';
-import API from '../Services/API_Services';
 import ProductCarousel from '../../Components/ProductCarousel';
 import Divider from '../../Components/Divider';
 
 const ProductDetails = (props: {
   navigation: {navigate: (arg0: string) => void};
-  route: any;
+  route: {params: string | number};
 }) => {
+  const [data, setdata] = useState<{
+    name: string;
+    id: number;
+    rating: number;
+    varients: {
+      id: number;
+      productId: 0;
+      description: string;
+      isActive: boolean;
+      price: number;
+      availableStock: number;
+    }[];
+    attachments: {
+      id: number;
+      productId: number;
+      isUploadedByAdmin: boolean;
+      reviewId: number;
+      attachmentURL: string;
+    }[];
+  }>(Object);
 
-  const data = API.getProductDetails('');
+  async function getData() {
+    const res = await ProductServices.getProduct(props.route.params);
+    setdata(res?.data);
+  }
 
-  const [wishlistIcon, setwishlistIcon] = useState('❤')
+  useEffect(() => {
+    getData();
+  }, []);
 
-  
- 
-  return (
-    <View>
-      <View style={styles.body}>
-        <ScrollView>
-          <ProductCarousel Attachment={data.Attachment}/>
-          <Text style={styles.prodName}>{data.Name}</Text>
-          <View style={styles.rating}>
-            <Text style={{margin:5}}>
-              MRP 
-            <Text style={styles.prodName}>  {data.Varients[0].price}/-</Text></Text>
-            <Text style={{color: 'blue'}}>(20% OFF)</Text>
-          </View>
-          <Divider width={'96%'}/>
-          <Text style={{margin:10}}>Select Color - <Text style={{color:'black',fontWeight:'500'}}>Dark Black</Text></Text>
-          <View style={styles.varient}>
-            <Image
-            style={{height:100,width:100}}
-            source={{uri:data.Attachment[0]}}
-            />
-            <Text>
-              Charcoal
+  if (Object.keys(data).length == 0) {
+   return  ( <View><ActivityIndicator></ActivityIndicator></View>)
+  } 
+  else {
+    return (
+      <View>
+        <View style={styles.body}>
+          <ScrollView>
+            <ProductCarousel Attachment={[data.attachments[0].attachmentURL]} />
+            <Text style={styles.prodName}>{data.name}</Text>
+            <View style={styles.rating}>
+              <Text style={{margin: 5}}>
+                MRP
+                <Text style={styles.prodName}> {data.varients[0].price}/-</Text>
+              </Text>
+              <Text style={{color: 'blue'}}>(20% OFF)</Text>
+            </View>
+            <Divider width={'96%'} />
+            <Text style={{margin: 10}}>
+              Selected Varient -{' '}
+              <Text style={{color: 'black', fontWeight: '500'}}>{}</Text>
             </Text>
-            <Text>
-              {data.Varients[0].price}
+            <View style={styles.varient}>
+              <Image
+                style={{height: 100, width: 100}}
+                source={{uri: data.attachments[0].attachmentURL}}
+              />
+              <Text>Charcoal</Text>
+              <Text>{data.varients[0].price}</Text>
+            </View>
+            <Divider width={'96%'} />
+            <Text style={styles.prodName}>Bank Offers</Text>
+            <Text style={{fontSize: 18, margin: 8}}>
+              {data.varients[0].description}
             </Text>
-          </View>
-          <Divider width={'96%'}/>
-          <Text style={styles.prodName}>Bank Offers</Text>
-          <Text style={{fontSize: 18, margin: 8}}>{data.Varients[0].description}</Text>
-          <Recommended />
-        </ScrollView>
-        <FooterButtons navigation={props.navigation} id=''/>
+            <Recommended />
+          </ScrollView>
+          <FooterButtons
+            navigation={props.navigation}
+            id={data.id}
+            vid={data.varients[0].id}
+            qty={1}
+            price={data.varients[0].price}
+          />
+        </View>
       </View>
-    </View>
-  );
+    );
+  }
 };
 
 export default ProductDetails;
@@ -66,6 +104,7 @@ const styles = StyleSheet.create({
   body: {
     backgroundColor: 'white',
     paddingHorizontal: 10,
+    height: '100%',
   },
   prodName: {
     fontSize: 20,
@@ -79,12 +118,12 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     alignItems: 'center',
   },
-  varient:{
-    width:103,
-    alignItems:'center',
-    borderWidth:1,
-    borderRadius:5,
-    marginHorizontal:10,
-    marginBottom:20
-  }
+  varient: {
+    width: 103,
+    alignItems: 'center',
+    borderWidth: 1,
+    borderRadius: 5,
+    marginHorizontal: 10,
+    marginBottom: 20,
+  },
 });

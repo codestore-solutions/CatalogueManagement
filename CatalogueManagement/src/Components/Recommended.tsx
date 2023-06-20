@@ -1,8 +1,8 @@
-import {StyleSheet, Text, View, FlatList, Image} from 'react-native';
+import {StyleSheet, Text, View, FlatList, Image, TouchableOpacity} from 'react-native';
 import React from 'react';
 
 
-const Recommended = () => {
+const Recommended = (props: { navigation: { navigate: (arg0: string, arg1: { id: number; title: string; }) => void; }; }) => {
   return (
     <View
     style={{marginTop:20}}
@@ -22,7 +22,13 @@ const Recommended = () => {
         horizontal
         showsHorizontalScrollIndicator={false}
         renderItem={({item}) => (
-          <View style={styles.body}>
+          <TouchableOpacity style={styles.body} 
+          onPress={() => {
+            props.navigation.navigate('Products', {
+              id: 1,
+              title: '',
+            });
+          }}>
               <Image
               source={{uri:'https://cdn.mos.cms.futurecdn.net/JxJ548FZEJo2SnDQqK6qK7.jpg'}}
               style={{height:'65%',width:'100%',borderTopLeftRadius:15,borderTopRightRadius:15}}
@@ -36,7 +42,7 @@ const Recommended = () => {
               }}>
               Upto 80% off on smartwatches
             </Text>
-          </View>
+          </TouchableOpacity>
         )}
       />
     </View>

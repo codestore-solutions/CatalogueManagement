@@ -10,7 +10,7 @@ const HomeChild = (props:{type:string,data?:any,navigation: { navigate: (arg0: s
         navigation={props.navigation}/>
     }
     case('ProductList'):{
-        return <Recommended/>
+        return <Recommended navigation={props.navigation}/>
     }
     default:
         return <View></View>

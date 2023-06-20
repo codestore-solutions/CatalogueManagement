@@ -1,14 +1,14 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
-const Row = (props:{children:JSX.Element[]}) => {
+const Address = () => {
   return (
-    <View style={{flexDirection:'row'}}>
-      {props.children}
+    <View>
+      <Text>Address</Text>
     </View>
   )
 }
 
-export default Row
+export default Address
 
 const styles = StyleSheet.create({})
