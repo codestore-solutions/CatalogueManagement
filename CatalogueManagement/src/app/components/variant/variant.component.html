@@ -1,0 +1,50 @@
+<h1 mat-dialog-title>Add Variant</h1>
+<div mat-dialog-content class="dialog-box-content">
+  <div>
+    <form [formGroup]="variantForm">
+      <div formArrayName="variant">
+        <ng-container *ngFor="let variant of variantForm.get('variant')['controls']; let i=index">
+          <div [formGroupName]="i" class="m-2">
+            <div>
+              <p class="fs-4">Name :</p>
+              <mat-form-field class="w-100">
+                <input matInput type="text" formControlName="name">
+              </mat-form-field>
+            </div>
+            <div>
+              <p class="fs-4">Description :</p>
+              <mat-form-field class="w-100">
+                <textarea matInput type="text" formControlName="description"></textarea>
+              </mat-form-field>
+            </div>
+            <div class="input-group mb-3">
+              <form [formGroup]="variant">
+                <button mat-raised-button (click)="addAttachment(variant)" type="button">Add Attachment</button>
+                <div formArrayName="image">
+                  <ng-container *ngFor="let image of variant.get('image')['controls']; let i=index">
+
+                    <mat-card class="attachment-card">
+                      <a type="button" mat-button (click)="fileInput.click()" class="add-icon"><img
+                          src="../../../assets/foundation_upload-cloud.svg"></a>
+                      <input hidden [formControlName]="i" #fileInput type="file">
+                      <a mat-button color='warn' (click)="removeAttachment(variant,i)" class="delete-icon">
+                        Remove
+                      </a>
+                    </mat-card>
+                  </ng-container>
+                </div>
+              </form>
+            </div>
+          </div>
+          <button mat-raised-button color='warn' class="w-100 mt-3" (click)="removeVariant(i)">Remove
+            Varient</button>
+        </ng-container>
+      </div>
+    </form>
+  </div>
+  <button mat-button color="primary" (click)="addVariant()" class="mt-1">Add Varient</button>
+</div>
+<div mat-diaglog-actions>
+  <button mat-button mat-dialog-close (click)="close()">Save</button>
+  <button mat-button mat-dialog-close>Cancel</button>
+</div>

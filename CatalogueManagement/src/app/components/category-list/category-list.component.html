@@ -1,0 +1,67 @@
+<!-- Title and Filter/Add Button -->
+<div class="title-container">
+  <h1 class="title-text">Category</h1>
+  <div class="filter-container">
+    <input class="search-filter" type="text" (keyup)="applySearchFilter($event)" placeholder="Search" #input>
+    <button mat-icon-button class="add-brand"><img src="../../../assets/AddFile.png"></button>
+  </div>
+</div>
+
+
+<!-- Main Table for Category -->
+<div class="table-container">
+  <table mat-table [dataSource]="dataSource" mutliTemplateDataRows class="category-table">
+
+    <!-- Category Table listing code -->
+    <ng-container *ngFor="let column of tableHeaders" [matColumnDef]="column.field_name">
+      <th mat-header-cell *matHeaderCellDef class="category-table-header header-text">{{column.header}}</th>
+      <td mat-cell *matCellDef="let row" class="category-table-cell">
+        <div *ngIf="column.header != 'Action'">
+          {{row[column.field_name]}}
+        </div>
+        <div *ngIf="column.header == 'Action'">
+          <button mat-icon-button><img src="../../../assets/edit.svg"></button>
+          <button mat-icon-button><img src="../../../assets/Vector (2).png"></button>
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="select">
+      <th mat-header-cell *matHeaderCellDef class="category-table-header header-text">
+        <mat-checkbox (change)="toggleAllRows()"
+          [checked]="selection.hasValue() && isAllSelected()"
+          [indeterminate]="selection.hasValue() && !isAllSelected()" color="warn"></mat-checkbox>
+      </th>
+      <td mat-cell *matCellDef="let row" class="category-table-cell">
+        <mat-checkbox (click)="$event.stopPropagation()"
+         (change)="$event ? selection.toggle(row): null"
+         [checked]="selection.isSelected(row)">
+        </mat-checkbox>
+      </td>
+    </ng-container>
+
+    <!-- Expansion Code -->
+    <ng-container matColumnDef="expand">
+      <th mat-header-cell *matHeaderCellDef class="header-text"></th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button (click)="toggleExpansion(element)">
+          <mat-icon>{{ element.expanded? 'keyboard_arrow_up' : "keyboard_arrow_down" }}</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <!-- Code for expanded data -->
+    <ng-container matColumnDef="expandedRow">
+      <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+        <div [@detailExpand]="element == element.expanded ? 'expanded' : 'collapsed'">
+          <div *ngIf="element.expanded">
+            <h1>Hello</h1>
+          </div>
+        </div>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    <tr mat-row *matRowDef="let element; columns: ['expandRow']; when: isExpanded"></tr>
+  </table>
+</div>

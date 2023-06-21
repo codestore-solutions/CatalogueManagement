@@ -1,0 +1,7 @@
+{
+    "/api/*" : {
+        "target" : "https://catalog.azurewebsites.net/api/",
+        "secure": false,
+        "logLevel": "debug"
+    }
+}

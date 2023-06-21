@@ -1,0 +1,80 @@
+.product-detail-container{
+    margin: 5%;
+    display: flex;
+    .left-container{
+        width: 30%;
+    }
+
+    .right-container{
+        display: flexbox;
+        flex-direction: column;
+        width: 70%;
+        .heading-container{
+            .title-container{
+                .title{
+                    font-size: large;
+                    font-weight: bold;
+                }
+                .brand-container{
+                    display: inline-flex;
+                    .brand-name{
+                        color: #545BFC;
+                    }
+                }
+                .rating-container{
+                    display: flex;
+                    gap: 2%;
+                    align-items: baseline;
+                }
+            }
+            .edit{
+
+            }
+        }
+
+        .unit-container{
+            .price{
+
+            }
+
+            .sku{
+
+            }
+
+            .orders{
+
+            }
+
+            .stock{
+
+            }
+        }
+        .variant-container{
+            .size-variant{
+
+            }
+
+            .color-variant{
+
+            }
+        }
+
+        .description-container{
+
+        }
+
+        .feature-service-container{
+            .feature{
+
+            }
+
+            .service{
+
+            }
+        }
+
+        .detail-container{
+
+        }
+    }
+}

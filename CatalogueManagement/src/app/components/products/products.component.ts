@@ -1,6 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
+import { Brand } from 'src/app/model/brand.model';
+import { Category } from 'src/app/model/category.model';
+import { DataService } from 'src/app/services/data.service';
+import { getCategory } from 'src/app/store/actions/product.actions';
+import { selectCategory } from 'src/app/store/selector/product.selector';
+import { VariantComponent } from '../variant/variant.component';
+import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 
 interface category {
   id: string;
@@ -9,19 +17,21 @@ interface category {
   productName: string;
 }
 
+interface product {
+  name: string;
+  categoryId: number;
+  subCategoryId: number;
+  brandId: number;
+  sellerId: number;
+}
 interface productDetail {
-  productID: string;
-  title: string;
+  productID: number;
   description: string;
-  brand: string;
-  image: string;
+  isActive: boolean;
+  price: number;
+  availableStock: number;
 }
 
-interface productVariant {
-  name: string;
-  description: string;
-  image: string;
-}
 
 @Component({
   selector: 'app-products',
@@ -30,105 +40,161 @@ interface productVariant {
 })
 export class ProductsComponent implements OnInit {
   productForm: FormGroup;
-  productDescription: FormGroup;
-  variantForm: FormGroup;
+  categoryForm: FormGroup;
+  attachmentForm: FormGroup;
   newCategory: string;
   newSubCategory: string;
   duration = '1000';
+  selector$ = this.store.select(selectCategory);
+  categoryList;
+  subCategoryList;
+  brandList;
 
-  //Dummy Data ----------
-  categoryList = [
-    'Grocery', 'Electronics', 'Computer', 'Arts', 'Fashion'
-  ]
-  subCategoryList = {
-    Grocery: ["Vegetable & Fruits", "Ice-cream", "Bakery Products", "Dairy Products"],
-    Electronics: ["Accessories", "Camera", "Cell Phone", "Headphone", "Television", "Kitchen Accessories"],
-    Computer: ["Computer Accessories & Pheripherals", "Computer Components", "Computer Tablets", "Data Storage"],
-    Arts: ["Painting", "Crafting", "NeedleWork", "Printmaking"],
-    Fashion: ["Mens Fashion", "Womens Fashion", "Kids Fashion"]
-  };
 
-  constructor() {
-    this.productForm = new FormGroup({
+  constructor(private store: Store, private service: DataService, public varient: MatDialog, private snackBar: MatSnackBar) {
+    this.categoryForm = new FormGroup({
       category: new FormControl(null, [Validators.required]),
       subCategory: new FormControl(null, [Validators.required]),
       newCategory: new FormControl(null),
       newSubCategory: new FormControl(null),
-      name: new FormControl(null, [Validators.required])
+      brand: new FormControl(null, [Validators.required]),
+      price: new FormControl(null, [Validators.required])
     });
 
-    this.productDescription = new FormGroup({
+    this.productForm = new FormGroup({
+      name: new FormControl(null, [Validators.required]),
       image: new FormControl(null, [Validators.required]),
-      brand: new FormControl(null, [Validators.required])
+      description: new FormControl(null, [Validators.required])
     })
-
-    this.variantForm = new FormGroup({
-      variant: new FormArray([])
-    });
+    this.attachmentForm = new FormGroup({
+      attachments: new FormArray([])
+    })
   }
 
   ngOnInit(): void {
-    this.addVariant();
+    this.store.dispatch(getCategory());
+    this.service.getCategory().subscribe((data: Category) => {
+      this.categoryList = data.value;
+    })
+    // this.addVariant();
+    this.service.getBrandDetails().subscribe((data: Brand) => {
+      this.brandList = data.value;
+    })
+    this.addAttachment();
+  }
+
+  renderSubCategory() {
+    if (this.categoryForm.value.category != 'Add Category') {
+      const categoryID = this.categoryForm.get('category').value;
+      this.service.getSubCategory(categoryID).subscribe((data: Category) => {
+        this.subCategoryList = data.value;
+        console.log(this.subCategoryList);
+      })
+    }
   }
 
   addNewCategory() {
-    this.productForm.get('category').setValue(this.productForm.value.newCategory);
-    this.categoryList.push(this.productForm.value.newCategory);
-    console.log(this.productForm.value.category)
+    const obj = {
+      name: this.categoryForm.value.newCategory
+    }
+    this.service.addCategory(obj);
   }
 
   addNewSubCategory() {
-    const newSub = this.productForm.value.newSubCategory;
-    const newCat = this.productForm.value.category;
-    this.productForm.get('subCategory').setValue(this.productForm.value.newSubCategory);
-    this.subCategoryList[newCat] = [];
-    this.subCategoryList[newCat].push(newSub);
+    const newSub = this.categoryForm.value.newSubCategory;
+    this.categoryForm.get('subCategory').setValue(this.productForm.value.newSubCategory);
+    const newSubCategory = {
+      name: newSub,
+      categoryId: this.categoryForm.value.category
+    }
+    console.log(typeof this.categoryForm.value.category);
+    console.log(this.categoryForm.value.category);
+    this.service.addSubCategory(newSubCategory);
   }
 
 
-
-  //variant methods---------------------------------------
-  addVariant() {
-    const varientForm = new FormGroup({
-      name: new FormControl(),
-      description: new FormControl(),
-      image: new FormControl()
+  addAttachment() {
+    const attachments = new FormGroup({
+      image: new FormControl(null, Validators.required)
     });
-    (<FormArray>this.variantForm.get('variant')).push(varientForm);
+    (<FormArray>this.attachmentForm.get('attachments')).push(attachments);
   }
 
-  removeVariant(i) {
-    (<FormArray>this.variantForm.get('variant')).removeAt(i);
+  removeAttachment(i) {
+    (<FormArray>this.attachmentForm.get('attachments')).removeAt(i);
   }
-
-
   onSubmit() {
     let id: string;
     let productID: string;
-    if (this.productForm.value.newCategory != null && this.productForm.value.newSubCategory != null) {
+    let product: product = {
+      name: '',
+      categoryId: 0,
+      subCategoryId: 0,
+      brandId: 0,
+      sellerId: 0
+    };
+    let productId;
+    if (this.categoryForm.value.newCategory != null && this.categoryForm.value.newSubCategory != null) {
       // API  Call for generating new Category
 
 
     } else {
       // API call for productID generation for default Category
-      
+      product.name = this.productForm.value.name;
+      product.categoryId = this.categoryForm.value.category;
+      product.brandId = this.categoryForm.value.brand;
+      product.subCategoryId = this.categoryForm.value.subCategory;
+      product.sellerId = 4;
+      this.service.postProduct(product).subscribe((data: number) => {
+        console.log(data);
+        const product: productDetail = {
+          productID: data,
+          description: this.productForm.value.description,
+          isActive: true,
+          price: Number(this.categoryForm.value.price),
+          availableStock: 10
+        }
+        console.log(product);
+        //Calling API to generate a product with following Details
+
+        this.service.postVariant(product).subscribe((data)=> {
+          if(data != null) {
+            this.snackBar.openFromComponent(ProductAdd, {
+              duration: 1000
+            })
+          }
+        });
+      });
     }
-
-    if(productID != null) {
-      const product:productDetail = {
-        productID: '',
-        title: '',
-        description: '',
-        brand: '',
-        image: '',
-      }
-
-      //Calling API to generate a product with following Details
-    }
-
 
     console.log(this.productForm);
-    console.log(this.productDescription);
-    console.log(this.variantForm);
+    console.log(this.categoryForm);
+    console.log(this.attachmentForm);
   }
+
+  async openVarient() {
+    const varientDialogBox = this.varient.open(VariantComponent, {
+      width: "60%",
+      height: "80%"
+    });
+
+    varientDialogBox.afterClosed().subscribe(data=> {
+      console.log(data);
+    })
+  }
+  
+  trigger() {
+
+  }
+}
+
+
+@Component({
+  selector: 'snackbar',
+  templateUrl: 'snackbar.component.html',
+  standalone: true
+})
+
+export class ProductAdd{
+  snackBarRef=inject(MatSnackBarRef);
 }

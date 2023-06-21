@@ -29,6 +29,9 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { PortalModule } from '@angular/cdk/portal';
 import { HttpClientModule } from '@angular/common/http';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+
 
 const modules = [
   MatToolbarModule,
@@ -54,7 +57,9 @@ const modules = [
   MatStepperModule,
   MatProgressSpinnerModule,
   PortalModule,
-  HttpClientModule
+  HttpClientModule,
+  MatCheckboxModule,
+  MatSnackBarModule
 ]
 
 @NgModule({

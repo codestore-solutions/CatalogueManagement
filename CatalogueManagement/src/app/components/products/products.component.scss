@@ -1,13 +1,183 @@
-.product-card-container{
-    margin: 5%;
+.product-card-container {
+  margin: 5%;
 }
 
-.product-card-title{
-    font-size: xx-large;
-    font-weight: lighter;
-    padding: 10px;
+.product-card-title {
+  font-size: xx-large;
+  font-weight: lighter;
+  padding: 10px;
 }
 
-.product-card-header{
-    background-color: #ddd;
+.product-card-header {
+  background-color: #ddd;
+}
+
+.title {
+  font-size: xx-large;
+  font-weight: bold;
+  margin-top: 5%;
+  margin-bottom: 2%;
+  margin-left: 5%;
+}
+
+.form-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding-left: 5%;
+  padding-right: 2%;
+  width: 100%;
+  height: 100%;
+
+  .left-form {
+    width: 70%;
+
+    .product-form {
+      padding: 3%;
+      margin-bottom: 5%;
+      box-shadow: none;
+      border: 1px solid #CCCCCC;
+      border-radius: 20px;
+
+      .product-form-elements {
+        margin-bottom: 10%;
+
+        .product-form-text-elements {
+          width: 100%;
+          padding: 2%;
+          border: 1px solid #CCCCCC;
+          border-radius: 15px;
+          outline: none;
+        }
+      }
+    }
+
+    .attachment-form {
+      padding: 2%;
+      display: flex;
+      box-shadow: none;
+      border: 1px solid #ddd;
+      border-radius: 20px;
+
+      .attachment-container {
+        display: inline-flex;
+      }
+
+      .attachment-card {
+        width: 150px;
+        height: 150px;
+        justify-content: center;
+        box-shadow: none;
+        border: 3px solid #CCCCCC;
+        border-radius: 15px;
+        border-style: dashed;
+        margin: 10px;
+
+        .add-icon {
+          height: 70%;
+        }
+
+        .delete-icon {
+          height: 30%;
+        }
+      }
+
+      button {
+        margin: 10px
+      }
+    }
+  }
+
+  .right-form {
+    width: 30%;
+
+    .category-form {
+      height: fit-content;
+      padding: 5%;
+      margin-left: 5%;
+      box-shadow: none;
+      border: 1px solid #CCCCCC;
+      border-radius: 20px;
+
+      .category-form-container {
+        margin-top: 20%;
+      }
+
+      .category-form-elements {
+        border: 1px solid #CCCCCC;
+        padding: 2%;
+        border-radius: 10px;
+        width: 100%;
+      }
+
+
+      .category-utility-elements {
+        padding: 4%;
+        border: 1px solid #CCCCCC;
+        border-radius: 10px;
+        background-color: #ddd;
+      }
+
+      .category-form-text-elements {
+        border: 1px solid #CCCCCC;
+        border-radius: 10px;
+        padding-top: 3%;
+        padding-bottom: 3%;
+      }
+
+      .category-varient-object {
+        border: 1px solid #545BFC;
+        border-radius: 10px;
+        width: 100%;
+        font-size: larger;
+        color: #545BFC;
+        box-shadow: none;
+      }
+    }
+  }
+
+  .final-submision {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5%;
+    margin-left: 5%;
+
+    .submission-button {
+      width: 50%;
+      height: 40px;
+      margin: 2%;
+      border-radius: 10px;
+      background-color: #545BFC;
+      color: #FFFFFF;
+      box-shadow: none;
+      padding: 5%;
+      font-weight: lighter;
+      font-size: larger;
+    }
+
+    .cancel-button {
+      width: 50%;
+      height: 40px;
+      margin: 2%;
+      border: 1px solid #545BFC;
+      border-radius: 10px;
+      color: #545BFC;
+      font-weight: lighter;
+      font-size: larger;
+    }
+
+    .submission-buttons mat-button {
+      background-color: rgb(176, 191, 218);
+    }
+  }
+}
+
+.label {
+  font-size: large;
+  font-weight: bold;
+}
+
+input {
+  outline: none;
+  border: none;
 }

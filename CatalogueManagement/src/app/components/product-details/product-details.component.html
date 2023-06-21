@@ -1,0 +1,50 @@
+<div class="title-container">
+  <h1 class="title-text">Products</h1>
+  <div class="filter-container">
+    <input class="search-filter" type="text" (keyup)="applySearchFilter($event)" placeholder="Search" #input>
+    <button mat-icon-button class="add-brand" (click)="addProduct()"><img src="../../../assets/AddFile.png"></button>
+  </div>
+
+</div>
+<div class="table-container">
+  <table mat-table [dataSource]="dataSource" class="product-table">
+    <ng-container *ngFor="let column of tableHeaders" [matColumnDef]="column.field_name">
+      <th mat-header-cell *matHeaderCellDef class="product-table-header">
+        {{column.header}}
+      </th>
+      <td mat-cell *matCellDef="let row" class="product-table-cell">
+        <!-- Table cells  -->
+        <div *ngIf="column.header != 'Actions'">
+          <div *ngIf="column.header == 'Rating'">
+            <img src="../../../assets/ratingStart.png">
+            {{row[column.field_name]}}
+          </div>
+          <div *ngIf="column.header == 'Id'">
+            {{row[column.field_name]}}
+          </div>
+          <div *ngIf="column.header == 'Product Name'" class="product-name">
+            <img [src]="row.attachment" class="product-image">
+            <p>{{row[column.field_name]}}</p>
+          </div>
+          <div *ngIf="column.header == 'Price'">
+            ${{row[column.field_name]}}
+          </div>
+        </div>
+        
+
+        <!-- Actions  -->
+        <div *ngIf="column.header == 'Actions'">
+          <div class="action-container">
+            <button mat-icon-button (click)="goToDetail()">
+              <mat-icon>visibility</mat-icon>
+            </button>
+            <button mat-icon-button><img src="../../../assets/edit.svg"></button>
+            <button mat-icon-button><img src="../../../assets/Vector (2).png"></button>
+          </div>
+        </div>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+</div>
