@@ -17,6 +17,12 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+        
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: 11
+          distribution: 'adopt'
 
       - name: Set up Node.js
         uses: actions/setup-node@v2
@@ -27,14 +33,11 @@ jobs:
           
       - name: Install React Native CLI
         run: npm install -g react-native-cli
+        
       - name: Install dependencies
         run: npm install
         
-      - name: Set up JDK
-        uses: actions/setup-java@v2
-        with:
-          java-version: 11
-          distribution: 'adopt'
+    
 
       - name: Build Android release
         run: npx react-native run-android --variant=release
