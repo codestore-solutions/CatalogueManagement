@@ -22,7 +22,8 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 14
-
+      - name: Install React Native CLI
+        run: npm install -g react-native-cli
       - name: Install dependencies
         run: npm install
         
