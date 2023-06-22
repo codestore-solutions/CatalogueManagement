@@ -24,31 +24,35 @@ jobs:
           java-version: 11
           distribution: 'adopt'
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: 14
-          working-directory: cd ../CatalogueManagement/
+#       - name: Set up Node.js
+#         uses: actions/setup-node@v2
+#         with:
+#           node-version: 14
+#           working-directory: cd ../CatalogueManagement/
           
           
-      - name: Install React Native CLI
-        run: npm install -g react-native-cli
+#       - name: Install React Native CLI
+#         run: npm install -g react-native-cli
         
       - name: Install dependencies
         run: npm install
         
     
 
-      - name: Build Android release
-        run: npx react-native run-android --variant=release
+#       - name: Build Android release
+#         run: npx react-native run-android --variant=release
 
-      - name: Bundle JavaScript assets
-        run: npx react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res
+#       - name: Bundle JavaScript assets
+#         run: npx react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res
 
     
 
       - name: Build APK
-        run: cd android && ./gradlew assembleRelease
+        run: |
+             npm i
+             cd android && ./gradlew assembleRelease
+       
+             working-directory: cd ../CatalogueManagement/
 
       - name: Upload APK
         uses: actions/upload-artifact@v2
