@@ -47,11 +47,9 @@ const Products = (props: { navigation: { navigate: (arg0: string) => void } }) =
          />
       }
         />
-        
       </ScrollView>
     )
   }
-  return null;
 }
                              
 export default Products
@@ -59,7 +57,7 @@ export default Products
 const styles = StyleSheet.create({
    body:{
     backgroundColor:'white',
-    marginBottom:'15%'
+    height:'100%'
    }
 })
 

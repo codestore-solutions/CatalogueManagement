@@ -4,6 +4,7 @@ import ProductServices from '../CatalogueModule/Services/ProductsServices';
 import API from '../CatalogueModule/Services/API_Services';
 import Svg, {Path} from 'react-native-svg';
 import Divider from './Divider';
+import QuantityCounter from './QuantityCounter';
 
 const CartItem = (
   props:
@@ -19,6 +20,9 @@ const CartItem = (
       }
     | any,
 ) => {
+
+  const [qty, setqty] = useState(props.quantity);
+
   const [data, setdata] = useState<{
     name: string;
     id: number;
@@ -30,13 +34,7 @@ const CartItem = (
       isActive: boolean;
       price: number;
       availableStock: number;
-    }[];
-    attachments: {
-      id: number;
-      productId: number;
-      isUploadedByAdmin: boolean;
-      reviewId: number;
-      attachmentURL: string;
+      attachment: string[];
     }[];
   }>(Object);
 
@@ -74,7 +72,7 @@ const CartItem = (
       <View style={styles.card}>
         <Image
           style={styles.image}
-          source={{uri: data.attachments[0].attachmentURL}}
+          source={{uri: data.varients[0].attachment[0]}}
         />
         <View>
           <View style={{flexDirection: 'row'}}>
@@ -109,17 +107,18 @@ const CartItem = (
               </Svg>
             </TouchableOpacity>
           </View>
-          <View style={{flexDirection: 'row'}}>
+          <View style={{flexDirection: 'row',alignItems:'center',marginTop:10}}>
             <View style={styles.varientCard}>
               <Text>Varient :</Text>
               <Text style={{color: 'black', fontWeight: '500'}}>Charcoal</Text>
             </View>
             <View style={{flexDirection: 'row'}}>
-              <Text style={{fontSize: 20, marginLeft: 10}}>Qty.</Text>
+              <Text style={{fontSize: 16, marginLeft: 10,color:'black'}}>Qty. </Text>
+              <QuantityCounter quantity={qty} setQuant={setqty}/>
               <View>
-                <Text style={{fontSize: 20, marginLeft: 10}}>
+                {/* <Text style={{fontSize: 20, marginLeft: 10}}>
                   {props.quantity}
-                </Text>
+                </Text> */}
               </View>
             </View>
           </View>

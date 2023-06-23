@@ -30,8 +30,6 @@ class ProductServices {
       'GET',
     ).then(res => {
       return res})
-      console.log(res);
-      
     return res;
   
 }

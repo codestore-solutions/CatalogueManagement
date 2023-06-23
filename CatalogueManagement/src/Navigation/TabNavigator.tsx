@@ -6,40 +6,55 @@ import Cart from '../CatalogueModule/Screens/Cart';
 import Profile from '../CatalogueModule/Screens/Profile';
 import MyTabBar from '../Components/TabBar';
 import SvgComponent from '../Components/TabBarIcons/HomeIcon';
+import HomeIcon from '../Components/HomeIcon';
+import CategoryIcon from '../Components/CategoryIcon';
+import CartIcon from '../Components/CartIcon';
+import ProfileIcon from '../Components/ProfileIcon';
 
 const TabNavigator = () => {
   const Tab = createBottomTabNavigator();
   return (
     <Tab.Navigator
-      tabBar={props => (
-        <MyTabBar
-          state={props.state}
-          navigation={props.navigation}
-          descriptors={props.descriptors}
-        />
-      )}
+      // tabBar={props => (
+      //   <MyTabBar
+      //     state={props.state}
+      //     navigation={props.navigation}
+      //     descriptors={props.descriptors}
+      //   />
+      // )}
       >
+        
       <Tab.Screen
         component={Products}
         name="Home"
         options={{
           headerShown: false,
-          tabBarIcon: props => <SvgComponent />,
+          tabBarIcon: ({ focused }) => {
+            return (
+              <HomeIcon focused={focused}/>
+            );
+          }
         }}
       />
-      <Tab.Screen
-        component={CategoriesScreen}
-        name="Category"
-        options={{
-          tabBarIcon: props => <SvgComponent />,
-        }}
-      />
+
+      <Tab.Screen component={CategoriesScreen} name="Category" options={{
+        tabBarIcon: ({ focused }) => {
+          return (
+            <CategoryIcon focused={focused}/>
+          );
+        }
+      }} />
 
       <Tab.Screen
         component={Cart}
         name="Cart"
         options={{
-          headerShown:false,
+          headerShown: false,
+          tabBarIcon: ({ focused }) => {
+            return (
+              <CartIcon focused={focused}/>
+            );
+          }
         }}
       />
 
@@ -48,7 +63,11 @@ const TabNavigator = () => {
         name="Profile"
         options={{
           headerShown: false,
-          tabBarIcon: () => <SvgComponent/>,
+          tabBarIcon: ({ focused }) => {
+            return (
+              <ProfileIcon focused={focused}/>
+            );
+          }
         }}
       />
     </Tab.Navigator>

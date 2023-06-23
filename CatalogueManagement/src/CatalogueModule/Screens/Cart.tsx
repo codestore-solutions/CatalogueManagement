@@ -6,12 +6,15 @@ import {
   Button,
   TouchableOpacity,
   Modal,
+  ScrollView,
+  Alert
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import CartItem from '../../Components/CartItem';
 import UserServices from '../Services/UserServices';
 import Divider from '../../Components/Divider';
 import Svg, {Path} from 'react-native-svg';
+import BankOffers from '../../OrderProcessing/Components/BankOffers';
 
 const Cart = (
   props:
@@ -55,10 +58,10 @@ const Cart = (
           marginVertical: 15,
         }}>
         <Text style={{fontSize: 16}}>Delivery to :{}</Text>
-        <Text style={{color: 'blue'}}>Change</Text>
+        <Text style={{color: 'blue'}} onPress={()=>{setbottomSheet(!bottomSheet)}}>Change</Text>
       </View>
       <Divider width={'100%'} />
-      <View
+      {/* <View
         style={{
           flexDirection: 'row',
           justifyContent: 'space-between',
@@ -98,7 +101,8 @@ const Cart = (
             strokeLinejoin="round"
           />
         </Svg>
-      </View>
+      </View> */}
+      <BankOffers/>
       <Divider width={'100%'} />
       <View>
         <FlatList
@@ -144,7 +148,12 @@ Noida, Uttar Pradesh 2013021</Text>
             </View>
           <TouchableOpacity style={styles.footer} onPress={() => {
             setbottomSheet(false)
-            props.navigation.navigate('Payment',[{'id':data[0].productId,'vid':data[0].varientId,'price':2000,'qty':1}])
+            if(data.length != 0){
+              props.navigation.navigate('Payment',[{'id':data[0].productId,'vid':data[0].varientId,'price':2000,'qty':1}])
+            }
+            else{
+              Alert.alert('Can not Proceed','Cart is Empty')
+            }
           }}>
         <Text style={{color: 'white'}}>Place Order</Text>
       </TouchableOpacity>
@@ -188,7 +197,7 @@ const styles = StyleSheet.create({
     height: '40%',
     backgroundColor: 'white',
     position: 'absolute',
-    bottom: 0,
+    bottom: 15,
     width: '100%',
     borderTopLeftRadius:15,
     borderTopRightRadius:15

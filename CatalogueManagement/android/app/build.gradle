@@ -58,6 +58,11 @@ react {
  * use App Bundles (https://developer.android.com/guide/app-bundle/)
  * and want to have separate APKs to upload to the Play Store.
  */
+ project.ext.react = [
+
+    enableHermes: false,  // clean and rebuild if changing
+
+]
 def enableSeparateBuildPerCPUArchitecture = false
 
 /**
@@ -77,6 +82,8 @@ def enableProguardInReleaseBuilds = false
  * this variant is about 6MiB larger per architecture than default.
  */
 def jscFlavor = 'org.webkit:android-jsc:+'
+
+def enableHermes = project.ext.react.get("enableHermes", false);
 
 /**
  * Private function to get the list of Native Architectures you want to build.

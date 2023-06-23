@@ -9,13 +9,20 @@ import {
 import React, { useState } from 'react';
 import Svg, {Circle, ClipPath, Defs, G, Path, Rect} from 'react-native-svg';
 import Divider from '../../Components/Divider';
+import RadioButton from '../Components/RadioButton';
+import Input from '../Components/Input';
+import BankOffers from '../Components/BankOffers';
 
 const Payment = (props: any) => {
 
   const [bottomSheet, setbottomSheet] = useState(false);
   console.log(props.route);
   let total = 0;
+
+  const [radio, setradio] = useState([false,true,false]);
   
+  const [tip, settip] = useState(0)
+
   function getTotal() {
     props.route.params.forEach( (i: { price: number; }) => {
       total+= i.price;
@@ -36,53 +43,20 @@ const Payment = (props: any) => {
           <Text onPress={()=>{setbottomSheet(true)}} style={{color: 'blue'}}>Change</Text>
         </View>
         <Divider width={'100%'} />
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginVertical: 10,
-            alignItems: 'center',
-          }}>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Svg
-              width={20}
-              height={20}
-              viewBox="0 0 20 20"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              {...props}>
-              <Path
-                d="M18.171 10l.145-.25 1.104-1.908L18.171 10zm0 0l.145.25m-.145-.25l.145.25m0 0l1.103 1.908h0a.502.502 0 01-.182.684h0l-1.91 1.104-.25.145v2.488a.5.5 0 01-.5.5h-2.488l-.144.249-1.103 1.91s0 0 0 0a.501.501 0 01-.683.182l-1.91-1.104-.25-.144-.25.144L7.84 19.42l10.475-9.17zm-1.238-4.34V3.423a.5.5 0 00-.5-.5H14.09l-.144-.25L12.844.764s0 0 0 0a.508.508 0 00-.5-.247.493.493 0 00-.183.062h0l-1.91 1.105-.251.145-.25-.145L7.84.579s0 0 0 0a.5.5 0 00-.683.183h0l-1.104 1.91-.145.25H3.42a.5.5 0 00-.5.5V5.91l-.249.144-1.91 1.104h0a.498.498 0 00-.183.683h0L1.684 9.75l.145.25-.145.25-1.104 1.907s0 0 0 0a.504.504 0 00.183.686l1.908 1.103.25.145v2.488a.5.5 0 00.5.5h2.488l.145.249 1.102 1.908h.001a.51.51 0 00.435.252.503.503 0 00.25-.068l9.237-13.51zm0 0l.25.145m-.25-.144l.25.144m0 0l1.91 1.104s0 0 0 0a.5.5 0 01.182.683l-2.092-1.787zM7.499 14.99l.4.3.3-.4 6-8 .3-.4-.4-.3-1.6-1.2-.4-.299-.3.4-6 8-.3.4.4.3 1.6 1.2zm1.414-9.914a2 2 0 10-2.83 2.829 2 2 0 002.83-2.829zm2.82 10.262a2.001 2.001 0 101.533-3.698 2.001 2.001 0 00-1.533 3.697z"
-                fill="#000"
-                stroke="#000"
-              />
-            </Svg>
-            <Text style={{fontSize: 20, fontWeight: '500', marginLeft: 20}}>
-              Available Offers
-            </Text>
-          </View>
-          <Svg
-            width={14}
-            height={8}
-            viewBox="0 0 14 8"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            {...props}>
-            <Path
-              d="M13 7L7 1 1 7"
-              stroke="#000"
-              strokeWidth={2}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </Svg>
-        </View>
+        <BankOffers/>
         <Divider width={'100%'} />
         <Text style={{fontSize: 18, color: 'black', marginVertical: 10}}>
           Recommended Payment Option
         </Text>
         <View style={styles.darkbox}>
-          <View style={{marginVertical: 20, flexDirection: 'row'}}>
+
+          <TouchableOpacity
+          style={{marginTop:20}}
+          onPress={()=>{setradio([true,false,false])}}
+          >
+          <RadioButton selected={radio[0]} title='Cash on delivery'/>
+          </TouchableOpacity>
+          {/* <View style={{marginVertical: 20, flexDirection: 'row'}}>
             <View style={{flexDirection: 'row'}}>
               <Svg
                 width={24}
@@ -111,20 +85,38 @@ const Payment = (props: any) => {
                 Cash on delivery
               </Text>
             </View>
-          </View>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <View style={{flexDirection: 'row'}}>
+          </View> */}
+          <TouchableOpacity style={{flexDirection: 'row', justifyContent: 'space-between',marginVertical:20}}
+          onPress={()=>{setradio([false,true,false])}}
+          >
+            
+            {/* <View style={{flexDirection: 'row'}}>
               <Svg
-                width={20}
-                height={20}
-                viewBox="0 0 20 20"
+                width={24}
+                height={24}
+                viewBox="0 0 24 24"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
                 {...props}>
-                <Circle cx={10} cy={10} r={9.5} fill="#fff" stroke="#7E72FF" />
+                <Circle cx={12} cy={12} r={9.5} fill="#fff" stroke="#7E72FF" />
+                <Rect
+                  x={1}
+                  y={1}
+                  width={22}
+                  height={22}
+                  rx={11}
+                  stroke="#7E72FF"
+                  strokeOpacity={0.4}
+                  strokeWidth={2}
+                />
+                <Path
+                  d="M12 17.833a5.833 5.833 0 100-11.666 5.833 5.833 0 000 11.666z"
+                  fill="#7E72FF"
+                />
               </Svg>
               <Text style={{marginLeft: 5, color: 'black'}}>Google Pay</Text>
-            </View>
+            </View> */}
+             <RadioButton selected={radio[1]} title='Google Pay'/>
             <Svg
               width={38}
               height={16}
@@ -160,14 +152,15 @@ const Payment = (props: any) => {
                 </ClipPath>
               </Defs>
             </Svg>
-          </View>
-          <View
+          </TouchableOpacity>
+          <TouchableOpacity
+          onPress={()=>{setradio([false,false,true])}}
             style={{
               flexDirection: 'row',
-              marginVertical: 20,
+              marginBottom: 20,
               justifyContent: 'space-between',
             }}>
-            <View style={{flexDirection: 'row'}}>
+            {/* <View style={{flexDirection: 'row'}}>
               <Svg
                 width={20}
                 height={20}
@@ -178,7 +171,8 @@ const Payment = (props: any) => {
                 <Circle cx={10} cy={10} r={9.5} fill="#fff" stroke="#7E72FF" />
               </Svg>
               <Text style={{marginLeft: 5, color: 'black'}}>Phone Pay</Text>
-            </View>
+            </View> */}
+            <RadioButton selected={radio[2]} title='Phone Pay'/>
             <Svg
               width={24}
               height={24}
@@ -191,7 +185,7 @@ const Payment = (props: any) => {
                 fill="#82E"
               />
             </Svg>
-          </View>
+          </TouchableOpacity>
         </View>
         <Text style={{fontSize: 18, color: 'black', marginVertical: 10}}>
           Other Payment Option
@@ -349,6 +343,13 @@ const Payment = (props: any) => {
           </View>
         </View>
         <Divider width={'100%'} marginVertical={15} color="#EAEAEA" />
+        <Input placeholder='Add a tip for your delivery partner(Optional)'/>
+        <View style={{flexDirection:'row',justifyContent:'space-evenly'}}>
+          <TouchableOpacity style={styles.tip} onPress={()=>{settip(10)}}><Text style={styles.tipText}>₹10</Text></TouchableOpacity>
+          <TouchableOpacity style={styles.tip} onPress={()=>{settip(20)}}><Text style={styles.tipText}>₹20</Text></TouchableOpacity>
+          <TouchableOpacity style={styles.tip} onPress={()=>{settip(50)}}><Text style={styles.tipText}>₹50</Text></TouchableOpacity>
+          <TouchableOpacity style={styles.tip} onPress={()=>{settip(100)}}><Text style={styles.tipText}>₹100</Text></TouchableOpacity>
+        </View>
         <Text style={{fontSize: 18, color: 'black', marginBottom: 10}}>
           Price Details
         </Text>
@@ -389,6 +390,16 @@ const Payment = (props: any) => {
               justifyContent: 'space-between',
               marginVertical: 10,
             }}>
+            <Text style={{}}>Tip</Text>
+            <Text style={{fontSize: 18, color: 'black'}}>₹{tip}</Text>
+          </View>
+
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              marginVertical: 10,
+            }}>
             <Text style={{}}>Delivery Charges</Text>
             <Text style={{fontSize: 18, color: 'black'}}>₹99</Text>
           </View>
@@ -402,7 +413,7 @@ const Payment = (props: any) => {
               marginVertical: 10,
             }}>
             <Text style={{}}>Toatl Amount</Text>
-            <Text style={{fontSize: 18, color: 'black'}}>₹{total+99}</Text>
+            <Text style={{fontSize: 18, color: 'black'}}>₹{total+99+tip}</Text>
           </View>
         </View>
         <View style={{height: 150}}></View>
@@ -418,7 +429,7 @@ const Payment = (props: any) => {
             justifyContent: 'space-between',
           }}>
           <Text style={{fontSize: 18, color: 'black', marginLeft: 25}}>
-            ₹{total+99}
+            ₹{total+99+tip}
           </Text>
           <TouchableOpacity onPress={() => {
             props.navigation.navigate('Gateway')
@@ -440,6 +451,16 @@ const Payment = (props: any) => {
           }}>
           <View style={styles.bottom}>
             <Text style={{fontSize:18,color:'black',fontWeight:'400',padding:20}}>Address</Text>
+            <View>
+            <Input placeholder='Pin Code'/>
+            <Input placeholder='Address (House No. Building, Street, Area)*'/>
+            <Input placeholder='Locality/Town'/>
+            <View style={{flexDirection:'row',justifyContent:'space-between'}}>
+            <Input placeholder='City' width='48%'/>
+            <Input placeholder='State' width='48%'/>
+            </View>
+            </View>
+            <Divider width={'100%'}/>
           <TouchableOpacity style={styles.foot} onPress={() => {
             setbottomSheet(false)
             props.navigation.navigate('Payment')
@@ -475,6 +496,11 @@ const styles = StyleSheet.create({
     elevation: 5,
     backgroundColor: 'white',
     padding: 10,
+  },
+  tip:{
+    backgroundColor: '#F9F9F9',
+    padding:10,
+    margin:10
   },
   right: {
     paddingHorizontal: 25,
@@ -519,5 +545,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  tipText:{
+    color:'black'
+  }
 });
 

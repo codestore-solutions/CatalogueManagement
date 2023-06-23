@@ -5,7 +5,7 @@ import {
   Text,
   View,
   Image,
-  ActivityIndicator
+  ActivityIndicator,
 } from 'react-native';
 import React, {useState, useEffect, useLayoutEffect} from 'react';
 import FooterButtons from '../../Components/FooterButtons';
@@ -18,6 +18,7 @@ const ProductDetails = (props: {
   navigation: {navigate: (arg0: string) => void};
   route: {params: string | number};
 }) => {
+  //create type
   const [data, setdata] = useState<{
     name: string;
     id: number;
@@ -29,13 +30,7 @@ const ProductDetails = (props: {
       isActive: boolean;
       price: number;
       availableStock: number;
-    }[];
-    attachments: {
-      id: number;
-      productId: number;
-      isUploadedByAdmin: boolean;
-      reviewId: number;
-      attachmentURL: string;
+      attachment: string[];
     }[];
   }>(Object);
 
@@ -49,18 +44,22 @@ const ProductDetails = (props: {
   }, []);
 
   if (Object.keys(data).length == 0) {
-   return  ( <View><ActivityIndicator></ActivityIndicator></View>)
-  } 
-  else {
+    return (
+      <View>
+        <ActivityIndicator></ActivityIndicator>
+      </View>
+    );
+  } else {
     return (
       <View>
         <View style={styles.body}>
           <ScrollView>
-            <ProductCarousel Attachment={[data.attachments[0].attachmentURL]} />
+            <ProductCarousel Attachment={data.varients[0].attachment} />
             <Text style={styles.prodName}>{data.name}</Text>
             <View style={styles.rating}>
               <Text style={{margin: 5}}>
-                MRP
+                MRP 
+                <Text style={[styles.prodName,{textDecorationLine:'line-through',marginHorizontal:10}]}> { data.varients[0].price+500}/-</Text>
                 <Text style={styles.prodName}> {data.varients[0].price}/-</Text>
               </Text>
               <Text style={{color: 'blue'}}>(20% OFF)</Text>
@@ -72,18 +71,27 @@ const ProductDetails = (props: {
             </Text>
             <View style={styles.varient}>
               <Image
-                style={{height: 100, width: 100}}
-                source={{uri: data.attachments[0].attachmentURL}}
+                style={{height: 100, width: 100,resizeMode:'contain'}}
+                source={{uri: data.varients[0].attachment[0]}}
               />
               <Text>Charcoal</Text>
               <Text>{data.varients[0].price}</Text>
             </View>
             <Divider width={'96%'} />
             <Text style={styles.prodName}>Bank Offers</Text>
+            <Text style={{marginHorizontal:8}}>
+              Up To Rs 500 cashback on CRED pay transaction - Min spend Rs
+              1,000. Available only on Android Device
+            </Text>
+            <Text style={styles.prodName}>EMI Options</Text>
+            <Text style={{marginHorizontal:8}}>
+            EMI starting form ₹70/month
+            </Text>
             <Text style={{fontSize: 18, margin: 8}}>
               {data.varients[0].description}
             </Text>
-            <Recommended />
+            <View style={{height:120}}></View>
+            {/* <Recommended /> */}
           </ScrollView>
           <FooterButtons
             navigation={props.navigation}

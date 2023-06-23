@@ -3,7 +3,7 @@ import React, {useEffect, useState} from 'react';
 import ProductServices from '../Services/ProductsServices';
 
 const CategoriesScreen = (props: { navigation: { navigate: (arg0: string, arg1: { id: any; title: any; }) => void; }; }) => {
-  const [categories, setcategories] = useState([]);
+  const [categories, setcategories] = useState<{id:number,name:string}[]>([]);
 
   let colors = [
     '#2c7ef2',

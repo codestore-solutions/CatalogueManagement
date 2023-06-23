@@ -5,7 +5,7 @@ const ProductCard = (props: {url: string}) => {
   return (
     <View style={styles.body}>
       <Image
-        style={{width: 300, height: 300, position: 'relative'}}
+        style={{width: 300, height: 300, position: 'relative',resizeMode:'contain'}}
         source={{uri: props.url}}
       />
     </View>

@@ -22,7 +22,6 @@ const HeaderIcons = (props: {
   async function getCategories() {
     let res = await ProductServices.getCategories();
     setcategories(res?.data.value);
-    console.log(categories);
   }
 
   const [data, setdata] = useState<
@@ -51,11 +50,15 @@ const HeaderIcons = (props: {
               });
             }}>
             <View style={{paddingBottom: 15}}>
-              <Avatar
+              {/* <Avatar
                 url={data[index].image}
                 height={80}
                 margin={11}
                 backgroundColor="grey"
+              /> */}
+              <Image
+              source={{uri:data[index].image}}
+              style={styles.image}
               />
               <Text style={{textAlign: 'center', color: 'black'}}>
                 {item.name}
@@ -70,4 +73,12 @@ const HeaderIcons = (props: {
 
 export default HeaderIcons;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  image:{
+    height:80,
+    width:80,
+    borderRadius:80,
+    margin:11,
+    backgroundColor:'grey'
+  }
+});
