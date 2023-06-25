@@ -26,14 +26,14 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 14
-          working-directory: .
+          working-directory: CatalogueManagement
           
           
       - name: Install React Native CLI
-        run: npm install --save react-native
+        run:  npm install -g react-native-cli
         
       - name: Install dependencies
-        run: npm install
+        run: npm install npm@latest -g
         
     
 
@@ -51,7 +51,7 @@ jobs:
              npm i
              cd android && ./gradlew assembleRelease
        
-             working-directory: .
+             working-directory: CatalogueManagement
 
       - name: Upload APK
         uses: actions/upload-artifact@v2
