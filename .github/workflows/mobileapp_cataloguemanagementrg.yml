@@ -41,9 +41,7 @@ jobs:
     
 
       - name: Android directory
-        run: cd android 
-        
-      - name: APK Build
+        working-directory: '/android'
         run: ./gradlew assembleRelease
        
 #              working-directory: CatalogueManagement
