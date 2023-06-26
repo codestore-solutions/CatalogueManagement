@@ -26,7 +26,7 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 14
-          working-directory: .
+          working-directory: CatalogueManagement
           
           
       - name: Install React Native CLI
@@ -41,7 +41,7 @@ jobs:
     
 
       - name: Android directory
-        working-directory: .
+        working-directory: CatalogueManagement
         run: cd android && ./gradlew assembleRelease
        
 #              working-directory: cd ../CatalogueManagement/
