@@ -18,6 +18,10 @@
     {
         "type": "ProductList",
         "data": {}
+    },
+    {
+        "type": "Bestsellers",
+        "data": {}
     }
 ]
                                                                       

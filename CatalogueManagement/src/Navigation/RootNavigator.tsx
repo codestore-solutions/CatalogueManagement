@@ -21,6 +21,7 @@ import Orders from '../OrderProcessing/Screens/Orders';
 import OrderDetails from '../OrderProcessing/Screens/OrderDetails';
 import CancelOrder from '../OrderProcessing/Screens/CancelOrder';
 import OrderTracking from '../OrderProcessing/Screens/OrderTracking';
+import ProductsGrid from '../CatalogueModule/Screens/ProductsGrid';
 const RootNavigator = () => {
   const Stack = createNativeStackNavigator();
   return (
@@ -93,7 +94,15 @@ const RootNavigator = () => {
           }}
         />
 
-        <Stack.Screen name="Wishlist" component={Wishlist} />
+        <Stack.Screen
+          name="ProductsGrid"
+          component={ProductsGrid}
+          options={{
+            title: 'Products List',
+          }}
+        />
+
+      
 
         <Stack.Screen
           name="Error"
@@ -114,6 +123,7 @@ const RootNavigator = () => {
         <Stack.Screen name="Gateway" component={Gateway} />
 
         <Stack.Screen name="OrderTracking" component={OrderTracking} />
+
       </Stack.Navigator>
     </NavigationContainer>
   );

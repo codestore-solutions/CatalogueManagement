@@ -14,12 +14,13 @@ import SvgComponent from '../../Components/TabBarIcons/HomeIcon'
 import ProductServices from '../Services/ProductsServices'
 
 const Products = (props: { navigation: { navigate: (arg0: string) => void } }) => {
+
   let visible = true;
   let data = API.getHomeScreen();
 
-
-
   useEffect(() => {
+    console.log('Home Loaded::');
+    
   // Socket();
   }, [])
   

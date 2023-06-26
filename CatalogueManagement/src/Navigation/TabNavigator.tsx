@@ -10,6 +10,7 @@ import HomeIcon from '../Components/HomeIcon';
 import CategoryIcon from '../Components/CategoryIcon';
 import CartIcon from '../Components/CartIcon';
 import ProfileIcon from '../Components/ProfileIcon';
+import Wishlist from '../CatalogueModule/Screens/Wishlist';
 
 const TabNavigator = () => {
   const Tab = createBottomTabNavigator();
@@ -59,10 +60,10 @@ const TabNavigator = () => {
       />
 
       <Tab.Screen
-        component={Profile}
-        name="Profile"
+        component={Wishlist}
+        name="Wishlist"
         options={{
-          headerShown: false,
+          // headerShown: false,
           tabBarIcon: ({ focused }) => {
             return (
               <ProfileIcon focused={focused}/>

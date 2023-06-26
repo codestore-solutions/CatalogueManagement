@@ -9,6 +9,7 @@ const ProductsList = (props: {
   navigation: {navigate: (arg0: string, arg: Object) => void};
   route: any;
 }) => {
+
   const [data, setdata] = useState([]);
 
   async function getData() {
@@ -17,6 +18,7 @@ const ProductsList = (props: {
   }
 
   const [visible, setvisible] = useState(false);
+  
   useEffect(() => {
     getData();
   }, []);

@@ -4,10 +4,7 @@ import React from 'react';
 const ProductCard = (props: {url: string}) => {
   return (
     <View style={styles.body}>
-      <Image
-        style={{width: 300, height: 300, position: 'relative',resizeMode:'contain'}}
-        source={{uri: props.url}}
-      />
+      <Image style={styles.image} source={{uri: props.url}} />
     </View>
   );
 };
@@ -23,4 +20,5 @@ const styles = StyleSheet.create({
     margin: 30,
     position: 'relative',
   },
+  image: {width: 300, height: 300, position: 'relative', resizeMode: 'contain'},
 });
