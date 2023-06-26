@@ -9,6 +9,8 @@ import { getCategory } from 'src/app/store/actions/product.actions';
 import { selectCategory } from 'src/app/store/selector/product.selector';
 import { VariantComponent } from '../variant/variant.component';
 import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
+import { ActivatedRoute } from '@angular/router';
+import { endWith } from 'rxjs';
 
 interface category {
   id: string;
@@ -44,48 +46,54 @@ export class ProductsComponent implements OnInit {
   attachmentForm: FormGroup;
   newCategory: string;
   newSubCategory: string;
-  duration = '1000';
-  selector$ = this.store.select(selectCategory);
-  categoryList;
-  subCategoryList;
-  brandList;
+  categoryList = [];
+  subCategoryList = [];
+  brandList = [];
+  requester: string;
+  variantForm: FormGroup<{ variant: FormArray<any>; }>;
 
 
-  constructor(private store: Store, private service: DataService, public varient: MatDialog, private snackBar: MatSnackBar) {
+  constructor(private store: Store, private service: DataService, public varient: MatDialog, private snackBar: MatSnackBar, private activatedRoute: ActivatedRoute) {
+    // This is product form containing basic details
     this.categoryForm = new FormGroup({
       category: new FormControl(null, [Validators.required]),
       subCategory: new FormControl(null, [Validators.required]),
       newCategory: new FormControl(null),
       newSubCategory: new FormControl(null),
       brand: new FormControl(null, [Validators.required]),
-      price: new FormControl(null, [Validators.required])
+      title: new FormControl(null, (Validators.required)),
+      currency: new FormControl(null, (Validators.required))
     });
 
-    this.productForm = new FormGroup({
-      name: new FormControl(null, [Validators.required]),
-      image: new FormControl(null, [Validators.required]),
-      description: new FormControl(null, [Validators.required])
-    })
     this.attachmentForm = new FormGroup({
       attachments: new FormArray([])
     })
+
+    // this is variant form containing varients info
+    this.variantForm = new FormGroup({
+      variant: new FormArray([])
+    });
   }
 
   ngOnInit(): void {
-    this.store.dispatch(getCategory());
     this.service.getCategory().subscribe((data: Category) => {
-      this.categoryList = data.value;
+      if (data != null) {
+        this.categoryList = data.value;
+      }
     })
     // this.addVariant();
     this.service.getBrandDetails().subscribe((data: Brand) => {
-      this.brandList = data.value;
+      if (data != null) {
+        this.brandList = data.value;
+      }
     })
-    this.addAttachment();
+    this.addVariant();
   }
 
   renderSubCategory() {
     if (this.categoryForm.value.category != 'Add Category') {
       const categoryID = this.categoryForm.get('category').value;
+      console.log(categoryID);
       this.service.getSubCategory(categoryID).subscribe((data: Category) => {
         this.subCategoryList = data.value;
         console.log(this.subCategoryList);
@@ -123,6 +131,23 @@ export class ProductsComponent implements OnInit {
   removeAttachment(i) {
     (<FormArray>this.attachmentForm.get('attachments')).removeAt(i);
   }
+
+  addVariant() {
+    const varientForm = new FormGroup({
+      price: new FormControl(null),
+      name: new FormControl(null),
+      sku: new FormControl(null),
+      ucm: new FormControl(null),
+      description: new FormControl(null)
+    });
+    (<FormArray>this.variantForm.get('variant')).push(varientForm);
+  }
+
+  removeVariant(i) {
+    (<FormArray>this.variantForm.get('variant')).removeAt(i);
+  }
+
+
   onSubmit() {
     let id: string;
     let productID: string;
@@ -140,25 +165,28 @@ export class ProductsComponent implements OnInit {
 
     } else {
       // API call for productID generation for default Category
-      product.name = this.productForm.value.name;
+      product.name = this.categoryForm.value.title;
       product.categoryId = this.categoryForm.value.category;
       product.brandId = this.categoryForm.value.brand;
       product.subCategoryId = this.categoryForm.value.subCategory;
       product.sellerId = 4;
+
       this.service.postProduct(product).subscribe((data: number) => {
         console.log(data);
+        const firstVariant = (<FormArray>this.variantForm.get('variant')).value;
+        console.log(firstVariant[0]);
         const product: productDetail = {
           productID: data,
-          description: this.productForm.value.description,
+          description: firstVariant[0].description,
           isActive: true,
-          price: Number(this.categoryForm.value.price),
+          price: Number(firstVariant[0].price),
           availableStock: 10
         }
         console.log(product);
         //Calling API to generate a product with following Details
 
-        this.service.postVariant(product).subscribe((data)=> {
-          if(data != null) {
+        this.service.postVariant(product).subscribe((data) => {
+          if (data != null) {
             this.snackBar.openFromComponent(ProductAdd, {
               duration: 1000
             })
@@ -167,9 +195,8 @@ export class ProductsComponent implements OnInit {
       });
     }
 
-    console.log(this.productForm);
     console.log(this.categoryForm);
-    console.log(this.attachmentForm);
+    console.log(this.variantForm);
   }
 
   async openVarient() {
@@ -178,11 +205,11 @@ export class ProductsComponent implements OnInit {
       height: "80%"
     });
 
-    varientDialogBox.afterClosed().subscribe(data=> {
+    varientDialogBox.afterClosed().subscribe(data => {
       console.log(data);
     })
   }
-  
+
   trigger() {
 
   }
@@ -195,6 +222,6 @@ export class ProductsComponent implements OnInit {
   standalone: true
 })
 
-export class ProductAdd{
-  snackBarRef=inject(MatSnackBarRef);
+export class ProductAdd {
+  snackBarRef = inject(MatSnackBarRef);
 }

@@ -10,4 +10,8 @@ export class ProdDetailComponent {
   constructor() {
     this.date = new Date();
   }
+
+  goToAddProduct() {
+    
+  }
 }

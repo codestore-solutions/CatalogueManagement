@@ -47,27 +47,68 @@
       </div>
       <div class="edit">
         <!-- edit button -->
+        <button mat-raised-button (click)="goToAddProduct()" class="edit-button"><img
+            src="../../../assets/editButton.png"></button>
       </div>
     </div>
+
+    <!-- Units like Price, SKU, Orders, Stock resides here -->
     <div class="unit-container">
       <!-- container for details like price sku etc -->
-      <div class="price">
+      <div class="units">
         <!-- price -->
+        <div class="icon">
+          <img src="../../../assets/money.png">
+        </div>
+
+        <div>
+          <p style="color: #7E8299;">Price :</p>
+          <p class="value">120.40</p>
+        </div>
       </div>
-      <div class="sku">
+      <div class="units">
         <!-- sku -->
+        <div class="icon">
+          <img src="../../../assets/sku.png">
+        </div>
+
+        <div>
+          <p style="color: #7E8299;">SKU :</p>
+          <p class="value">5341</p>
+        </div>
       </div>
-      <div class="orders">
+      <div class="units">
         <!-- No. of orders -->
+        <div class="icon">
+          <img src="../../../assets/document.png">
+        </div>
+
+        <div>
+          <p style="color: #7E8299;">No. of Orders :</p>
+          <p class="value">2340</p>
+        </div>
       </div>
-      <div class="stock">
+      <div class="units">
         <!-- Stocks -->
+        <div class="icon">
+          <img src="../../../assets/stack.png">
+        </div>
+
+        <div>
+          <p style="color: #7E8299;">Available Stocks :</p>
+          <p class="value">120</p>
+        </div>
       </div>
     </div>
+
+    <!-- It contains the variations of products -->
     <div class="variant-container">
       <!-- container for size and color -->
       <div class="size-variant">
         <!-- Size -->
+        <div>
+          
+        </div>
       </div>
       <div class="color-variant">
         <!-- color -->

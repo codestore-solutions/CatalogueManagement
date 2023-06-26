@@ -1,80 +1,96 @@
-.product-detail-container{
-    margin: 5%;
-    display: flex;
-    .left-container{
-        width: 30%;
+.product-detail-container {
+  margin: 5%;
+  display: flex;
+
+  .left-container {
+    width: 30%;
+  }
+
+  .right-container {
+    display: inline-flex;
+    flex-direction: column;
+    width: 70%;
+
+    .heading-container {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 2px solid #EAEAEA;
+
+      .title-container {
+        .title {
+          font-size: large;
+          font-weight: bold;
+        }
+
+        .brand-container {
+          display: inline-flex;
+          margin-top: 5%;
+
+          .brand-name {
+            color: #545BFC;
+          }
+        }
+
+        .rating-container {
+          display: flex;
+          gap: 2%;
+          align-items: baseline;
+        }
+      }
+
+      .edit {
+        .edit-button {
+          width: 52px;
+          height: 50px;
+          background: rgba(84, 91, 252, 0.2);
+          border: 1px solid #545BFC;
+          box-shadow: 0px 2px 1px rgba(84, 91, 252, 0.2);
+          border-radius: 15px;
+        }
+      }
     }
 
-    .right-container{
-        display: flexbox;
-        flex-direction: column;
-        width: 70%;
-        .heading-container{
-            .title-container{
-                .title{
-                    font-size: large;
-                    font-weight: bold;
-                }
-                .brand-container{
-                    display: inline-flex;
-                    .brand-name{
-                        color: #545BFC;
-                    }
-                }
-                .rating-container{
-                    display: flex;
-                    gap: 2%;
-                    align-items: baseline;
-                }
-            }
-            .edit{
+    .unit-container {
+      display: inline-flex;
+      margin-top: 5%;
+      margin-bottom: 5%;
+      gap: 3%;
 
-            }
+
+      .units {
+        display: inline-flex;
+
+        .icon {
+          height: fit-content;
+          padding: 20px;
         }
 
-        .unit-container{
-            .price{
-
-            }
-
-            .sku{
-
-            }
-
-            .orders{
-
-            }
-
-            .stock{
-
-            }
+        .value {
+          font-size: x-large;
+          font-weight: bold;
         }
-        .variant-container{
-            .size-variant{
-
-            }
-
-            .color-variant{
-
-            }
-        }
-
-        .description-container{
-
-        }
-
-        .feature-service-container{
-            .feature{
-
-            }
-
-            .service{
-
-            }
-        }
-
-        .detail-container{
-
-        }
+      }
     }
+
+    .variant-container {
+      border-top: 2px solid #EAEAEA;
+      display: inline-flex;
+
+      .size-variant {
+        
+      }
+
+      .color-variant {}
+    }
+
+    .description-container {}
+
+    .feature-service-container {
+      .feature {}
+
+      .service {}
+    }
+
+    .detail-container {}
+  }
 }

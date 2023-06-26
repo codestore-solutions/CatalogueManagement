@@ -42,6 +42,9 @@ const routes: Routes = [
   },{
     path: 'bookings',
     component: BookingsComponent
+  }, {
+    path: 'products/:requester',
+    component: ProductsComponent
   }
 ];
 

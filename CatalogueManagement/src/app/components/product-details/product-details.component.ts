@@ -21,8 +21,9 @@ export class ProductDetailsComponent implements OnInit {
   pageSizeOptions = [5, 10, 25];
   dataSource: MatTableDataSource<any>;
   displayedColumns: string[] = [];
+  @ViewChild('paginator') paginator: MatPaginator;
   tableHeaders = [
-    { header: "Id", field_name: 'id' },
+    { header: "S/N", field_name: 'sn'},
     { header: 'Product Name', field_name: 'name' },
     { header: "Rating", field_name: 'rating' },
     { header: "Price", field_name: 'price' },
@@ -32,11 +33,13 @@ export class ProductDetailsComponent implements OnInit {
     this.service.getProducts().subscribe((data: Category) => {
       console.log(data.value);
       this.dataSource = new MatTableDataSource(data.value);
+      this.dataSource.paginator = this.paginator;
     })
     this.displayedColumns = this.displayedColumns.concat(this.tableHeaders.map(c => c.field_name));
+
   }
 
-  
+
   ngOnChanges() {
 
   }
@@ -45,8 +48,8 @@ export class ProductDetailsComponent implements OnInit {
 
   }
 
-  onEdit(item) {
-
+  onEdit() {
+    this.router.navigate([`products/${'Product Listing'}`])
   }
 
   applySearchFilter(event: Event) {

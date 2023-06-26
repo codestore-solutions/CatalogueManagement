@@ -1,45 +1,72 @@
+<!-- Headers and Filters -->
 <div class="title-container">
-  <h1 class="title-text">Products</h1>
+  <div class="sort-filter-container">
+    <h1 class="title-text">Products</h1>
+    <mat-select class="sortby" placeholder="Sort By">
+      <mat-option>Latest</mat-option>
+      <mat-option>Oldest</mat-option>
+      <mat-option>Available Stock</mat-option>
+    </mat-select>
+  </div>
   <div class="filter-container">
     <input class="search-filter" type="text" (keyup)="applySearchFilter($event)" placeholder="Search" #input>
-    <button mat-icon-button class="add-brand" (click)="addProduct()"><img src="../../../assets/AddFile.png"></button>
+    <button mat-icon-button class="add-brand" (click)="addProduct()"><img src="../../../assets/add.png"></button>
+    <button mat-icon-button class="filter"><img src="../../../assets/filter.png"></button>
   </div>
-
 </div>
+
+<!-- Product Listing Table -->
 <div class="table-container">
   <table mat-table [dataSource]="dataSource" class="product-table">
-    <ng-container *ngFor="let column of tableHeaders" [matColumnDef]="column.field_name">
+    <ng-container *ngFor="let column of tableHeaders; let i=index" [matColumnDef]="column.field_name">
       <th mat-header-cell *matHeaderCellDef class="product-table-header">
-        {{column.header}}
+        <div *ngIf="column.header != 'Actions'" class="headers">
+          {{column.header}}
+        </div>
+        <div *ngIf="column.header == 'Actions'" class="action-header">
+          {{column.header}}
+        </div>
       </th>
-      <td mat-cell *matCellDef="let row" class="product-table-cell">
-        <!-- Table cells  -->
+
+      <!-- Table cells  -->
+
+      <td mat-cell *matCellDef="let row; let i=index" class="product-table-cell">
+        <!-- Divided cell based on header name for customization -->
+        <div *ngIf="column.header == 'S/N'">
+          {{ (paginator.pageIndex * paginator.pageSize) + (i + 1) }}
+        </div>
         <div *ngIf="column.header != 'Actions'">
           <div *ngIf="column.header == 'Rating'">
             <img src="../../../assets/ratingStart.png">
             {{row[column.field_name]}}
           </div>
-          <div *ngIf="column.header == 'Id'">
+          <div *ngIf="column.header == 'ID'">
             {{row[column.field_name]}}
           </div>
           <div *ngIf="column.header == 'Product Name'" class="product-name">
             <img [src]="row.attachment" class="product-image">
-            <p>{{row[column.field_name]}}</p>
+            <div>
+              <p class="title">{{row[column.field_name]}}</p>
+              <p style="color: #7E8299;">Category - Unknown</p>
+            </div>
+
           </div>
           <div *ngIf="column.header == 'Price'">
             ${{row[column.field_name]}}
           </div>
         </div>
-        
+
+
 
         <!-- Actions  -->
-        <div *ngIf="column.header == 'Actions'">
+        <div *ngIf="column.header == 'Actions'" class="action">
           <div class="action-container">
-            <button mat-icon-button (click)="goToDetail()">
-              <mat-icon>visibility</mat-icon>
+            <button mat-icon-button (click)="goToDetail()" class="action-button">
+              <mat-icon color="primary">visibility</mat-icon>
             </button>
-            <button mat-icon-button><img src="../../../assets/edit.svg"></button>
-            <button mat-icon-button><img src="../../../assets/Vector (2).png"></button>
+            <button mat-icon-button class="action-button" (click)="onEdit()"><img
+                src="../../../assets/edit.svg"></button>
+            <button mat-icon-button class="action-button"><img src="../../../assets/Vector (2).png"></button>
           </div>
         </div>
       </td>
@@ -47,4 +74,6 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
+  <mat-paginator #paginator [pageSizeOptions]="[8, 16, 32]" showFirstLastButtons class="product-paginator">
+  </mat-paginator>
 </div>
