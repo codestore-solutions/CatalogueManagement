@@ -41,7 +41,7 @@ jobs:
     
 
       - name: Android directory
-        working-directory: '/android'
+        working-directory: .
         run: ./gradle clean ./gradle assembleRelease
        
 #              working-directory: CatalogueManagement
