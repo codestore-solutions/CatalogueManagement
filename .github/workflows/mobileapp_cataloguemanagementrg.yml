@@ -41,8 +41,8 @@ jobs:
     
 
       - name: Android directory
-        working-directory: CatalogueManagement
-        run: cd android && ./gradlew assembleRelease
+        working-directory: '/android'
+        run: ./gradlew assembleRelease
        
 #              working-directory: cd ../CatalogueManagement/
 
