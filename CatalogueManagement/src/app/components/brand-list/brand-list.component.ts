@@ -1,9 +1,10 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { CommonModule } from '@angular/common';
-import { Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { Brand } from 'src/app/model/brand.model';
 import { DataService } from 'src/app/services/data.service';
@@ -28,7 +29,7 @@ export class BrandListComponent implements OnInit {
     { header: 'Name', field_name: 'name' },
     { header: 'Action', field_name: 'action' }
   ];
-  constructor(private service: DataService, public dialog: MatDialog) {
+  constructor(private service: DataService, public dialog: MatDialog, private changeDetectorRef: ChangeDetectorRef) {
 
   }
 
@@ -78,6 +79,7 @@ export class BrandListComponent implements OnInit {
         "brandID": element.id
       }
     })
+    this.reRenderTable();
   }
 
   applySearchFilter(event: Event) {
@@ -94,8 +96,14 @@ export class BrandListComponent implements OnInit {
         "requestType": "add"
       }
     })
+    this.reRenderTable();
   }
-
+  reRenderTable() {
+    this.service.getBrandDetails().subscribe((data: Brand) => {
+      this.dataSource.data = data.value;
+      this.changeDetectorRef.markForCheck();
+    })
+  }
 }
 
 
@@ -109,7 +117,7 @@ export class BrandListComponent implements OnInit {
 })
 export class AddBrand implements OnInit {
   name = ''
-  constructor(public dialogRef: MatDialogRef<AddBrand>, private service: DataService, @Inject(MAT_DIALOG_DATA) public data: any) {
+  constructor(public dialogRef: MatDialogRef<AddBrand>, private service: DataService, @Inject(MAT_DIALOG_DATA) public data: any, private snackbar: MatSnackBar) {
 
   }
   ngOnInit(): void {
@@ -122,6 +130,9 @@ export class AddBrand implements OnInit {
     }
     this.service.addBrand(brand);
     this.dialogRef.close();
+    this.snackbar.open("Brand Added Succesfully", "Close", {
+      duration: 2000
+    })
   }
 
   onClose() {
@@ -139,7 +150,7 @@ export class AddBrand implements OnInit {
 })
 export class EditBrand implements OnInit {
   name = ''
-  constructor(public dialogRef: MatDialogRef<AddBrand>, private service: DataService, @Inject(MAT_DIALOG_DATA) public data: any) {
+  constructor(public dialogRef: MatDialogRef<AddBrand>, private service: DataService, @Inject(MAT_DIALOG_DATA) public data: any, private snackbar: MatSnackBar) {
 
   }
   ngOnInit(): void {
@@ -153,6 +164,9 @@ export class EditBrand implements OnInit {
     }
     this.service.updateBrand(brand);
     this.dialogRef.close();
+    this.snackbar.open("Brand Added Succesfully", "Close", {
+      duration: 2000
+    })
   }
 
   onClose() {
