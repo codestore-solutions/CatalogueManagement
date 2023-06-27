@@ -7,46 +7,27 @@ on:
   push:
     branches:
       - MobileApp
-
 jobs:
-  build-and-deploy:
-    runs-on: windows-latest
-
+  install-and-test:
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-        
-      - name: Set up JDK
-        uses: actions/setup-java@v2
+      - uses: actions/checkout@v3
+      - name: Install npm dependencies
+        run: |
+          npm install
+  build-android:
+    needs: install-and-test
+    runs-on: ubuntu-latest
+    steps: 
+      - uses: actions/checkout@v3
+      - name: Install npm dependencies
+        run: |
+          npm install
+      - name: Build Android Release
+        run: |
+          cd android && ./gradlew assembleRelease
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v1
         with:
-          java-version: 11
-          distribution: 'adopt'
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: 14
-           
-          
-      - name: Install React Native CLI
-        run:  npm install -g react-native-cli
-        
-      - name: Install dependencies
-        run: npm install npm@latest -g
-        
-#       - name: Bundle JavaScript assets
-#         run: npx react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res
-
-    
-
-      - name: Android directory
-        working-directory: 'android'
-        run: ./gradlew assembleRelease
-     
-
-      - name: Upload APK
-        uses: actions/upload-artifact@v2
-        with:
-          name: release-apk
-          path: android/app/build/outputs/apk/release/app-release.apk
-# 
+          name: app-release.apk
+          path: android/app/build/outputs/apk/release/
