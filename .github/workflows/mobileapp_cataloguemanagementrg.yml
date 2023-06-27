@@ -41,10 +41,9 @@ jobs:
     
 
       - name: Android directory
-        working-directory: '/android'
+        working-directory: 'android'
         run: ./gradlew assembleRelease
-       
-#              working-directory: cd ../CatalogueManagement/
+     
 
       - name: Upload APK
         uses: actions/upload-artifact@v2
