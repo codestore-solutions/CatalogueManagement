@@ -1,5 +1,9 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, Inject, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { Brand } from 'src/app/model/brand.model';
 import { DataService } from 'src/app/services/data.service';
@@ -22,9 +26,9 @@ export class BrandListComponent implements OnInit {
   tableHeaders = [
     { header: 'ID', field_name: 'id' },
     { header: 'Name', field_name: 'name' },
-    { header: 'Action', field_name: 'action'}
+    { header: 'Action', field_name: 'action' }
   ];
-  constructor(private service: DataService) {
+  constructor(private service: DataService, public dialog: MatDialog) {
 
   }
 
@@ -65,11 +69,93 @@ export class BrandListComponent implements OnInit {
   }
 
   updateBrand(element: brand) {
-    this.service.updateBrand(element);
+    const dialogRef = this.dialog.open(EditBrand, {
+      width: "905px",
+      height: "250px",
+      panelClass: "my-class",
+      data: {
+        "requestType": "update",
+        "brandID": element.id
+      }
+    })
   }
 
   applySearchFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  addBrand() {
+    const dialogRef = this.dialog.open(AddBrand, {
+      width: "905px",
+      height: "260px",
+      panelClass: "my-class",
+      data: {
+        "requestType": "add"
+      }
+    })
+  }
+
+}
+
+
+// --------------------------------------------------------------Dialog box for adding brand
+@Component({
+  selector: 'add-brand',
+  templateUrl: './add-brand.component.html',
+  styleUrls: ['./add-brand.component.scss'],
+  standalone: true,
+  imports: [FormsModule, MatButtonModule, CommonModule]
+})
+export class AddBrand implements OnInit {
+  name = ''
+  constructor(public dialogRef: MatDialogRef<AddBrand>, private service: DataService, @Inject(MAT_DIALOG_DATA) public data: any) {
+
+  }
+  ngOnInit(): void {
+
+  }
+
+  onSave() {
+    const brand = {
+      name: this.name
+    }
+    this.service.addBrand(brand);
+    this.dialogRef.close();
+  }
+
+  onClose() {
+    this.dialogRef.close();
+  }
+}
+
+// ---------------------------------------------Edit Brand Dialogue
+@Component({
+  selector: 'edit-brand',
+  templateUrl: './add-brand.component.html',
+  styleUrls: ['./add-brand.component.scss'],
+  standalone: true,
+  imports: [FormsModule, MatButtonModule, CommonModule]
+})
+export class EditBrand implements OnInit {
+  name = ''
+  constructor(public dialogRef: MatDialogRef<AddBrand>, private service: DataService, @Inject(MAT_DIALOG_DATA) public data: any) {
+
+  }
+  ngOnInit(): void {
+    console.log(this.data);
+  }
+
+  onSave() {
+    const brand = {
+      id: this.data.brandID,
+      name: this.name
+    }
+    this.service.updateBrand(brand);
+    this.dialogRef.close();
+  }
+
+  onClose() {
+    this.dialogRef.close();
   }
 }

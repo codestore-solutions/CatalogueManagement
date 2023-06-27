@@ -31,6 +31,8 @@ import { PortalModule } from '@angular/cdk/portal';
 import { HttpClientModule } from '@angular/common/http';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 
 const modules = [
@@ -59,7 +61,9 @@ const modules = [
   PortalModule,
   HttpClientModule,
   MatCheckboxModule,
-  MatSnackBarModule
+  MatSnackBarModule,
+  BrowserAnimationsModule,
+  MatExpansionModule
 ]
 
 @NgModule({

@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { environment } from "src/environments/environment";
 import { Brand } from "../model/brand.model";
+import { catchError } from "rxjs";
 
 
 interface category {
@@ -28,8 +29,9 @@ export class DataService {
     }
 
 
+    // APIs related to category and sub-category
     getCategory() {
-        return this.http.get(this.categoryURL+`allCategories`);
+        return this.http.get(this.categoryURL + `allCategories`);
     };
 
     addCategory(newCategory) {
@@ -37,34 +39,44 @@ export class DataService {
     }
 
     getSubCategory(id: number) {
-        return this.http.get(this.subCategoryURL+`byCategory/${id}`);
+        return this.http.get(this.subCategoryURL + `byCategory/${id}`);
     }
 
     addSubCategory(newSubCategory) {
-        return this.http.post(this.subCategoryURL+`addSubCategory`, newSubCategory).subscribe();
+        return this.http.post(this.subCategoryURL + `addSubCategory`, newSubCategory).subscribe();
     }
 
+    getSubCategoryByID(id: number) {
+        return this.http.get(this.subCategoryURL + `byCategory/${id}`);
+    }
+    
+    // APIs related to brand
     getBrandDetails() {
-        return this.http.get(this.brandURL+ `allBrands`);
-    }
-
-    postProduct(product) {
-        return this.http.post(this.productURL+'addProduct', product);
-    }
-
-    postVariant(productDetails) {
-        return this.http.post(this.variantURL+ `addVarient`, productDetails);
-    }
-
-    getProducts() {
-        return this.http.get(this.productURL+ `allProducts`);
+        return this.http.get(this.brandURL + `allBrands`);
     }
 
     deleteBrand(id: number) {
-        this.http.delete(this.brandURL + `delete/${id}`);
+        this.http.delete(this.brandURL + `delete/${id}`).subscribe();
     }
 
-    updateBrand(element: any) {
-        this.http.put(this.brandURL + `update/${element.id}`, element);
+    updateBrand(brand: any) {
+        this.http.put(this.brandURL + `update/${brand.id}`, brand).subscribe();
+    }
+
+    addBrand(element: any) {
+        this.http.post(this.brandURL + 'addBrand', element).subscribe();
+    }
+
+    // APIs related to product and variant
+    postProduct(product) {
+        return this.http.post(this.productURL + 'addProduct', product);
+    }
+
+    postVariant(productDetails) {
+        return this.http.post(this.variantURL + `addVarient`, productDetails);
+    }
+
+    getProducts() {
+        return this.http.get(this.productURL + `allProducts`);
     }
 } 

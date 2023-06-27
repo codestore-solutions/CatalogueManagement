@@ -2,9 +2,9 @@
   <h1 class="title-text">Brands</h1>
   <div class="filter-container">
     <input class="search-filter" type="text" (keyup)="applySearchFilter($event)" placeholder="Search" #input>
-    <button mat-icon-button class="add-brand"><img src="../../../assets/AddFile.png"></button>
+    <button mat-icon-button class="add-brand" (click)="addBrand()"><img src="../../../assets/AddFile.png"></button>
   </div>
-  
+
 </div>
 <div class="table-container">
 
@@ -33,8 +33,8 @@
           {{row[column.field_name]}}
         </div>
         <div *ngIf="column.header == 'Action'">
-          <button mat-icon-button><img src="../../../assets/edit.svg"></button>
-          <button mat-icon-button><img src="../../../assets/Vector (2).png" (click)="deleteBrand(row)"></button>
+          <button mat-icon-button (click)="updateBrand(row)"><img src="../../../assets/edit.svg"></button>
+          <button mat-icon-button (click)="deleteBrand(row)"><img src="../../../assets/Vector (2).png"></button>
         </div>
       </td>
     </ng-container>

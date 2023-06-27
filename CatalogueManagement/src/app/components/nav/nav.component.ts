@@ -16,4 +16,16 @@ export class NavComponent {
       map(result => result.matches),
       shareReplay()
     );
+
+      menuItems = [
+        {label :"Dashboard", icon: "", path: 'dashboard'},
+        { label: "Orders", icon: "", path: 'ordres'},
+        { label: 'Bookings', icon: "", path: 'bookings'},
+        {label: 'Products', icon: 'inventory', children: [
+          { label: 'Add Products', icon: '', path: 'products'},
+          { label: 'Products', icon: '', path: 'productDetails'},
+          { label: 'Brands', icon: '', path: 'brandList'},
+          { label: 'Category', icon:'', path:'categoryList'}
+        ]}
+      ]
 }

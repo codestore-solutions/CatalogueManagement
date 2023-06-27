@@ -25,7 +25,44 @@
   z-index: 1;
 }
 
-.list-item {
-  width: auto;
-  padding: 30px !important;
+
+.expansion-panel {
+  box-shadow: none;
+  background-color: #545BFC;
+
+  .expansion-panel-header {
+    color: #FFFFFF;
+    gap: 2%;
+    margin-left: 8%;
+    span {
+      color: #FFFFFF;
+      font-size: x-large;
+    }
+  }
+
+  .expanded-list-item {
+    width: auto;
+
+    span {
+      color: #FFFFFF;
+    }
+  }
+}
+
+mat-nav-list {
+  .list-item {
+    width: auto;
+    padding-left: 49px !important;
+    margin-bottom: 5%;
+    
+    span {
+      color: #FFFFFF !important;
+      font-size: x-large;
+    }
+  }
+}
+
+
+.expansion-panel:hover {
+  background-color: #545BFC;
 }

@@ -57,3 +57,21 @@
   font-size: large;
   font-style: bold;
 }
+
+
+tr.expanded-row {
+  height: 0;
+}
+
+tr.main-table-row:not(.example-expanded-row):hover {
+  background: whitesmoke;
+}
+
+tr.main-table-row:not(.example-expanded-row):active {
+  background: #efefef;
+}
+
+.detail-row{
+  padding: 16px;
+  background-color: #f5f5f5;
+}
