@@ -69,12 +69,52 @@ class ProductServices {
   }
 
   //GET WISHLIST OF A USER WITH USER ID
-  public static async getWishlist(userID="17175963-5b43-4e6b-a8d3-4c8d2f9fe4ed"){
+  public static async getWishlistdata(userID="17175963-5b43-4e6b-a8d3-4c8d2f9fe4ed"){
     const res = await getApiData(
       `https://app-orderingbooking-dev.azurewebsites.net/api/wishList/userId?userId=${userID}`,
       'GET'
     ).then(res => {return res}
     ).catch()
+    return res;
+  }
+
+  public static async getWishlists(userID=5){
+    const res = await getApiData(
+      `https://app-orderbooking-dev.azurewebsites.net/api/v1/wishlist-collection?userId=${userID}`,
+      'GET'
+    ).then(res => {return res}
+    ).catch()
+    return res;
+  }
+
+  public static async addToWishlists(userID=5,prodId:number,wishListId:number,price:number){
+    const res = await getApiData(
+      `https://app-orderbooking-dev.azurewebsites.net/api/v1/wishlist-collection/add-products`,
+      'POST',
+      {
+        "userId": userID,
+        "productId": prodId,
+        "varientId": prodId,
+        "storeId": 0,
+        "price": price,
+        "createdOn": "2023-06-26T11:05:50.048Z",
+        "wishListCollectionId": wishListId
+      }
+    ).then(res => {return res}
+    ).catch()
+    return res;
+  }
+
+  public static async createWishlist(name:string){
+    const res = await getApiData(
+    `https://app-orderbooking-dev.azurewebsites.net/api/v1/wishlist-collection/add-collection`,
+    'POST',
+    {
+      "userId": 5,
+      "collectionName": name
+    }).then(res => {console.log('done');
+    ;return res});
+
     return res;
   }
 }

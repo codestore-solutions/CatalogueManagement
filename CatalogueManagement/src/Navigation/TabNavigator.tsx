@@ -11,6 +11,7 @@ import CategoryIcon from '../Components/CategoryIcon';
 import CartIcon from '../Components/CartIcon';
 import ProfileIcon from '../Components/ProfileIcon';
 import Wishlist from '../CatalogueModule/Screens/Wishlist';
+import AddWishlistButton from '../Components/AddWishlistButton';
 
 const TabNavigator = () => {
   const Tab = createBottomTabNavigator();
@@ -63,12 +64,13 @@ const TabNavigator = () => {
         component={Wishlist}
         name="Wishlist"
         options={{
-          // headerShown: false,
+          headerTitle: 'Wishlists',
           tabBarIcon: ({ focused }) => {
             return (
               <ProfileIcon focused={focused}/>
             );
-          }
+          },
+          headerRight: (()=>(<AddWishlistButton/>))
         }}
       />
     </Tab.Navigator>

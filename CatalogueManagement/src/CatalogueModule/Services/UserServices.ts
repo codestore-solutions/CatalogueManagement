@@ -19,23 +19,17 @@ class UserServices{
         );
     }
 
-    public static setCart(id:string,quantity:number){
-        Cart[id]=quantity;
-    }
-    public static getCartItem(index:number){
-        
-    }
+    
     public static async remove(id:string|number){
         await getApiData(`https://app-orderbooking-dev.azurewebsites.net/api/v1/cart/delete?productId=${id}&userId=${5}`,'DELETE')
     }
-    public static getQuant(id:string){
-        if(Cart[id]==undefined){
-            return 0;
-        }
-        return Cart[id];
+    
+    public static async getWishlist(userId:number|string){
+        const data = await getApiData(`https://app-orderbooking-dev.azurewebsites.net/api/v1/wishList?userId=${userId}`,'GET')
+        .then(res => {return res});
     }
 }
 
-const Cart:{[id:string]:number} = {};
+
 
   export default UserServices;

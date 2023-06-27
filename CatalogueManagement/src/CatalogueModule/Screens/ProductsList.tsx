@@ -4,6 +4,7 @@ import ProductServices from '../Services/ProductsServices';
 import Filters from '../../Components/Filters';
 import ProductFooter from '../../Components/ProductFooter';
 import ProductListCard from '../../Components/ProductListCard';
+import AddToWishlist from '../../Components/AddToWishlist';
 
 const ProductsList = (props: {
   navigation: {navigate: (arg0: string, arg: Object) => void};
@@ -17,6 +18,10 @@ const ProductsList = (props: {
     setdata(res?.data.value);
   }
 
+  const [showWishlist, setshowWishlist] = useState(false)
+  async function AddtoWishlist(prodID:number) {
+    
+  }
   const [visible, setvisible] = useState(false);
   
   useEffect(() => {
@@ -57,7 +62,7 @@ const ProductsList = (props: {
           <FlatList
             data={data}
             renderItem={({item}) => (
-              <ProductListCard item={item} navigation={props.navigation} />
+              <ProductListCard item={item} navigation={props.navigation} onLike={()=>{setshowWishlist(true)}}/>
             )}
           />
         </View>
@@ -85,6 +90,7 @@ const ProductsList = (props: {
             />
           </View>
         </Modal>
+        <AddToWishlist visible={showWishlist} setVisible={setshowWishlist} prodId={3} price={300}/>
       </View>
     );
   }

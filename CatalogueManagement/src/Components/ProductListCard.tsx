@@ -13,16 +13,18 @@ const ProductListCard = (props: {
     rating: number;
   };
   navigation: {navigate: (arg: string, arg0: Object) => void};
+  onLike:any
 }) => {
   return (
-    <TouchableOpacity
-      onPress={() => {
-        props.navigation.navigate('Product', props.item.id);
-      }}>
+    <View>
       <Divider width={'100%'}/>
       <View style={styles.body}>
         <Image style={styles.image} source={{uri: props.item.attachment}} />
-        <View style={{width: '60%',justifyContent:'space-between',paddingTop:10}}>
+        <TouchableOpacity style={{width: '60%',justifyContent:'space-between',paddingTop:10}}
+        onPress={() => {
+          props.navigation.navigate('Product', props.item.id);
+        }}
+        >
           <Text numberOfLines={3} style={styles.name}>
             {props.item.name}
           </Text>
@@ -36,10 +38,14 @@ const ProductListCard = (props: {
             </Text>
             <Text style={{color:PrimaryColor}}>(37% OFF)</Text>
           </View>
-        </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+        onPress={props.onLike}
+        >
         <LikeButton selected={false} />
+        </TouchableOpacity>
       </View>
-    </TouchableOpacity>
+    </View>
   );
 };
 
