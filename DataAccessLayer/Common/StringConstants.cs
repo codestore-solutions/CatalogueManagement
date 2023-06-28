@@ -17,5 +17,6 @@ namespace DataAccessLayer.Common
         public const string DeletedSuccess = "Deleted successfully";
 
         public const string UpdatedSuccess = "Updated successfully";
+        public const string NoImageAvailable = "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930";
     }
 }
