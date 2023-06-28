@@ -1,4 +1,5 @@
-﻿using DataAccessLayer.Data;
+﻿using DataAccessLayer.Common;
+using DataAccessLayer.Data;
 using DataAccessLayer.Interface;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Razor.Hosting;
@@ -74,7 +75,7 @@ namespace ProductCatalog.Service
         private string CheckAttachment(long itemId)
         {
             var attachment = _repository.GetAttachment(itemId);
-            return attachment == null ? "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930" : attachment;
+            return attachment ?? StringConstants.NoImageAvailable;
         }
 
 
@@ -128,7 +129,9 @@ namespace ProductCatalog.Service
             {
                 Id = product.Id,
                 Name = product.Name,
-                Rating = _repository.GetRating(product.Id),
+                CategoryId = product.CategoryId,
+                SubCategoryId = product.SubCategoryId,
+                BrandId = product.BrandId,
                 Varients = varientOuts,
             };
         }

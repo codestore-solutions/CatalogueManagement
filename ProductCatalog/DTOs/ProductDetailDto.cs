@@ -7,11 +7,11 @@ namespace ProductCatalog.DTOs
     {
         public long Id { get; set; }
         public string Name { get; set; } = null!;
-        public string SubCategoryName = null!;
-        public string CategoryName = null!;
-        public string BrandName = null!;
+        public long SubCategoryId { get; set; }
+        public long CategoryId { get; set; }
+        public long BrandId {get; set; }
         public string SellerName = null!;
-        public decimal Rating { get; set; }
+        //public decimal Rating { get; set; }
         public IEnumerable<VarientOut> Varients { get; set; } = null!;
     }
 }

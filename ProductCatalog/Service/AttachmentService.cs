@@ -1,4 +1,5 @@
-﻿using DataAccessLayer.Interface;
+﻿using DataAccessLayer.Common;
+using DataAccessLayer.Interface;
 using Models.ProductModels;
 using ProductCatalog.Service.Interface;
 
@@ -38,12 +39,28 @@ namespace ProductCatalog.Service
 
         public async Task<IEnumerable<string>> GetAttachmentsByProductId(long productId)
         {
-            return await _attachmentRepository.GetAttachmentsByProductId(productId);
+            var attachments = await _attachmentRepository.GetAttachmentsByProductId(productId);
+            if (attachments == null)
+            {
+                var dummy = new List<string>();
+                dummy.Add(StringConstants.NoImageAvailable);
+                return dummy;
+            }
+            return attachments;
         }
 
         public async Task<ICollection<string>> GetAttachmentsByVarientId(long varientId)
         {
-            return await _attachmentRepository.GetAttachmentsByVarientId(varientId);
+            var attachments =  await _attachmentRepository.GetAttachmentsByVarientId(varientId);
+            if (attachments.Any())
+            {
+                return attachments;
+            }
+                var dummy = new List<string>();
+                dummy.Add(StringConstants.NoImageAvailable);
+                return dummy;
+            
+            
         }
 
         public async Task<IEnumerable<string>> GetAttachmentByReviewId(long reviewId)
