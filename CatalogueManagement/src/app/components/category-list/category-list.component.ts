@@ -9,7 +9,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Category } from 'src/app/model/category.model';
 import { DataService } from 'src/app/services/data.service';
 import { AddBrand } from '../brand-list/brand-list.component';
-import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
+import { MatSnackBar} from '@angular/material/snack-bar';
 
 
 interface category {
@@ -33,14 +33,22 @@ interface category {
 
 export class CategoryListComponent implements OnInit {
   categoryList: category[];
+  subCategoryList: category[];
   dataSource: MatTableDataSource<any>;
-  tableHeaders = [
+  innerDataSource: MatTableDataSource<any>;
+  categoryTableHeaders = [
     { header: 'Category ID', field_name: 'id' },
     { header: 'Category Name', field_name: 'name' },
-    { header: 'Action', field_name: 'action' },
-    { header: 'Expand', field_name: 'expandRow' }
+    { header: 'Action', field_name: 'action' }
+  ]
+
+  subCategoryTableHeaders = [
+    { header: 'Category ID', field_name: 'id' },
+    { header: 'Category Name', field_name: 'name' },
+    { header: 'Action', field_name: 'action' }
   ]
   displayedColumns: string[] = [];
+  innerDisplayedColumns: string[] = [];
   selection = new SelectionModel<category>(true, []);
   isExpanded = (i: number, row: any) => row.isExpanded;
 
@@ -51,6 +59,7 @@ export class CategoryListComponent implements OnInit {
   ngOnInit(): void {
     this.service.getCategory().subscribe((data: Category) => {
       this.categoryList = data.value;
+      
       this.categoryList = this.categoryList.map((data) => ({
         ...data,
         isExpanded: false
@@ -59,12 +68,18 @@ export class CategoryListComponent implements OnInit {
       this.dataSource = new MatTableDataSource(this.categoryList);
     })
     this.displayedColumns.push('select');
-    this.displayedColumns = this.displayedColumns.concat(this.tableHeaders.map(c => c.field_name));
+
+    this.displayedColumns = this.displayedColumns.concat(this.categoryTableHeaders.map(c => c.field_name));
   }
 
   toggleExpansion(element: any) {
     element.isExpanded = !element.isExpanded;
     console.log(element);
+    this.service.getSubCategoryByID(element.id).subscribe((data: Category)=> {
+      this.subCategoryList = data.value;
+      this.innerDataSource = new MatTableDataSource(this.subCategoryList);
+    })
+    this.innerDisplayedColumns = this.innerDisplayedColumns.concat(this.subCategoryTableHeaders.map(c => c.field_name))
   }
 
 
@@ -75,6 +90,7 @@ export class CategoryListComponent implements OnInit {
       return;
     }
     this.selection.select(...this.dataSource.data);
+    
   }
   isAllSelected() {
     const numSelected = this.selection.selected.length;

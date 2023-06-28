@@ -13,7 +13,7 @@
   <table mat-table [dataSource]="dataSource" class="category-table" mutliTemplateDataRows>
 
     <!-- Category Table listing code -->
-    <ng-container *ngFor="let column of tableHeaders" [matColumnDef]="column.field_name">
+    <ng-container *ngFor="let column of categoryTableHeaders" [matColumnDef]="column.field_name">
       <th mat-header-cell *matHeaderCellDef class="category-table-header header-text">{{column.header}}</th>
       <td mat-cell *matCellDef="let row" class="category-table-cell">
         <div *ngIf="column.header != 'Action'">
@@ -39,24 +39,22 @@
       </td>
     </ng-container>
 
-    <!-- expand column -->
-    <ng-container matColumnDef="expand">
-      <th mat-header-cell *matHeaderCellDef class="header-text">&nbsp;</th>
-      <td mat-cell *matCellDef="let element">
-        <button mat-icon-button (click)="toggleExpansion(element)">
-          <mat-icon *ngIf="!element.isExpanded">keyboard_arrow_down</mat-icon>
-          <mat-icon *ngIf="element.isExpanded">keyboard_arrow_up</mat-icon>
-        </button>
-      </td>
-    </ng-container>
+
 
     <!-- Code for expanded data -->
     <ng-container matColumnDef="expandedRow">
       <td mat-cell *matCellDef="let element; let i=index" [attr.colspan]="displayedColumns.length">
-
-        <div class="detail-row" (isExpanded)="isExpanded(i, element)"
-          [@detailExpand]="element.isExpanded ? 'expanded' : 'collapsed'">
-          <app-sub-category [category]="element.id"></app-sub-category>
+        <div [@detailExpand]="element.isExpanded ? 'expanded' : 'collapsed'" *ngIf="element.isExpanded">
+          <table mat-table [dataSource]="innerDataSource">
+            <ng-container *ngFor="let subCategory of subCategoryTableHeaders" [matColumnDef]="subCategory.field_name">
+              <th mat-header-cell *matHeaderCellDef>{{subCategory.header}}</th>
+              <td mat-cell *matCellDef="let element">
+                {{element[subCategory.field_name]}}
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderCellDef="innerDisplayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: innerDisplayedColumns"></tr>
+          </table>
         </div>
       </td>
     </ng-container>

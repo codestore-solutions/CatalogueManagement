@@ -5,12 +5,12 @@ import { Store } from '@ngrx/store';
 import { Brand } from 'src/app/model/brand.model';
 import { Category } from 'src/app/model/category.model';
 import { DataService } from 'src/app/services/data.service';
-import { getCategory } from 'src/app/store/actions/product.actions';
-import { selectCategory } from 'src/app/store/selector/product.selector';
 import { VariantComponent } from '../variant/variant.component';
 import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import { endWith } from 'rxjs';
+import {LiveAnnouncer} from '@angular/cdk/a11y';
+import { MatChipInputEvent } from '@angular/material/chips';
+
 
 interface category {
   id: string;
@@ -51,7 +51,8 @@ export class ProductsComponent implements OnInit {
   brandList = [];
   requester: string;
   variantForm: FormGroup<{ variant: FormArray<any>; }>;
-
+  tags = ['Tags'];
+  announcer = inject(LiveAnnouncer);
 
   constructor(private store: Store, private service: DataService, public varient: MatDialog, private snackBar: MatSnackBar, private activatedRoute: ActivatedRoute) {
     // This is product form containing basic details
@@ -62,7 +63,8 @@ export class ProductsComponent implements OnInit {
       newSubCategory: new FormControl(null),
       brand: new FormControl(null, [Validators.required]),
       title: new FormControl(null, (Validators.required)),
-      currency: new FormControl(null, (Validators.required))
+      currency: new FormControl(null, (Validators.required)),
+      tag: new FormControl([], (Validators.required))
     });
 
     this.attachmentForm = new FormGroup({
@@ -76,6 +78,8 @@ export class ProductsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.requester = this.activatedRoute.snapshot.params['requester'];
+    console.log(this.requester);
     this.service.getCategory().subscribe((data: Category) => {
       if (data != null) {
         this.categoryList = data.value;
@@ -147,7 +151,21 @@ export class ProductsComponent implements OnInit {
     (<FormArray>this.variantForm.get('variant')).removeAt(i);
   }
 
+  addTag(event : MatChipInputEvent) {
+    const value = (event.value || ' ').trim();
+    if(value) {
+      this.tags.push(value);
+    }
+    event.chipInput!.clear();
+  }
 
+  removeTag(tag: string) {
+    const index = this.tags.indexOf(tag);
+    if(index>=0){
+      this.tags.splice(index, 1);
+      this.announcer.announce(`tag removed ${tag}`);
+    }
+  }
   onSubmit() {
     let id: string;
     let productID: string;
@@ -194,9 +212,7 @@ export class ProductsComponent implements OnInit {
         });
       });
     }
-
     console.log(this.categoryForm);
-    console.log(this.variantForm);
   }
 
   async openVarient() {

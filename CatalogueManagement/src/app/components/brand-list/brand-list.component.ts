@@ -19,7 +19,7 @@ interface brand {
   templateUrl: './brand-list.component.html',
   styleUrls: ['./brand-list.component.scss']
 })
-export class BrandListComponent implements OnInit {
+export class BrandListComponent implements OnInit{
   brandList: brand[];
   selection = new SelectionModel<brand>(true, []);
   dataSource: MatTableDataSource<any>;

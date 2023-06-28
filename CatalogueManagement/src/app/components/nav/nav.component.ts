@@ -22,10 +22,10 @@ export class NavComponent {
         { label: "Orders", icon: "", path: 'ordres'},
         { label: 'Bookings', icon: "", path: 'bookings'},
         {label: 'Products', icon: 'inventory', children: [
-          { label: 'Add Products', icon: '', path: 'products'},
           { label: 'Products', icon: '', path: 'productDetails'},
+          { label: 'Add Products', icon: '', path: 'products'},
+          { label: 'Category', icon:'', path:'categoryList'},
           { label: 'Brands', icon: '', path: 'brandList'},
-          { label: 'Category', icon:'', path:'categoryList'}
         ]}
       ]
 }

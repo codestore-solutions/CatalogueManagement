@@ -12,7 +12,7 @@ import { SharedModule } from './shared_modules/shared/shared.module';
 import { dataReducer } from './store/reducer/product.reducer';
 import { DataService } from './services/data.service';
 import { VariantComponent } from './components/variant/variant.component';
-import { ProductDetailsComponent } from './components/product-details/product-details.component';
+import { ProductDetailsComponent } from './components/product-listing/product-details.component';
 import { CategoryListComponent } from './components/category-list/category-list.component';
 import { BrandListComponent } from './components/brand-list/brand-list.component';
 import { SubCategoryComponent } from './components/category-list/sub-category/sub-category.component';

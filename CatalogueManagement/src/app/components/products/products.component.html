@@ -1,4 +1,5 @@
-<p class="title">Edit/Add Product</p>
+<p class="title" *ngIf="requester != 'Product Listing'">Add Product</p>
+<p class="title" *ngIf="requester == 'Product Listing'">Edit</p>
 
 <div class="form-container">
 
@@ -39,23 +40,51 @@
       </div>
     </div>
     <div class="info-container">
-      <div class="input-fields">
+      <div class="tags">
         <p>Tags</p>
-        <input type="tepxt" placeholder="Enter Product Tags">
+        <mat-chip-grid #chipGrid aria-label="Enter Tags" formControlName="tag">
+          <mat-chip-row *ngFor="let tag of tags" (removed)="removeTag(tag)">
+            {{tag}}
+            <button matChipRemove aria-label="'remove ' + keyword">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip-row>
+          <input placeholder="New keyword..." [matChipInputFor]="chipGrid" (matChipInputTokenEnd)="addTag($event)" />
+        </mat-chip-grid>
       </div>
-      <div class="input-fields">
+      <div class="drop-down">
+        <p>Currency</p>
+        <mat-select placeholder="Select Currency">
+          <mat-option value="dollar">
+            <img src="../../../assets/dollar.png">
+            <span>Dollar</span>
+          </mat-option>
+          <mat-option value="euro">
+            <img src="../../../assets/Euro.png">
+            <span>Euro</span>
+          </mat-option>
+          <mat-option value="rupee">
+            <img src="../../../assets/rupee.png">
+            <span>Rupees</span>
+          </mat-option>
+          <mat-option value="pound">
+            <img src="../../../assets/pound.png">
+            <span>Pound</span>
+          </mat-option>
+        </mat-select>
       </div>
     </div>
+    <mat-divider></mat-divider>
   </form>
 
   <div class="add-variant">
     <p>Add Variant</p>
-    <button mat-icon-button class="add-brand" (click)="addVariant()"><img src="../../../assets/add.png"></button>
   </div>
 
   <form class="lower-form" [formGroup]="variantForm" (ngSubmit)="onSubmit()">
     <div formArrayName="variant">
       <ng-container *ngFor="let variant of variantForm.get('variant')['controls']; let i=index">
+        <p class="variant-number"><span>Variant </span>{{i+1}}</p>
         <div class="variant-detail-container" [formGroupName]="i">
           <div class="input">
             <p>Price</p>
@@ -78,18 +107,32 @@
             <textarea formControlName="description"></textarea>
           </div>
         </div>
-        <div class="remove-variant">
+        <div class="remove-variant" *ngIf="i != 0">
           <button mat-raised-button color='warn' (click)="removeVariant(i)">Remove
             Varient</button>
         </div>
+        <mat-divider *ngIf="i!=0"></mat-divider>
       </ng-container>
     </div>
     <button type="submit" hidden="true" #submitButton></button>
   </form>
   <div class="submission">
-    <button mat-raised-button class="submission-button" type="button" (click)="submitButton.click()">Save Product</button>
+    <button mat-raised-button class="add-variant-button" (click)="addVariant()">
+      <span>Add Variant</span>
+      <mat-icon>add</mat-icon>
+    </button>
+    <button mat-raised-button class="submission-button" type="button" [matMenuTriggerFor]="menu">
+      <span>Save</span>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="submitButton.click()">
+        <span>Save</span>
+      </button>
+      <button mat-menu-item>
+        <span>Save & Publish</span>
+      </button>
+    </mat-menu>
   </div>
-
 </div>
 
 

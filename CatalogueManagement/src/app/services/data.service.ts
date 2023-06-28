@@ -76,6 +76,10 @@ export class DataService {
         return this.http.post(this.variantURL + `addVarient`, productDetails);
     }
 
+    postProductWithDetails(product) {
+        return this.http.post(this.productURL + 'addProductWithDetail', product);
+    }
+
     getProducts() {
         return this.http.get(this.productURL + `allProducts`);
     }
