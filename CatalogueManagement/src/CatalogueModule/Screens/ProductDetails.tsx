@@ -53,14 +53,23 @@ const ProductDetails = (props: {
     return (
       <View>
         <View style={styles.body}>
-          <ScrollView>
-            <ProductCarousel Attachment={data.varients[0].attachment} />
+          <ScrollView
+          showsVerticalScrollIndicator={false}
+          >
+            <ProductCarousel Attachment={data.varients[0].attachment} rating={data.rating}/>
             <Text style={styles.prodName}>{data.name}</Text>
             <View style={styles.rating}>
               <Text style={{margin: 5}}>
-                MRP 
-                <Text style={[styles.prodName,{textDecorationLine:'line-through',marginHorizontal:10}]}> { data.varients[0].price+500}/-</Text>
-                <Text style={styles.prodName}> {data.varients[0].price}/-</Text>
+                MRP{'  '}
+                <Text
+                  style={[
+                    styles.prodName,
+                    {textDecorationLine: 'line-through', marginHorizontal: 10,color:'#999999'},
+                  ]}>
+                  
+                  ₹{data.varients[0].price + 500}/-
+                </Text>
+                <Text style={styles.prodName}> ₹{data.varients[0].price}/-</Text>
               </Text>
               <Text style={{color: 'blue'}}>(20% OFF)</Text>
             </View>
@@ -71,7 +80,7 @@ const ProductDetails = (props: {
             </Text>
             <View style={styles.varient}>
               <Image
-                style={{height: 100, width: 100,resizeMode:'contain'}}
+                style={{height: 100, width: 100, resizeMode: 'contain'}}
                 source={{uri: data.varients[0].attachment[0]}}
               />
               <Text>Charcoal</Text>
@@ -79,18 +88,18 @@ const ProductDetails = (props: {
             </View>
             <Divider width={'96%'} />
             <Text style={styles.prodName}>Bank Offers</Text>
-            <Text style={{marginHorizontal:8}}>
+            <Text style={{marginHorizontal: 8}}>
               Up To Rs 500 cashback on CRED pay transaction - Min spend Rs
               1,000. Available only on Android Device
             </Text>
             <Text style={styles.prodName}>EMI Options</Text>
-            <Text style={{marginHorizontal:8}}>
-            EMI starting form ₹70/month
+            <Text style={{marginHorizontal: 8}}>
+              EMI starting form ₹70/month
             </Text>
             <Text style={{fontSize: 18, margin: 8}}>
               {data.varients[0].description}
             </Text>
-            <View style={{height:120}}></View>
+            <View style={{height: 120}}></View>
             {/* <Recommended /> */}
           </ScrollView>
           <FooterButtons
@@ -119,6 +128,7 @@ const styles = StyleSheet.create({
     color: 'black',
     fontWeight: '400',
     margin: 8,
+    fontFamily:'Poppins'
   },
   rating: {
     flexDirection: 'row',

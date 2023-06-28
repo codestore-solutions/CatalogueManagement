@@ -14,4 +14,5 @@ module.exports = {
       },
     }),
   },
+  assets:['../CatalogueManagement/src/Assets/fonts']
 };

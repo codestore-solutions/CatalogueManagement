@@ -1,14 +1,28 @@
 import {StyleSheet, Text, View, FlatList} from 'react-native';
 import React from 'react';
 import ProductCard from './ProductCard';
+import LikeIcon from './LikeIcon';
+import StarIcon from './StarIcon';
 
-const ProductCarousel = (props: {Attachment: string[]}) => {
+const ProductCarousel = (props: {Attachment: string[],rating:number}) => {
   
   return (
     <View>
       {/* <View style={styles.leftArrow}></View>
       <View></View>
       <View></View> */}
+      <View style={styles.like}>
+        <LikeIcon/>
+      </View>
+      <View style={styles.rating}>
+        <StarIcon/>
+        <Text style={styles.rate}>
+          {props.rating.toFixed(1)}
+        </Text>
+        <Text style={styles.num}>
+          (3.1k)
+        </Text>
+      </View>
       <FlatList
         data={props.Attachment}
         horizontal={true}
@@ -41,5 +55,35 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     right:20,
     top:'50%'
+  },
+  like:{
+    position:'absolute',
+    height:37,
+    width:37,
+    borderRadius:37,
+    backgroundColor:'white',
+    elevation:1,
+    right:0,
+    margin:20,
+    alignItems:'center',
+    justifyContent:'center'
+  },
+  rating:{
+    flexDirection:'row',
+    position:'absolute',
+    bottom:0,
+    right:0,
+    alignItems:'center',
+    marginHorizontal:20
+  },
+  rate:{
+    fontSize:14,
+    fontWeight:'400',
+    color:'#000000',
+  },
+  num:{
+    fontSize:14,
+    fontWeight:'400',
+    color:'#999999',
   }
 });

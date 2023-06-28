@@ -20,7 +20,7 @@ const ProductListCard = (props: {
       <Divider width={'100%'}/>
       <View style={styles.body}>
         <Image style={styles.image} source={{uri: props.item.attachment}} />
-        <TouchableOpacity style={{width: '60%',justifyContent:'space-between',paddingTop:10}}
+        <TouchableOpacity style={{width: '60%',justifyContent:'space-between',paddingTop:10,marginVertical:5}}
         onPress={() => {
           props.navigation.navigate('Product', props.item.id);
         }}
@@ -41,6 +41,7 @@ const ProductListCard = (props: {
         </TouchableOpacity>
         <TouchableOpacity
         onPress={props.onLike}
+        style={styles.like}
         >
         <LikeButton selected={false} />
         </TouchableOpacity>
@@ -59,23 +60,27 @@ const styles = StyleSheet.create({
 
   },
   image: {
-    height: 100,
-    width: 90,
+    height: 91,
+    width: 91,
     marginRight: 20,
     resizeMode: 'contain',
-    borderRadius: 15,
+    borderRadius: 20,
   },
   priceBox: {
     fontSize: 20,
-    color: 'black',
-    fontWeight:'600'
+    color: '#000000',
+    fontWeight:'600',
+    fontFamily:'Inter'
   },
   price:{
 
   },
   name:{
     fontSize:13,
-    fontWeight:'300',
+    fontWeight:'400',
     color:'#777777'
+  },
+  like:{
+    paddingTop:20
   }
 });
