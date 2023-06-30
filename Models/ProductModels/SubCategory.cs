@@ -20,7 +20,18 @@ namespace Models.ProductModels
 
         [ForeignKey("CatagoryId")]
         public long CategoryId { get; set; }
-        //public string TanentId { get; set; }
 
+        public virtual int StatusId { get; set; }
+        public Status Status
+        {
+            get
+            {
+                return (Status)this.StatusId;
+            }
+            set
+            {
+                this.StatusId = (int)value;
+            }
+        }
     }
 }

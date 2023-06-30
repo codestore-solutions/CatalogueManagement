@@ -25,6 +25,7 @@ namespace ProductCatalog.Service
             Category c = new()
             {
                 Name = category.Name,
+                StatusId = category.StatusId,
             };
             _categoryRepository.Add(c);
             await _unitOfWork.SaveAsync();
@@ -35,7 +36,7 @@ namespace ProductCatalog.Service
         {
             throw new NotImplementedException();
         }
-        #region public methods
+        
 
         public async Task<ResponseDto<IEnumerable<CategoryOut>>> GetAllCategoriesAsync()
         {
@@ -45,7 +46,7 @@ namespace ProductCatalog.Service
             return res;
             
         }
-        #endregion
+        
 
         public Task<Category> GetCategoryAsync(long id)
         {
@@ -62,6 +63,24 @@ namespace ProductCatalog.Service
                 return true;
             }
             return false;
+        }
+        public async Task<ResponseDto> GetPendingCategories()
+        {
+            var categories = await _categoryRepository.GetPendingCategories();
+            var res = Mapper.Mapper.CategoryToCategoryOut(categories);
+            return ResponseDto<IEnumerable<CategoryOut>>.CreateSuccessResponse(res);
+        }
+
+        public async Task Approve(long id)
+        {
+            _categoryRepository.Approve(id);
+            await _unitOfWork.SaveAsync();
+        }
+
+        public async Task MarkPending(long id)
+        {
+            _categoryRepository.MarkPending(id);
+            await _unitOfWork.SaveAsync();
         }
     }
 }

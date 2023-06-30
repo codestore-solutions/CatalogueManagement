@@ -7,5 +7,6 @@ namespace ProductCatalog.DTOs.Incoming
         [Required]
         [StringLength(50, MinimumLength = 2, ErrorMessage = "Name of Category Must be between 2 to 50")]
         public string Name { get; set; } = null!;
+        public int StatusId { get; set; }
     }
 }

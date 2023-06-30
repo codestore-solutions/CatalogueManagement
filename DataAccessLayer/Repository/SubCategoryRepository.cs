@@ -23,5 +23,22 @@ namespace DataAccessLayer.Repository
             var subCategories = await _dbContext.SubCatagories.Where(x => x.CategoryId == id).ToListAsync();
             return subCategories;
         }
+        public async Task<IEnumerable<SubCategory>> GetPendingSubCategories()
+        {
+            var subCategories = await _dbContext.SubCatagories.Where(x => x.StatusId == 1).ToListAsync();
+            return subCategories;
+        }
+
+        public void Approve(long id)
+        {
+            _dbContext.SubCatagories.First(x => x.Id == id).StatusId = 2;
+            _dbContext.SubCatagories.First(x => x.Id == id).Status = Status.Approved;
+        }
+
+        public void MarkPending(long id)
+        {
+            _dbContext.SubCatagories.First(x => x.Id == id).StatusId = 1;
+            _dbContext.SubCatagories.First(x => x.Id == id).Status = Status.Pending;
+        }
     }
 }

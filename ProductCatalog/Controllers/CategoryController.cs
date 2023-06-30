@@ -5,6 +5,7 @@ using Models.ProductModels;
 using ProductCatalog.DTOs;
 using ProductCatalog.DTOs.Incoming;
 using ProductCatalog.DTOs.Outgoing;
+using ProductCatalog.Service;
 using ProductCatalog.Service.Interface;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
@@ -93,6 +94,27 @@ namespace ProductCatalog.Controllers
                 ? NotFound(StringConstants.NotFoundError) 
                 : Ok(StringConstants.UpdatedSuccess);
 
-        }      
+        }
+
+        [HttpGet("pendingCategory")]
+        public async Task<ActionResult<ResponseDto<IEnumerable<Brand>>>> GetPendingBrands()
+        {
+            var categories = await _categoryService.GetPendingCategories();
+            return Ok(categories);
+        }
+
+        [HttpPost("approveCategory/{id:long}")]
+        public async Task<IActionResult> ApproveBrand(long id)
+        {
+            await _categoryService.Approve(id);
+            return Ok("Approved");
+        }
+
+        [HttpPost("savePending/{id:long}")]
+        public async Task<IActionResult> MarkPending(long id)
+        {
+            await _categoryService.MarkPending(id);
+            return Ok("Status changed");
+        }
     }
 }

@@ -25,6 +25,9 @@ namespace ProductCatalog.DTOs.Incoming
     {
         [Required]
         public long ProductId { get; set; }
+        public string Name { get; set; }
+        public string UOM { get; set; }
+        public string SKU { get; set; }
 
         public IList<string> Attachment { get; set; } = new List<string>();
 

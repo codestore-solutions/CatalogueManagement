@@ -35,7 +35,7 @@ namespace ProductCatalog.Mapper
                 {
                     Id = subCategory.Id,
                     Name = subCategory.Name,
-                    
+                    Status = subCategory.Status.ToString()
                 });
             }
             return subCategoryOuts;
@@ -51,6 +51,7 @@ namespace ProductCatalog.Mapper
                 {
                     Id = category.Id,
                     Name = category.Name,
+                    Status = category.Status.ToString()
                 });
             }
             return categoriesOutgoing;
