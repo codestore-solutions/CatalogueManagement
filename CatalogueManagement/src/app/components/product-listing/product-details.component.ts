@@ -48,8 +48,8 @@ export class ProductDetailsComponent implements OnInit {
 
   }
 
-  onEdit() {
-    this.router.navigate([`products/${'Product Listing'}`])
+  onEdit(element) {
+    this.router.navigate([`products/${element.id}`])
   }
 
   applySearchFilter(event: Event) {

@@ -1,7 +1,7 @@
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { SelectionModel } from '@angular/cdk/collections';
 import { CommonModule } from '@angular/common';
-import { Component, Inject, OnChanges, OnInit, SimpleChanges, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnChanges, OnInit, SimpleChanges, ViewChild, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
@@ -9,13 +9,15 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Category } from 'src/app/model/category.model';
 import { DataService } from 'src/app/services/data.service';
 import { AddBrand } from '../brand-list/brand-list.component';
-import { MatSnackBar} from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatPaginator } from '@angular/material/paginator';
 
 
 interface category {
   id: number;
-  name: number;
+  name: string;
   expanded: boolean;
+  subCategory: MatTableDataSource<any>
 }
 
 @Component({
@@ -31,55 +33,64 @@ interface category {
   ]
 })
 
+
 export class CategoryListComponent implements OnInit {
   categoryList: category[];
-  subCategoryList: category[];
   dataSource: MatTableDataSource<any>;
-  innerDataSource: MatTableDataSource<any>;
+  // innerDataSource: MatTableDataSource<any>;
+  displayedColumns: string[] = [];
+  innerDisplayedColumns: string[] = [];
   categoryTableHeaders = [
-    { header: 'Category ID', field_name: 'id' },
+    { header: 'S/N', field_name: 'sn'},
     { header: 'Category Name', field_name: 'name' },
     { header: 'Action', field_name: 'action' }
   ]
 
   subCategoryTableHeaders = [
-    { header: 'Category ID', field_name: 'id' },
-    { header: 'Category Name', field_name: 'name' },
+    { header: 'Sub Category ID', field_name: 'id' },
+    { header: 'Sub Category Name', field_name: 'name' },
     { header: 'Action', field_name: 'action' }
   ]
-  displayedColumns: string[] = [];
-  innerDisplayedColumns: string[] = [];
+  @ViewChild('paginator') paginator: MatPaginator;
+  length = 50;
+  pageSize = 10;
+  pageIndex = 0;
+  pageSizeOptions = [5, 10, 25];
   selection = new SelectionModel<category>(true, []);
-  isExpanded = (i: number, row: any) => row.isExpanded;
-
-  constructor(private service: DataService, public dialog: MatDialog) {
+  expandedElement;
+  constructor(private service: DataService, public dialog: MatDialog, private detector: ChangeDetectorRef) {
 
   }
 
   ngOnInit(): void {
     this.service.getCategory().subscribe((data: Category) => {
+      // this.categoryList = data.value;
+
+      // this.categoryList = this.categoryList.map((data) => ({
+      //   ...data,
+      //   isExpanded: false
+      // }))
+      // console.log(this.categoryList);
+      // this.dataSource = new MatTableDataSource(this.categoryList);
       this.categoryList = data.value;
-      
-      this.categoryList = this.categoryList.map((data) => ({
-        ...data,
-        isExpanded: false
-      }))
-      console.log(this.categoryList);
-      this.dataSource = new MatTableDataSource(this.categoryList);
+      let index = 0;
+      this.categoryList.forEach(category => {
+        this.service.getSubCategoryByID(category.id).subscribe((data: Category) => {
+          category.subCategory = new MatTableDataSource(data.value);
+        });
+        this.dataSource = new MatTableDataSource(this.categoryList);
+        this.dataSource.paginator = this.paginator;
+      });
     })
-    this.displayedColumns.push('select');
 
     this.displayedColumns = this.displayedColumns.concat(this.categoryTableHeaders.map(c => c.field_name));
+    this.innerDisplayedColumns = this.innerDisplayedColumns.concat(this.subCategoryTableHeaders.map(c => c.field_name));
+    this.displayedColumns.push('expand');
   }
 
   toggleExpansion(element: any) {
-    element.isExpanded = !element.isExpanded;
-    console.log(element);
-    this.service.getSubCategoryByID(element.id).subscribe((data: Category)=> {
-      this.subCategoryList = data.value;
-      this.innerDataSource = new MatTableDataSource(this.subCategoryList);
-    })
-    this.innerDisplayedColumns = this.innerDisplayedColumns.concat(this.subCategoryTableHeaders.map(c => c.field_name))
+    element.subCategory && (element.subCategory as MatTableDataSource<any>).data.length ? (this.expandedElement = this.expandedElement === element ? null : element) : null;
+    this.detector.detectChanges();
   }
 
 
@@ -90,7 +101,7 @@ export class CategoryListComponent implements OnInit {
       return;
     }
     this.selection.select(...this.dataSource.data);
-    
+
   }
   isAllSelected() {
     const numSelected = this.selection.selected.length;

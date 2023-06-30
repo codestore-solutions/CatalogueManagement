@@ -25,7 +25,7 @@ export class BrandListComponent implements OnInit{
   dataSource: MatTableDataSource<any>;
   displayedColumns: string[] = [];
   tableHeaders = [
-    { header: 'ID', field_name: 'id' },
+    { header: 'S/N', field_name: 'sn'},
     { header: 'Name', field_name: 'name' },
     { header: 'Action', field_name: 'action' }
   ];
@@ -38,32 +38,30 @@ export class BrandListComponent implements OnInit{
       this.brandList = data.value;
       this.dataSource = new MatTableDataSource(this.brandList);
     });
-    this.displayedColumns.push('select');
     this.displayedColumns = this.displayedColumns.concat(this.tableHeaders.map(c => c.field_name));
-
   }
 
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
-  }
+  // isAllSelected() {
+  //   const numSelected = this.selection.selected.length;
+  //   const numRows = this.dataSource.data.length;
+  //   return numSelected === numRows;
+  // }
 
-  toggleAllRows() {
-    if (this.isAllSelected()) {
-      this.selection.clear();
-      return;
-    }
-    this.selection.select(...this.dataSource.data);
-    console.log(this.selection)
-  }
+  // toggleAllRows() {
+  //   if (this.isAllSelected()) {
+  //     this.selection.clear();
+  //     return;
+  //   }
+  //   this.selection.select(...this.dataSource.data);
+  //   console.log(this.selection)
+  // }
 
-  checkboxLabel(row?: brand): string {
-    if (!row) {
-      return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
-    }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id + 1}`;
-  }
+  // checkboxLabel(row?: brand): string {
+  //   if (!row) {
+  //     return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
+  //   }
+  //   return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id + 1}`;
+  // }
 
   deleteBrand(element: brand) {
     this.service.deleteBrand(element.id);
