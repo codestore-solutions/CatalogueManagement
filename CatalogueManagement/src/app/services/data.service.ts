@@ -83,4 +83,8 @@ export class DataService {
     getProducts() {
         return this.http.get(this.productURL + `allProducts`);
     }
+
+    getProductById(productID) {
+        return this.http.get(this.productURL + `productDetail/${productID}`);
+    } 
 } 

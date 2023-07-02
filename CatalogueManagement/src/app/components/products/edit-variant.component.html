@@ -1,0 +1,54 @@
+<div class="dialog-container">
+  <div class="header">
+    <h1 mat-dialog-title>Edit Variant</h1>
+  </div>
+  <div class="content">
+    <form [formGroup]="variantForm" class="variant-form">
+      <div class="variant-detail-container">
+        <div class="input">
+          <p>Price</p>
+          <input type="text" placeholder="Enter Price" formControlName="price">
+        </div>
+        <div class="input">
+          <p>Variant Name</p>
+          <input type="text" placeholder="Enter Variant Name" formControlName="name">
+        </div>
+        <div class="input">
+          <p>SKU</p>
+          <input type="text" placeholder="Enter SKU" formControlName="sku">
+        </div>
+        <div class="input">
+          <p>UCM</p>
+          <input type="text" placeholder="Enter UCM" formControlName="ucm">
+        </div>
+        <div class="text">
+          <p>Description</p>
+          <textarea formControlName="description"></textarea>
+        </div>
+        <div class="attachment-array">
+          <p>Attachments</p>
+          <form [formGroup]="variantForm" class="attachment-form">
+            <div formArrayName="image">
+              <ng-container *ngFor="let image of variantForm.get('image')['controls']; let i=index">
+                <div class="attachment-container">
+                  <mat-card class="attachment-card">
+                    <a type="button" mat-button (click)="fileInput.click()" class="add-icon"><img
+                        src="../../../assets/foundation_upload-cloud.svg"></a>
+                    <input hidden [formControlName]="i" #fileInput type="file">
+                    <a mat-button color='warn' (click)="removeAttachment(i)" class="delete-icon">
+                      Remove
+                    </a>
+                  </mat-card>
+                </div>
+
+              </ng-container>
+            </div>
+            <button mat-icon-button (click)="addAttachment()" type="button">
+              <mat-icon>add</mat-icon>
+            </button>
+          </form>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
