@@ -18,12 +18,27 @@ namespace Models.ProductModels
         [MinLength(2)]
         [MaxLength(50)]
         public string Name { get; set; } = null!;
+        public virtual int StatusId { get; set; }
+        public Status Status
+        {
+            get
+            {
+                return (Status)this.StatusId;
+            }
+            set
+            {
+                this.StatusId = (int)value;
+            }
+        }
 
-        //public string TanentId { get; set; }
+        public virtual ICollection<ProductCategory> ProductCategory { get; set; } = null!;
 
 
-        public virtual ICollection<ProductCategory> ProductCategory { get; set; } = new List<ProductCategory>();
-
-
+    }
+    public enum Status
+    {
+        Saved = 0,
+        Pending = 1,
+        Approved = 2,
     }
 }

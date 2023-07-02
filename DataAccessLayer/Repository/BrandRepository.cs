@@ -23,5 +23,22 @@ namespace DataAccessLayer.Repository
             var products = await _dbContext.Products.Where(x => x.BrandId == id).ToListAsync();
             return products;
         }
+        public async Task<IEnumerable<Brand>> GetPendingBrands()
+        {
+            var brands = await _dbContext.Brands.Where(x => x.StatusId == 1).ToListAsync();
+            return brands;
+        }
+
+        public void Approve(long id)
+        {
+            _dbContext.Brands.First(x => x.Id == id).StatusId = 2;
+            _dbContext.Brands.First(x => x.Id == id).Status = Status.Approved;
+        }
+
+        public void MarkPending(long id)
+        {
+            _dbContext.Brands.First(x => x.Id == id).StatusId = 1;
+            _dbContext.Brands.First(x => x.Id == id).Status = Status.Pending;
+        }
     }
 }

@@ -10,5 +10,6 @@ namespace ProductCatalog.DTOs.Incoming
 
         [Required]
         public long CategoryId { get; set; }
+        public int StatusId { get; set; }
     }
 }

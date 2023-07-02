@@ -11,5 +11,8 @@ namespace ProductCatalog.Service.Interface
         Task<ResponseDto<IEnumerable<SubCategoryOut>>> GetSubCategoriesByCategory(long categoryId);
 
         Task<long> AddSubCategory(SubCategory subCategory);
+        Task<ResponseDto> GetPendingSubCategory();
+        Task Approve(long id);
+        Task MarkPending(long id);
     }
 }

@@ -1,7 +1,9 @@
 ﻿using DataAccessLayer.Interface;
+using DataAccessLayer.Repository;
 using Models.ProductModels;
 using ProductCatalog.DTOs;
 using ProductCatalog.DTOs.Incoming;
+using ProductCatalog.DTOs.Outgoing;
 using ProductCatalog.Service.Interface;
 
 namespace ProductCatalog.Service
@@ -76,6 +78,22 @@ namespace ProductCatalog.Service
             _brandRepository.Update(brand);
             await _unitOfWork.SaveAsync();
             return true;
+        }
+        public async Task<ResponseDto> GetPendingBrands()
+        {
+            var brands = await _brandRepository.GetPendingBrands();
+            return ResponseDto<IEnumerable<Brand>>.CreateSuccessResponse(brands);
+        }
+        public async Task ApproveBrand(long id)
+        {
+            _brandRepository.Approve(id);
+            await _unitOfWork.SaveAsync();
+        }
+
+        public async Task MarkPending(long id)
+        {
+            _brandRepository.MarkPending(id);
+            await _unitOfWork.SaveAsync();
         }
     }
 }

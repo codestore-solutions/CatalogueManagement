@@ -11,6 +11,9 @@ namespace ProductCatalog.Service.Interface
         Task<long> AddNewBrand(BrandIn brandIn);
         Task<bool> UpdateBrand(long id, Brand brand);
         Task<bool> DeleteBrand(long id);
+        Task<ResponseDto> GetPendingBrands();
+        Task ApproveBrand(long id);
+        Task MarkPending(long id);
 
     }
 }

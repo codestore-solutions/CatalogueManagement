@@ -10,5 +10,8 @@ namespace DataAccessLayer.Interface
     public interface ISubCategoryRepository : IGenericRepository<SubCategory>
     {
         Task<IEnumerable<SubCategory>> GetSubCategoryByCategory(long id);
+        Task<IEnumerable<SubCategory>> GetPendingSubCategories();
+        void Approve(long id);
+        void MarkPending(long id);
     }
 }
