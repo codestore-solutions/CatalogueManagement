@@ -45,7 +45,7 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   onDetail(item) {
-
+    
   }
 
   onEdit(element) {
@@ -61,7 +61,7 @@ export class ProductDetailsComponent implements OnInit {
     this.router.navigate(['products'])
   }
 
-  goToDetail() {
-    this.router.navigate(['prodDetail'])
+  goToDetail(element) {
+    this.router.navigate([`prodDetail/${element.id}`])
   }
 }

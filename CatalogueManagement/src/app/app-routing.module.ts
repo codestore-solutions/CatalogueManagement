@@ -31,7 +31,7 @@ const routes: Routes = [
     component: ProductDetailsComponent
   },
   {
-    path: 'prodDetail',
+    path: 'prodDetail/:requester',
     component: ProdDetailComponent
   },{
     path: 'dashboard',

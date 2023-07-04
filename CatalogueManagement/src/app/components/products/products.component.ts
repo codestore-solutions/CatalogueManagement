@@ -30,6 +30,7 @@ interface product {
   subCategoryId: number;
   brandId: number;
   sellerId: number;
+  varients: Array<any>
 }
 interface productDetail {
   productID: number;
@@ -65,6 +66,8 @@ export class ProductsComponent implements OnInit {
     { header: "Stock", field_name: 'availableStock' },
     { header: "ID", field_name: "id" },
     { header: "Price", field_name: "price" },
+    { header: "SKU", field_name: "sku"},
+    { header: "UOM", field_name: "uom"},
     { header: "Action", field_name: "action" }
   ]
   displayedColumns: string[] = [];
@@ -73,6 +76,10 @@ export class ProductsComponent implements OnInit {
   pageSize = 10;
   pageIndex = 0;
   pageSizeOptions = [5, 10, 25];
+  start: number = 0;
+  limit: number = 5;
+  end: number = this.limit + this.start;
+  activeProduct: boolean;
 
   constructor(private store: Store, private service: DataService, public variant: MatDialog, private snackBar: MatSnackBar, private activatedRoute: ActivatedRoute, private location: Location) {
     this.requester = this.activatedRoute.snapshot.params['requester'];
@@ -207,7 +214,7 @@ export class ProductsComponent implements OnInit {
       price: new FormControl(null),
       name: new FormControl(null),
       sku: new FormControl(null),
-      ucm: new FormControl(null),
+      uom: new FormControl(null),
       description: new FormControl(null),
       image: new FormArray([])
     });
@@ -254,7 +261,8 @@ export class ProductsComponent implements OnInit {
       categoryId: 0,
       subCategoryId: 0,
       brandId: 0,
-      sellerId: 0
+      sellerId: 0,
+      varients: []
     };
     let productId;
     if (this.categoryForm.value.newCategory != null && this.categoryForm.value.newSubCategory != null) {
@@ -267,35 +275,80 @@ export class ProductsComponent implements OnInit {
       product.categoryId = this.categoryForm.value.category;
       product.brandId = this.categoryForm.value.brand;
       product.subCategoryId = this.categoryForm.value.subCategory;
-      product.sellerId = 4;
-
-      this.service.postProduct(product).subscribe((data: number) => {
-        console.log(data);
-        const firstVariant = (<FormArray>this.variantForm.get('variant')).value;
-        console.log(firstVariant[0]);
-        const product: productDetail = {
-          productID: data,
-          description: firstVariant[0].description,
-          isActive: true,
-          price: Number(firstVariant[0].price),
-          availableStock: 10
+      product.sellerId = 2;
+      for(let variant of this.variantForm.value.variant) {
+        const dummyVariant = {
+          description: variant.description,
+          price: variant.price,
+          isActive: this.activeProduct,
+          name: variant.name,
+          uom: variant.uom,
+          sku: variant.sku
         }
-        console.log(product);
-        //Calling API to generate a product with following Details
+        product.varients.push(dummyVariant);
+      }
+      console.log(product);
+      this.service.postProductWithDetails(product).subscribe((data)=> {
+        if(data != null) {
+          this.snackBar.open("Product Added Successfully", "Close", {
+            duration: 2000
+          })
+        }
+      })
 
-        this.service.postVariant(product).subscribe((data) => {
-          if (data != null) {
-            this.snackBar.openFromComponent(ProductAdd, {
-              duration: 1000
-            })
-          }
-        });
-      });
+      // this.service.postProduct(product).subscribe((data: number) => {
+      //   console.log(data);
+      //   const firstVariant = (<FormArray>this.variantForm.get('variant')).value;
+      //   console.log(firstVariant[0]);
+      //   const product: productDetail = {
+      //     productID: data,
+      //     description: firstVariant[0].description,
+      //     isActive: true,
+      //     price: Number(firstVariant[0].price),
+      //     availableStock: 10
+      //   }
+      //   console.log(product);
+      //   //Calling API to generate a product with following Details
+
+      //   this.service.postVariant(product).subscribe((data) => {
+      //     if (data != null) {
+      //       this.snackBar.openFromComponent(ProductAdd, {
+      //         duration: 1000
+      //       })
+      //     }
+      //   });
+      // });
     }
     console.log(this.categoryForm);
   }
+  
+  onTableScroll(e) {
+    const tableViewHeight= e.target.offsetHeight;
+    const tableScrollHeight = e.target.scrollHeight;
+    const scrollLocation = e.target.scrollTop;
 
+    const buffer = 200;
+    const limit = tableScrollHeight - tableViewHeight - buffer;
+    if(scrollLocation > limit) {
+      //Data Update;
 
+    }
+  }
+  getTableData(start, end) {
+    //API call for next data;
+  }
+
+  updateIndex() {
+    this.start = this.end;
+    this.end = this.limit + this.start;
+  }
+  // Setting up active status of product
+  changeStatusToFalse() {
+    this.activeProduct = false;
+  }
+  changeStatusToTrue() {
+    this.activeProduct = true;
+  }
   backNav() {
     localStorage.clear();
     this.location.back();
