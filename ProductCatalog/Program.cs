@@ -8,6 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using ProductCatalog.Service;
 using ProductCatalog.Service.Interface;
+using System.IdentityModel.Tokens.Jwt;
 using System.Reflection;
 using System.Text;
 
@@ -46,11 +47,13 @@ builder.Services.AddAuthentication(o =>
         ValidateIssuerSigningKey = true,
         ValidIssuer = builder.Configuration["JWT:Issuer"],
         ValidAudience = builder.Configuration["JWT:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(key)
+        IssuerSigningKey = new SymmetricSecurityKey(key),
+        
     };
 });
 
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<ITenantIdFromUser, TenantIdFromUser>();
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IBrandService, BrandService>();
 builder.Services.AddScoped<IAttachmentService, AttachmentService>();

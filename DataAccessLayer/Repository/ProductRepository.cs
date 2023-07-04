@@ -56,7 +56,7 @@ namespace DataAccessLayer.Repository
             if (product == null) return false;
             product.IsActive = false;
             _context.Products.Update(product);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(CancellationToken.None);
             return true;
         }
 

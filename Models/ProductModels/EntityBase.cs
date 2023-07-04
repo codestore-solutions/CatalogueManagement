@@ -9,5 +9,6 @@ namespace Models.ProductModels
     public abstract class EntityBase
     {
         public long Id { get; set; }
+        public string TenantId { get; set; } = null!;
     }
 }
