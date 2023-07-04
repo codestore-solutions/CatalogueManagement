@@ -49,14 +49,17 @@ const ProductDetails = (props: {
         <ActivityIndicator></ActivityIndicator>
       </View>
     );
-  } else {
+  }       
+          
+  else {
     return (
       <View>
         <View style={styles.body}>
-          <ScrollView
-          showsVerticalScrollIndicator={false}
-          >
-            <ProductCarousel Attachment={data.varients[0].attachment} rating={data.rating}/>
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <ProductCarousel
+              Attachment={data.varients[0].attachment}
+              rating={4}
+            />
             <Text style={styles.prodName}>{data.name}</Text>
             <View style={styles.rating}>
               <Text style={{margin: 5}}>
@@ -64,12 +67,18 @@ const ProductDetails = (props: {
                 <Text
                   style={[
                     styles.prodName,
-                    {textDecorationLine: 'line-through', marginHorizontal: 10,color:'#999999'},
+                    {
+                      textDecorationLine: 'line-through',
+                      marginHorizontal: 10,
+                      color: '#999999',
+                    },
                   ]}>
-                  
                   ₹{data.varients[0].price + 500}/-
                 </Text>
-                <Text style={styles.prodName}> ₹{data.varients[0].price}/-</Text>
+                <Text style={styles.prodName}>
+                  {' '}
+                  ₹{data.varients[0].price}/-
+                </Text>
               </Text>
               <Text style={{color: 'blue'}}>(20% OFF)</Text>
             </View>
@@ -128,7 +137,7 @@ const styles = StyleSheet.create({
     color: 'black',
     fontWeight: '400',
     margin: 8,
-    fontFamily:'Poppins'
+    fontFamily: 'Poppins',
   },
   rating: {
     flexDirection: 'row',

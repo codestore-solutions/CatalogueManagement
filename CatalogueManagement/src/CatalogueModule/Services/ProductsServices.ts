@@ -80,7 +80,7 @@ class ProductServices {
 
   public static async getWishlists(userID=5){
     const res = await getApiData(
-      `https://app-orderbooking-dev.azurewebsites.net/api/v1/wishlist-collection?userId=${userID}`,
+      `https://app-orderbooking-dev.azurewebsites.net/api/v1/wishlist-collection/get-all-collections?userId=${userID}`,
       'GET'
     ).then(res => {return res}
     ).catch()
@@ -88,8 +88,9 @@ class ProductServices {
   }
 
   public static async addToWishlists(userID=5,prodId:number,wishListId:number,price:number){
+    const date = new Date();
     const res = await getApiData(
-      `https://app-orderbooking-dev.azurewebsites.net/api/v1/wishlist-collection/add-products`,
+      `https://app-orderbooking-dev.azurewebsites.net/api/v1/wishList/add-products`,
       'POST',
       {
         "userId": userID,
@@ -97,10 +98,12 @@ class ProductServices {
         "varientId": prodId,
         "storeId": 0,
         "price": price,
+        "quantity":1,
         "createdOn": "2023-06-26T11:05:50.048Z",
         "wishListCollectionId": wishListId
       }
-    ).then(res => {return res}
+    ).then(res => {console.log('added to wishlist');
+    return res}
     ).catch()
     return res;
   }
@@ -114,6 +117,28 @@ class ProductServices {
       "collectionName": name
     }).then(res => {console.log('done');
     ;return res});
+
+    return res;
+  }
+
+  public static async updateWishlistName(wishID:number,name:string){
+    let res = await getApiData(
+      `https://app-orderbooking-dev.azurewebsites.net/api/v1/wishlist-collection/update-collection-name?wishlistCollectionId=${wishID}`,
+      'PUT',
+      {
+        "collectionName": name
+      }
+    ).then(res => {return res})
+    .catch(err => {return err})
+      return res;
+  }
+
+  public static async getWishlistProducts(wid:number){
+    let res = await getApiData(
+      `https://app-orderbooking-dev.azurewebsites.net/api/v1/wishlist-collection/getCollectionById?WishListCollectionId=${wid}`,
+      'GET'
+    ).then(res => {return res})
+    .catch(err => {return err})
 
     return res;
   }

@@ -13,7 +13,8 @@ const ProductListCard = (props: {
     rating: number;
   };
   navigation: {navigate: (arg: string, arg0: Object) => void};
-  onLike:any
+  onLike:any;
+  liked:boolean;
 }) => {
   return (
     <View>
@@ -43,7 +44,7 @@ const ProductListCard = (props: {
         onPress={props.onLike}
         style={styles.like}
         >
-        <LikeButton selected={false} />
+        <LikeButton selected={props.liked} />
         </TouchableOpacity>
       </View>
     </View>

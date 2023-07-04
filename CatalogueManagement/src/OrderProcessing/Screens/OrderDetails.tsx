@@ -2,6 +2,7 @@ import {Image, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react
 import React from 'react';
 import Divider from '../../Components/Divider';
 import API from '../../Services/API_Services';
+import { PrimaryColor } from '../../Constants/colors';
 
 const OrderDetails = (props: { navigation: { navigate: (arg0: string) => void; }; }) => {
   let data = API.getProductDetails('');
@@ -61,6 +62,7 @@ const OrderDetails = (props: { navigation: { navigate: (arg0: string) => void; }
           <Text>Qty: 1</Text>
         </View>
       </View>
+      <Text style={styles.feedback} onPress={()=>{props.navigation.navigate('Feedback')}}>Write a feedback</Text>
       <Divider width={'100%'} />
       <View style={{flexDirection: 'row',justifyContent:'space-between',marginBottom:10}}>
         <View style={{width: '45%'}}>
@@ -193,4 +195,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 18,
   },
+  feedback:{
+    color:PrimaryColor
+  }
 });

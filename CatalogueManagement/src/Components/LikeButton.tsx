@@ -6,9 +6,9 @@ const LikeButton = (props:{selected:boolean}|any) => {
   if(props.selected){
     return(
         <Svg
-      width={15}
-      height={13}
-      viewBox="0 0 15 13"
+      width={20}
+      height={17}
+      viewBox="0 0 20 17"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
@@ -23,9 +23,9 @@ const LikeButton = (props:{selected:boolean}|any) => {
   else{
     return(
         <Svg
-      width={16}
-      height={14}
-      viewBox="0 0 16 14"
+      width={20}
+      height={17}
+      viewBox="0 0 20 17"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       {...props}

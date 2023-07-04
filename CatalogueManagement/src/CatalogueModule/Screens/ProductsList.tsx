@@ -10,7 +10,6 @@ const ProductsList = (props: {
   navigation: {navigate: (arg0: string, arg: Object) => void};
   route: any;
 }) => {
-
   const [data, setdata] = useState([]);
 
   async function getData() {
@@ -18,12 +17,10 @@ const ProductsList = (props: {
     setdata(res?.data.value);
   }
 
-  const [showWishlist, setshowWishlist] = useState(false)
-  async function AddtoWishlist(prodID:number) {
-    
-  }
+  const [showWishlist, setshowWishlist] = useState(false);
+  async function AddtoWishlist(prodID: number) {}
   const [visible, setvisible] = useState(false);
-  
+
   useEffect(() => {
     getData();
   }, []);
@@ -31,28 +28,43 @@ const ProductsList = (props: {
   if (data.length == 0) {
     return (
       <FlatList
-      data={Array(8)}
-      renderItem={()=>(
-        <View
-        style={{
-          height: 120,
-          backgroundColor: '#cccec9',
-          marginVertical: 5,
-          marginHorizontal:10,
-          borderRadius: 15,
-          flexDirection:'row'
-        }}>
+        data={Array(8)}
+        renderItem={() => (
           <View
-          style={{height:100,width:100,borderRadius:5,backgroundColor:'#F1F3F6',margin:10,}}
-          >
-
+            style={{
+              height: 120,
+              backgroundColor: '#cccec9',
+              marginVertical: 5,
+              marginHorizontal: 10,
+              borderRadius: 15,
+              flexDirection: 'row',
+            }}>
+            <View
+              style={{
+                height: 100,
+                width: 100,
+                borderRadius: 5,
+                backgroundColor: '#F1F3F6',
+                margin: 10,
+              }}></View>
+            <View style={{width: '100%'}}>
+              <View
+                style={{
+                  height: 20,
+                  width: '60%',
+                  backgroundColor: '#F1F3F6',
+                  margin: 10,
+                }}></View>
+              <View
+                style={{
+                  height: 20,
+                  width: '40%',
+                  backgroundColor: '#F1F3F6',
+                  margin: 10,
+                }}></View>
+            </View>
           </View>
-          <View style={{width:'100%'}}>
-            <View style={{height:20,width:'60%',backgroundColor:'#F1F3F6',margin:10}}></View>
-            <View style={{height:20,width:'40%',backgroundColor:'#F1F3F6',margin:10}}></View>
-          </View>
-        </View>
-      )}
+        )}
       />
     );
   } else {
@@ -62,7 +74,14 @@ const ProductsList = (props: {
           <FlatList
             data={data}
             renderItem={({item}) => (
-              <ProductListCard item={item} navigation={props.navigation} onLike={()=>{setshowWishlist(true)}}/>
+              <ProductListCard
+                item={item}
+                navigation={props.navigation}
+                onLike={() => {
+                  setshowWishlist(true);
+                }}
+                liked={false}
+              />
             )}
           />
         </View>
@@ -90,7 +109,12 @@ const ProductsList = (props: {
             />
           </View>
         </Modal>
-        <AddToWishlist visible={showWishlist} setVisible={setshowWishlist} prodId={3} price={300}/>
+        <AddToWishlist
+          visible={showWishlist}
+          setVisible={setshowWishlist}
+          prodId={3}
+          price={300}
+        />
       </View>
     );
   }
