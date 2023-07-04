@@ -1,4 +1,5 @@
 ﻿using DataAccessLayer.Common;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models.ProductModels;
@@ -62,6 +63,27 @@ namespace ProductCatalog.Controllers
         {
             var products = await _brandService.GetProductsByBrand(brandId);
             return Ok(products);
+        }
+
+        [HttpGet("pendingBrands")]
+        public async Task<ActionResult<ResponseDto<IEnumerable<Brand>>>> GetPendingBrands()
+        {
+            var brands = await _brandService.GetPendingBrands();
+            return Ok(brands);
+        }
+
+        [HttpPost("approveBrand/{id:long}")]
+        public async Task<IActionResult> ApproveBrand(long id)
+        {
+            await _brandService.ApproveBrand(id);
+            return Ok("Approved");
+        }
+
+        [HttpPost("savePending/{id:long}")]
+        public async Task<IActionResult> MarkPending(long id)
+        {
+            await _brandService.MarkPending(id);
+            return Ok("Status changed");
         }
     }
 }

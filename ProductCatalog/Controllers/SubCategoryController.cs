@@ -4,6 +4,7 @@ using Models.ProductModels;
 using ProductCatalog.DTOs.Outgoing;
 using ProductCatalog.DTOs;
 using ProductCatalog.Service.Interface;
+using ProductCatalog.Service;
 
 namespace ProductCatalog.Controllers
 {
@@ -38,6 +39,27 @@ namespace ProductCatalog.Controllers
         {
             var sc = await _subCategoryService.GetSubCategoriesByCategory(categoryId);
             return Ok(sc);
+        }
+
+        [HttpGet("pendingSubCategories")]
+        public async Task<ActionResult<ResponseDto<IEnumerable<Brand>>>> GetPendingBrands()
+        {
+            var subCategories = await _subCategoryService.GetPendingSubCategory();
+            return Ok(subCategories);
+        }
+
+        [HttpPost("approveSubCategory/{id:long}")]
+        public async Task<IActionResult> ApproveBrand(long id)
+        {
+            await _subCategoryService.Approve(id);
+            return Ok("Approved");
+        }
+
+        [HttpPost("savePending/{id:long}")]
+        public async Task<IActionResult> MarkPending(long id)
+        {
+            await _subCategoryService.MarkPending(id);
+            return Ok("Status Changed");
         }
     }
 }

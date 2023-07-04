@@ -1,4 +1,5 @@
 ﻿using DataAccessLayer.Interface;
+using DataAccessLayer.Repository;
 using Models.ProductModels;
 using ProductCatalog.DTOs;
 using ProductCatalog.DTOs.Outgoing;
@@ -39,6 +40,24 @@ namespace ProductCatalog.Service
             var subCategoriesOut = Mapper.Mapper.SubCategoryToSubCategoryOut(subcategories);
             var res = ResponseDto<IEnumerable<SubCategoryOut>>.CreateSuccessResponse(subCategoriesOut);
             return res;
+        }
+        public async Task<ResponseDto> GetPendingSubCategory()
+        {
+            var subCategories = await _subCategoryRepository.GetPendingSubCategories();
+            var res = Mapper.Mapper.SubCategoryToSubCategoryOut(subCategories);
+            return ResponseDto<IEnumerable<SubCategoryOut>>.CreateSuccessResponse(res);
+        }
+
+        public async Task Approve(long id)
+        {
+            _subCategoryRepository.Approve(id);
+            await _unitOfWork.SaveAsync();
+        }
+
+        public async Task MarkPending(long id)
+        {
+            _subCategoryRepository.MarkPending(id);
+            await _unitOfWork.SaveAsync();
         }
     }
 }

@@ -10,15 +10,24 @@ namespace Models.ProductModels
 {
     public class Brand : EntityBase
     {
-        //[Key]
-        //public long Id { get; set; }
 
         [Required]
         [MinLength(2)]
         [MaxLength(50)]
         public string Name { get; set; } = null!;
 
-        //public string TanentId { get; set; }
+        public virtual int StatusId { get; set; }
+        public Status Status
+        {
+            get
+            {
+                return (Status)this.StatusId;
+            }
+            set
+            {
+                this.StatusId = (int)value;
+            }
+        }
 
     }
 }

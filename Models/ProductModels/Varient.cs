@@ -17,12 +17,23 @@ namespace Models.ProductModels
         [ForeignKey(nameof(ProductId))]
 
         [Required]
+        public string Name { get; set; } = null!;
+
+
+        [Required]
         public string Description { get; set; } = null!;
 
         public bool IsActive { get; set; }
 
         [Required]
         public decimal Price { get; set; }
+
+        [Required]
+        public string SKU { get; set; } = null!;
+
+        [Required]
+        public string UOM { get; set; } = null!;
+
 
         [Required]
         public int AvailableStock { get; set; }

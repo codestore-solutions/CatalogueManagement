@@ -10,5 +10,8 @@ namespace DataAccessLayer.Interface
     public interface IBrandRepository : IGenericRepository<Brand>
     {
         Task<IEnumerable<Product>> GetProductsByBrand(long id);
+        Task<IEnumerable<Brand>> GetPendingBrands();
+        void Approve(long id);
+        void MarkPending(long id);
     }
 }
