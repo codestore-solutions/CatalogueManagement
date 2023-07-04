@@ -32,7 +32,7 @@ namespace DataAccessLayer.Repository
                 existingVarient.IsActive = false;
                 _context.Varients.Update(existingVarient);
             }
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(CancellationToken.None);
         }
 
         public async Task<decimal> GetPriceOfOneVarient(long productId)
