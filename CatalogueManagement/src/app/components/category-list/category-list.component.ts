@@ -17,7 +17,8 @@ interface category {
   id: number;
   name: string;
   expanded: boolean;
-  subCategory: MatTableDataSource<any>
+  subCategory: MatTableDataSource<any>;
+  index: number;
 }
 
 @Component({
@@ -41,7 +42,7 @@ export class CategoryListComponent implements OnInit {
   displayedColumns: string[] = [];
   innerDisplayedColumns: string[] = [];
   categoryTableHeaders = [
-    { header: 'S/N', field_name: 'sn'},
+    { header: 'S/N', field_name: 'index'},
     { header: 'Category Name', field_name: 'name' },
     { header: 'Action', field_name: 'action' }
   ]
@@ -73,7 +74,6 @@ export class CategoryListComponent implements OnInit {
       // console.log(this.categoryList);
       // this.dataSource = new MatTableDataSource(this.categoryList);
       this.categoryList = data.value;
-      let index = 0;
       this.categoryList.forEach(category => {
         this.service.getSubCategoryByID(category.id).subscribe((data: Category) => {
           category.subCategory = new MatTableDataSource(data.value);
@@ -81,6 +81,11 @@ export class CategoryListComponent implements OnInit {
         this.dataSource = new MatTableDataSource(this.categoryList);
         this.dataSource.paginator = this.paginator;
       });
+      let index=1;
+      for(let category of this.categoryList) {
+        category.index = index;
+        index++;
+      }
     })
 
     this.displayedColumns = this.displayedColumns.concat(this.categoryTableHeaders.map(c => c.field_name));

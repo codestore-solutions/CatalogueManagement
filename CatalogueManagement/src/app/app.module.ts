@@ -25,6 +25,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { BookingsComponent } from './components/bookings/bookings.component';
 import { OrdersComponent } from './components/orders/orders.component';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenIntercepter } from './services/token.intercepter';
 
 @NgModule({
   declarations: [
@@ -46,7 +48,7 @@ import { OrdersComponent } from './components/orders/orders.component';
     AppRoutingModule,
     BrowserAnimationsModule,
     SharedModule,
-    StoreModule.forRoot({category: dataReducer}, {}),
+    StoreModule.forRoot({ category: dataReducer }, {}),
     EffectsModule.forRoot([]),
     MatGridListModule,
     MatCardModule,
@@ -54,7 +56,11 @@ import { OrdersComponent } from './components/orders/orders.component';
     MatIconModule,
     MatButtonModule
   ],
-  providers: [DataService],
+  providers: [DataService, {
+    provide: HTTP_INTERCEPTORS,
+    useClass: TokenIntercepter,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -189,6 +189,7 @@
     .variant-table {
       overflow: hidden !important;
       border-radius: 15px;
+      max-height: 300px;
 
       .variant-table-header {
         background-color: #F1F3F6;
@@ -356,7 +357,7 @@
             .attachment-card {
               width: 90px;
               height: 90px;
-              margin: 0% 2% 0% 2%;
+              margin: 0% 3% 5% 3%;
               justify-content: center;
               box-shadow: none;
               border: 3px solid #CCCCCC;

@@ -87,7 +87,7 @@
 
   <!-- Variant Table Showing Variant of that product -->
   <div class="variant-table-container" *ngIf="requester != null">
-    <table mat-table [dataSource]="variantList" class="variant-table">
+    <table mat-table [dataSource]="variantList" class="variant-table" (scroll)="onTableScroll($event)">
       <ng-container *ngFor="let variant of variantTableHeader; let i=index" [matColumnDef]="variant.field_name">
         <th mat-header-cell *matHeaderCellDef class="variant-table-header">
           <div *ngIf="variant.header != 'Actions'" class="headers">
@@ -159,8 +159,8 @@
             <input type="text" placeholder="Enter SKU" formControlName="sku">
           </div>
           <div class="input">
-            <p>UCM</p>
-            <input type="text" placeholder="Enter UCM" formControlName="ucm">
+            <p>UOM</p>
+            <input type="text" placeholder="Enter UCM" formControlName="uom">
           </div>
           <div class="text">
             <p>Description</p>
@@ -180,7 +180,7 @@
                   <div class="attachment-container">
                     <mat-card class="attachment-card">
                       <input hidden [formControlName]="i" #fileInput type="file">
-                      <a  (click)="removeAttachment(variant,i)" class="delete-icon">
+                      <a (click)="removeAttachment(variant,i)" class="delete-icon">
                         <mat-icon>close</mat-icon>
                       </a>
                       <a type="button" (click)="fileInput.click()" class="add-icon">
@@ -200,7 +200,8 @@
         <mat-divider *ngIf="variantForm.value.variant.length != 1"></mat-divider>
       </ng-container>
     </div>
-    <button type="submit" hidden="true" #submitButton></button>
+    <button type="submit" hidden="true" (click)="changeStatusToFalse()" #submitButtonSave></button>
+    <button type="submit" hidden="true" (click)="changeStatusToTrue()" #submitButtonPublish></button>
   </form>
   <div class="submission">
     <button mat-raised-button class="add-variant-button" (click)="addVariant()">
@@ -212,10 +213,10 @@
       <img src="../../../assets/NavComponent.png">
     </button>
     <mat-menu #menu="matMenu">
-      <button mat-menu-item (click)="submitButton.click()">
+      <button mat-menu-item (click)="submitButtonSave.click()">
         <span>Save</span>
       </button>
-      <button mat-menu-item>
+      <button mat-menu-item (click)="submitButtonPublish.click()">
         <span>Save & Publish</span>
       </button>
     </mat-menu>
