@@ -32,7 +32,9 @@ import { HttpClientModule } from '@angular/common/http';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatExpansionModule} from '@angular/material/expansion';
-import {MatChipsModule} from '@angular/material/chips'
+import {MatChipsModule} from '@angular/material/chips';
+import { FlexLayoutModule } from '@angular/flex-layout';
+
 
 const modules = [
   MatToolbarModule,
@@ -62,7 +64,8 @@ const modules = [
   MatCheckboxModule,
   MatSnackBarModule,
   MatExpansionModule,
-  MatChipsModule
+  MatChipsModule,
+  FlexLayoutModule
 ]
 
 @NgModule({

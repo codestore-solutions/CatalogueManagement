@@ -23,7 +23,7 @@ export class ProductDetailsComponent implements OnInit {
   displayedColumns: string[] = [];
   @ViewChild('paginator') paginator: MatPaginator;
   tableHeaders = [
-    { header: "S/N", field_name: 'sn'},
+    { header: "S/N", field_name: 'sn' },
     { header: 'Product Name', field_name: 'name' },
     { header: "Rating", field_name: 'rating' },
     { header: "Price", field_name: 'price' },
@@ -36,32 +36,11 @@ export class ProductDetailsComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
     })
     this.displayedColumns = this.displayedColumns.concat(this.tableHeaders.map(c => c.field_name));
-
   }
 
-
-  ngOnChanges() {
-
-  }
-
-  onDetail(item) {
-    
-  }
-
-  onEdit(element) {
-    this.router.navigate([`products/${element.id}`])
-  }
 
   applySearchFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
-
-  addProduct() {
-    this.router.navigate(['products'])
-  }
-
-  goToDetail(element) {
-    this.router.navigate([`prodDetail/${element.id}`])
   }
 }

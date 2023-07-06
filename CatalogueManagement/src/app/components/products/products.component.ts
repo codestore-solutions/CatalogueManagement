@@ -90,7 +90,7 @@ export class ProductsComponent implements OnInit {
       subCategory: new FormControl({ value: '', disabled: this.requester != null }),
       brand: new FormControl({ value: '', disabled: this.requester != null }),
       title: new FormControl({ value: '', disabled: this.requester != null }),
-      currency: new FormControl(null, (Validators.required)),
+      currency: new FormControl({value: 'rupee', disabled: true}, (Validators.required)),
       tag: new FormControl([], (Validators.required))
     });
 
@@ -103,6 +103,7 @@ export class ProductsComponent implements OnInit {
       variant: new FormArray([])
     });
   }
+
 
   ngOnInit(): void {
     // If we navigate to this component through product list
@@ -168,24 +169,6 @@ export class ProductsComponent implements OnInit {
     })
   }
 
-  addNewCategory() {
-    const obj = {
-      name: this.categoryForm.value.newCategory
-    }
-    this.service.addCategory(obj);
-  }
-
-  addNewSubCategory() {
-    const newSub = this.categoryForm.value.newSubCategory;
-    this.categoryForm.get('subCategory').setValue(this.productForm.value.newSubCategory);
-    const newSubCategory = {
-      name: newSub,
-      categoryId: this.categoryForm.value.category
-    }
-    console.log(typeof this.categoryForm.value.category);
-    console.log(this.categoryForm.value.category);
-    this.service.addSubCategory(newSubCategory);
-  }
 
   // functions for attachments
   // addAttachment() {
@@ -322,6 +305,7 @@ export class ProductsComponent implements OnInit {
     console.log(this.categoryForm);
   }
   
+  //for infinite scroll
   onTableScroll(e) {
     const tableViewHeight= e.target.offsetHeight;
     const tableScrollHeight = e.target.scrollHeight;
@@ -349,8 +333,9 @@ export class ProductsComponent implements OnInit {
   changeStatusToTrue() {
     this.activeProduct = true;
   }
+  // back navigation
   backNav() {
-    localStorage.clear();
+    localStorage.setItem('productDetail', null);
     this.location.back();
   }
 }

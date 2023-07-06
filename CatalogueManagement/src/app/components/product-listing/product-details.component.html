@@ -10,7 +10,7 @@
   </div>
   <div class="filter-container">
     <input class="search-filter" type="text" (keyup)="applySearchFilter($event)" placeholder="Search" #input>
-    <button mat-icon-button class="add-brand" (click)="addProduct()"><img src="../../../assets/add.png"></button>
+    <button mat-icon-button class="add-brand" [routerLink]="['add-product']"><img src="../../../assets/add.png"></button>
     <button mat-icon-button class="filter"><img src="../../../assets/filter.png"></button>
   </div>
 </div>
@@ -61,10 +61,10 @@
         <!-- Actions  -->
         <div *ngIf="column.header == 'Actions'" class="action">
           <div class="action-container">
-            <button mat-icon-button (click)="goToDetail(row)" class="action-button">
+            <button mat-icon-button  [routerLink]="['product-detail', row.id]" class="action-button">
               <mat-icon color="primary">visibility</mat-icon>
             </button>
-            <button mat-icon-button class="action-button" (click)="onEdit(row)"><img
+            <button mat-icon-button class="action-button" [routerLink]="['edit-product', row.id]"><img
                 src="../../../assets/edit.svg"></button>
             <button mat-icon-button class="action-button"><img src="../../../assets/Vector (2).png"></button>
           </div>

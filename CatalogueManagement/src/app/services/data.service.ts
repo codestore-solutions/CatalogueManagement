@@ -87,4 +87,9 @@ export class DataService {
     getProductById(productID) {
         return this.http.get(this.productURL + `productDetail/${productID}`);
     } 
+
+    // Auth API's
+    login(userCred) {
+        return this.http.post(environment.auth, userCred, {responseType: 'text'});
+    }
 } 
