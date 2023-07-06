@@ -24,9 +24,6 @@ export class ProdDetailComponent implements OnInit{
     })
   }
 
-  editProduct() {
-    this.router.navigate([`products/${this.requester}`]);
-  }
 
   backNav() {
     this.location.back();

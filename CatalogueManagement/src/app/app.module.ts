@@ -11,13 +11,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { SharedModule } from './shared_modules/shared/shared.module';
 import { dataReducer } from './store/reducer/product.reducer';
 import { DataService } from './services/data.service';
-import { VariantComponent } from './components/variant/variant.component';
-import { ProductDetailsComponent } from './components/product-listing/product-details.component';
-import { CategoryListComponent } from './components/category-list/category-list.component';
-import { BrandListComponent } from './components/brand-list/brand-list.component';
-import { SubCategoryComponent } from './components/category-list/sub-category/sub-category.component';
-import { ProdDetailComponent } from './components/prod-detail/prod-detail.component';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
+
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
@@ -31,17 +25,17 @@ import { TokenIntercepter } from './services/token.intercepter';
 @NgModule({
   declarations: [
     AppComponent,
-    NavComponent,
-    ProductsComponent,
-    VariantComponent,
-    ProductDetailsComponent,
-    CategoryListComponent,
-    BrandListComponent,
-    SubCategoryComponent,
-    ProdDetailComponent,
-    DashboardComponent,
-    BookingsComponent,
-    OrdersComponent
+    // NavComponent,
+    // ProductsComponent,
+    // VariantComponent,
+    // ProductDetailsComponent,
+    // CategoryListComponent,
+    // BrandListComponent,
+    // SubCategoryComponent,
+    // ProdDetailComponent,
+    // DashboardComponent,
+    // BookingsComponent,
+    // OrdersComponent
   ],
   imports: [
     BrowserModule,

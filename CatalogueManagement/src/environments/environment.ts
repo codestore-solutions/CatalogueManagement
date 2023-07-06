@@ -5,5 +5,6 @@ export const environment = {
     brandURL: "https://backend-catalogue-dev.azurewebsites.net/api/Brand/",
     attachmentURL: "https://backend-catalogue-dev.azurewebsites.net/api/Attachment/",
     varientURL: "https://backend-catalogue-dev.azurewebsites.net/api/Varient/",
-    productURL: "https://backend-catalogue-dev.azurewebsites.net/api/Products/"
+    productURL: "https://backend-catalogue-dev.azurewebsites.net/api/Products/",
+    auth: 'https://backend-catalogue-dev.azurewebsites.net/api/Account/signIn'
 }
