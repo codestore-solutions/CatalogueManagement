@@ -10,6 +10,7 @@ namespace ProductCatalog.DTOs
         public long SubCategoryId { get; set; }
         public long CategoryId { get; set; }
         public long BrandId {get; set; }
+        public long VendorId { get; set; }
         public string SellerName = null!;
         //public decimal Rating { get; set; }
         public IEnumerable<VarientOut> Varients { get; set; } = null!;

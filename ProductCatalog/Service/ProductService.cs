@@ -135,7 +135,8 @@ namespace ProductCatalog.Service
                 CategoryId = product.CategoryId,
                 SubCategoryId = product.SubCategoryId,
                 BrandId = product.BrandId,
-                Varients = varientOuts,
+                VendorId = product.SellerId,
+                Varients = varientOuts
             };
         }
 
