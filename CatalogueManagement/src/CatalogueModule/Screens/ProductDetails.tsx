@@ -6,6 +6,7 @@ import {
   View,
   Image,
   ActivityIndicator,
+  TouchableOpacity
 } from 'react-native';
 import React, {useState, useEffect, useLayoutEffect} from 'react';
 import FooterButtons from '../../Components/FooterButtons';
@@ -13,6 +14,7 @@ import Recommended from '../../Components/Recommmended';
 import ProductServices from '../Services/ProductsServices';
 import ProductCarousel from '../../Components/ProductCarousel';
 import Divider from '../../Components/Divider';
+import Varient from '../../Components/Varient';
 
 const ProductDetails = (props: {
   navigation: {navigate: (arg0: string) => void};
@@ -23,6 +25,7 @@ const ProductDetails = (props: {
     name: string;
     id: number;
     rating: number;
+    vendorId: number;
     varients: {
       id: number;
       productId: 0;
@@ -39,6 +42,8 @@ const ProductDetails = (props: {
     setdata(res?.data);
   }
 
+  const [selectedVarient, setselectedVarient] = useState(0);
+
   useEffect(() => {
     getData();
   }, []);
@@ -49,15 +54,13 @@ const ProductDetails = (props: {
         <ActivityIndicator></ActivityIndicator>
       </View>
     );
-  }       
-          
-  else {
+  } else {
     return (
       <View>
         <View style={styles.body}>
           <ScrollView showsVerticalScrollIndicator={false}>
             <ProductCarousel
-              Attachment={data.varients[0].attachment}
+              Attachment={data.varients[selectedVarient].attachment}
               rating={4}
             />
             <Text style={styles.prodName}>{data.name}</Text>
@@ -73,11 +76,11 @@ const ProductDetails = (props: {
                       color: '#999999',
                     },
                   ]}>
-                  ₹{data.varients[0].price + 500}/-
+                  ₹{data.varients[selectedVarient].price + 500}/-
                 </Text>
                 <Text style={styles.prodName}>
                   {' '}
-                  ₹{data.varients[0].price}/-
+                  ₹{data.varients[selectedVarient].price}/-
                 </Text>
               </Text>
               <Text style={{color: 'blue'}}>(20% OFF)</Text>
@@ -87,14 +90,30 @@ const ProductDetails = (props: {
               Selected Varient -{' '}
               <Text style={{color: 'black', fontWeight: '500'}}>{}</Text>
             </Text>
-            <View style={styles.varient}>
+            {/* <View style={styles.varient}>
               <Image
                 style={{height: 100, width: 100, resizeMode: 'contain'}}
                 source={{uri: data.varients[0].attachment[0]}}
               />
               <Text>Charcoal</Text>
               <Text>{data.varients[0].price}</Text>
-            </View>
+            </View> */}
+            <FlatList
+              data={data.varients}
+              horizontal
+              renderItem={({item, index}) => (
+                <TouchableOpacity 
+                 onPress={()=>{setselectedVarient(index)}}
+                >
+                  <Varient
+                  image={data.varients[index].attachment[0]}
+                  title={data.name}
+                  price={data.varients[index].price}
+                  selected={index === selectedVarient}
+                />
+                </TouchableOpacity>
+              )}
+            />
             <Divider width={'96%'} />
             <Text style={styles.prodName}>Bank Offers</Text>
             <Text style={{marginHorizontal: 8}}>
@@ -106,17 +125,18 @@ const ProductDetails = (props: {
               EMI starting form ₹70/month
             </Text>
             <Text style={{fontSize: 18, margin: 8}}>
-              {data.varients[0].description}
+              {data.varients[selectedVarient].description}
             </Text>
             <View style={{height: 120}}></View>
             {/* <Recommended /> */}
           </ScrollView>
           <FooterButtons
+            vendorId={data.vendorId}
             navigation={props.navigation}
             id={data.id}
-            vid={data.varients[0].id}
+            vid={data.varients[selectedVarient].id}
             qty={1}
-            price={data.varients[0].price}
+            price={data.varients[selectedVarient].price}
           />
         </View>
       </View>

@@ -12,51 +12,29 @@ import CartIcon from '../Components/CartIcon';
 import ProfileIcon from '../Components/ProfileIcon';
 import Wishlist from '../CatalogueModule/Screens/Wishlist';
 import AddWishlistButton from '../Components/AddWishlistButton';
+import Menu from '../CatalogueModule/Screens/Menu';
+import MenuIcon from '../Components/MenuIcon';
 
 const TabNavigator = () => {
   const Tab = createBottomTabNavigator();
   return (
     <Tab.Navigator
-      // tabBar={props => (
-      //   <MyTabBar
-      //     state={props.state}
-      //     navigation={props.navigation}
-      //     descriptors={props.descriptors}
-      //   />
-      // )}
-      >
-        
+    // tabBar={props => (
+    //   <MyTabBar
+    //     state={props.state}
+    //     navigation={props.navigation}
+    //     descriptors={props.descriptors}
+    //   />
+    // )}
+    >
       <Tab.Screen
         component={Products}
         name="Home"
         options={{
           headerShown: false,
-          tabBarIcon: ({ focused }) => {
-            return (
-              <HomeIcon focused={focused}/>
-            );
-          }
-        }}
-      />
-
-      <Tab.Screen component={CategoriesScreen} name="Category" options={{
-        tabBarIcon: ({ focused }) => {
-          return (
-            <CategoryIcon focused={focused}/>
-          );
-        }
-      }} />
-
-      <Tab.Screen
-        component={Cart}
-        name="Cart"
-        options={{
-          headerShown: false,
-          tabBarIcon: ({ focused }) => {
-            return (
-              <CartIcon focused={focused}/>
-            );
-          }
+          tabBarIcon: ({focused}) => {
+            return <HomeIcon focused={false} />;
+          },
         }}
       />
 
@@ -65,12 +43,42 @@ const TabNavigator = () => {
         name="Wishlist"
         options={{
           headerTitle: 'Wishlists',
-          tabBarIcon: ({ focused }) => {
-            return (
-              <ProfileIcon focused={focused}/>
-            );
+          tabBarIcon: ({focused}) => {
+            return <CategoryIcon focused={focused} />;
           },
-          headerRight: (()=>(<AddWishlistButton/>))
+          headerRight: () => <AddWishlistButton />,
+        }}
+      />
+
+      {/* <Tab.Screen
+        component={CategoriesScreen}
+        name="Category"
+        options={{
+          tabBarIcon: ({focused}) => {
+            return <CategoryIcon focused={focused} />;
+          },
+        }}
+      /> */}
+
+      <Tab.Screen
+        component={Cart}
+        name="Cart"
+        options={{
+          headerShown: false,
+          tabBarIcon: ({focused}) => {
+            return <CartIcon focused={focused} />;
+          },
+        }}
+      />
+
+<Tab.Screen
+        component={Menu}
+        name="Menu"
+        options={{
+          headerShown: false,
+          tabBarIcon: ({focused}) => {
+            return <MenuIcon/>;
+          },
         }}
       />
     </Tab.Navigator>

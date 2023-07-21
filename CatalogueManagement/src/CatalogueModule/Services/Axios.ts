@@ -12,7 +12,7 @@ async function getApiData(url: string, method: string, body?: Object) {
             break;
         }
         case 'GET': {
-             response = await axios.get(url)
+             response = await axios.get(url,body)
             .then(res => {return res})
             // .catch(err => {throw err;})
             break;
@@ -24,7 +24,7 @@ async function getApiData(url: string, method: string, body?: Object) {
             break;
         }
         case 'DELETE': {
-            response = await axios.delete(url)
+            response = await axios.delete(url,body)
             .then(res => {return res})
             // .catch(err => {throw err;})
             break;
@@ -41,6 +41,8 @@ async function getApiData(url: string, method: string, body?: Object) {
 
 
 axios.interceptors.request.use(function (config) {
+  
+  // config.headers['Authorization'] = `Bearer ${token}`
     return config;
   }, 
   function (error) {

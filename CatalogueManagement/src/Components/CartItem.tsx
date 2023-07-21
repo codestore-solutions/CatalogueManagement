@@ -9,16 +9,21 @@ import QuantityCounter from './QuantityCounter';
 const CartItem = (
   props:
     | {
-        id: string | number;
+        id: number;
         quantity: number;
         setQuantity: (arg0: string, arg1: boolean, arg2: number) => void;
-        remove: (arg0: string) => void;
-        setList: (
-          arg: {id: number; vid: number; price: number; qty: number}[],
-        ) => void;
-        list: {id: number; vid: number; price: number; qty: number}[];
+        remove: (arg0: number) => void;
+        items:{
+          productId: number;
+          varientId: number;
+          price: number;
+          discount: number;
+          quantity: number;
+          orderStatus: number;
+        }[];
+        setItems:any;
+        index:number
       }
-    | any,
 ) => {
 
   const [qty, setqty] = useState(props.quantity);
@@ -41,14 +46,15 @@ const CartItem = (
   async function getData() {
     const res = await ProductServices.getProduct(props.id);
     setdata(res?.data);
-    props.setList(
-      props.list.push({
-        id: data.id,
-        vid: data.varients[0].id,
-        price: data.varients[0].price,
-        qty: props.quantity,
-      }),
-    );
+    props.items[props.index]={
+      productId: props.id,
+          varientId: props.id,
+          price: data.varients[0].price,
+          discount: 0,
+          quantity: props.quantity,
+          orderStatus: 0
+    }
+    props.setItems(props.items);
   }
 
   useEffect(() => {

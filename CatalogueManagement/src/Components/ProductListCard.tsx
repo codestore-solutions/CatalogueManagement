@@ -3,6 +3,8 @@ import React from 'react';
 import LikeButton from './LikeButton';
 import Divider from './Divider';
 import { PrimaryColor } from '../Constants/colors';
+import StarRating from 'react-native-star-rating-widget';
+import StarIcon from './StarIcon';
 
 const ProductListCard = (props: {
   item: {
@@ -19,6 +21,7 @@ const ProductListCard = (props: {
   return (
     <View>
       <Divider width={'100%'}/>
+      <View style={{backgroundColor:'white'}}>
       <View style={styles.body}>
         <Image style={styles.image} source={{uri: props.item.attachment}} />
         <TouchableOpacity style={{width: '60%',justifyContent:'space-between',paddingTop:10,marginVertical:5}}
@@ -39,6 +42,8 @@ const ProductListCard = (props: {
             </Text>
             <Text style={{color:PrimaryColor}}>(37% OFF)</Text>
           </View>
+          {/* <StarIcon/> */}
+          
         </TouchableOpacity>
         <TouchableOpacity
         onPress={props.onLike}
@@ -46,6 +51,10 @@ const ProductListCard = (props: {
         >
         <LikeButton selected={props.liked} />
         </TouchableOpacity>
+      </View>
+      <View style={styles.rating}>
+      <StarRating rating={props.item.rating} onChange={()=>{}} starSize={20}/>
+      </View>
       </View>
     </View>
   );
@@ -83,5 +92,9 @@ const styles = StyleSheet.create({
   },
   like:{
     paddingTop:20
+  },
+  rating:{
+    marginLeft:120,
+    marginBottom:10
   }
 });

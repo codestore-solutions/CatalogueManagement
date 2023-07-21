@@ -132,7 +132,7 @@ const Login = (props: any) => {
       </Text>
       <View style={styles.button}>
         <Svg
-        onPress={()=>{props.navigation.navigate('Tab')}}
+        // onPress={()=>{props.navigation.navigate('Tab')}}
           width={85}
           height={24}
           viewBox="0 0 85 24"

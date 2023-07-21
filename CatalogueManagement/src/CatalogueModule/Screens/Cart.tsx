@@ -3,11 +3,9 @@ import {
   Text,
   View,
   FlatList,
-  Button,
   TouchableOpacity,
   Modal,
-  ScrollView,
-  Alert
+  Alert,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import CartItem from '../../Components/CartItem';
@@ -20,20 +18,33 @@ const Cart = (
   props:
     | {
         navigation: {navigate: (arg0: string, arg1: {root: string}) => void};
-        route:any
-      }|any
+        route: any;
+      }
+    | any,
 ) => {
-
-  
-  
-  const [data, setdata] = useState
-  <{
-     cartId: number, id: number, productId: number, quantity: number, varientId: number
-  }[]>([]);
+  const [data, setdata] = useState<
+    {
+      cartId: number;
+      id: number;
+      productId: number;
+      quantity: number;
+      varientId: number;
+    }[]
+  >([]);
   const [state, setstate] = useState(true);
   const [bottomSheet, setbottomSheet] = useState(false);
+  const [items, setitems] = useState<
+    {
+      productId: number;
+      varientId: number;
+      price: number;
+      discount: number;
+      quantity: number;
+      orderStatus: number;
+    }[]
+  >([]);
 
-  async function remove(id:string|number) {
+  async function remove(id: number) {
     await UserServices.remove(id);
     setstate(!state);
   }
@@ -42,13 +53,14 @@ const Cart = (
     let res = await UserServices.getCart();
     setdata(res?.data.data.cartItems);
   }
- 
+
   useEffect(() => {
     getData();
-  }, [])
+  }, [state]);
 
-  const [list, setlist] = useState<{'id':number,'vid':number,'price':number,'qty':number}[]>([])
+  console.log(items);
   
+
   return (
     <View style={styles.body}>
       <View
@@ -58,7 +70,13 @@ const Cart = (
           marginVertical: 15,
         }}>
         <Text style={{fontSize: 16}}>Delivery to :{}</Text>
-        <Text style={{color: 'blue'}} onPress={()=>{setbottomSheet(!bottomSheet)}}>Change</Text>
+        <Text
+          style={{color: 'blue'}}
+          onPress={() => {
+            setbottomSheet(!bottomSheet);
+          }}>
+          Change
+        </Text>
       </View>
       <Divider width={'100%'} />
       {/* <View
@@ -102,61 +120,73 @@ const Cart = (
           />
         </Svg>
       </View> */}
-      <BankOffers/>
+      <BankOffers />
       <Divider width={'100%'} />
       <View>
-        <FlatList
+        <FlatList 
           data={data}
           extraData={state}
-          renderItem={({item}) => (
+          renderItem={({item, index}) => (
             <View>
               <CartItem
-              id={item.productId}
-              quantity={1}
-              setQuantity={() => {}}
-              remove={remove}
-              list={list}
-              setList={setlist}
-            />
-            <Divider
-            width={'100%'}
-            />
+                id={item.productId}
+                quantity={item.quantity}
+                setQuantity={props.quantity}
+                remove={remove}
+                items={items}
+                index={index}
+                setItems={setitems}
+              />
+              <Divider width={'100%'} />
             </View>
           )}
         />
       </View>
-      <TouchableOpacity style={styles.footer} onPress={() => {
-        setbottomSheet(true)
-      }}>
+      <TouchableOpacity
+        style={styles.footer}
+        onPress={() => {
+          setbottomSheet(true);
+        }}>
         <Text style={{color: 'white'}}>Place Order</Text>
       </TouchableOpacity>
-      <Modal transparent visible={bottomSheet} animationType='slide'>
+      <Modal transparent visible={bottomSheet} animationType="slide">
         <TouchableOpacity
-        onPress={()=>{
-          setbottomSheet(false)
-        }}
+          onPress={() => {
+            setbottomSheet(false);
+          }}
           style={{
-            height:'100%',
-            backgroundColor:'rgba(0, 0, 0, 0.5)'
+            height: '100%',
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
           }}>
           <View style={styles.bottom}>
-            <Text style={{fontSize:18,color:'black',fontWeight:'400',padding:20}}>Change Address</Text>
+            <Text
+              style={{
+                fontSize: 18,
+                color: 'black',
+                fontWeight: '400',
+                padding: 20,
+              }}>
+              Select Address
+            </Text>
             <View style={styles.addressBox}>
               <Text>User Address</Text>
-              <Text>G-18 Noida sector - 63 Near Fortis Hospital
-Noida, Uttar Pradesh 2013021</Text>
+              <Text>
+                G-18 Noida sector - 63 Near Fortis Hospital Noida, Uttar Pradesh
+                2013021
+              </Text>
             </View>
-          <TouchableOpacity style={styles.footer} onPress={() => {
-            setbottomSheet(false)
-            if(data.length != 0){
-              props.navigation.navigate('Payment',[{'id':data[0].productId,'vid':data[0].varientId,'price':2000,'qty':1}])
-            }
-            else{
-              Alert.alert('Can not Proceed','Cart is Empty')
-            }
-          }}>
-        <Text style={{color: 'white'}}>Place Order</Text>
-      </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.footer}
+              onPress={() => {
+                setbottomSheet(false);
+                if (data.length != 0) {
+                  props.navigation.navigate('Payment',items);
+                } else {
+                  Alert.alert('Can not Proceed', 'Cart is Empty');
+                }
+              }}>
+              <Text style={{color: 'white'}}>Place Order</Text>
+            </TouchableOpacity>
           </View>
         </TouchableOpacity>
       </Modal>
@@ -167,15 +197,15 @@ Noida, Uttar Pradesh 2013021</Text>
 export default Cart;
 
 const styles = StyleSheet.create({
-  addressBox:{
-    margin:20,
-    height:110,
-    width:'96%',
-    borderWidth:1,
-    alignSelf:'center',
-    elevation:5,
-    backgroundColor:'white',
-    padding:10
+  addressBox: {
+    margin: 20,
+    height: 110,
+    width: '96%',
+    borderWidth: 1,
+    alignSelf: 'center',
+    elevation: 5,
+    backgroundColor: 'white',
+    padding: 10,
   },
   footer: {
     width: '96%',
@@ -199,7 +229,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 15,
     width: '100%',
-    borderTopLeftRadius:15,
-    borderTopRightRadius:15
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
   },
 });

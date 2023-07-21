@@ -13,6 +13,7 @@ import FeedbackService from '../Services/FeedbackService';
 import StarRating from '../Components/StarRating';
 import RadioButton from '../Components/RadioButton';
 
+
 const FeedbackForm = () => {
   const [rating, setrating] = useState(0);
   const [quality, setquality] = useState(0);
@@ -78,6 +79,10 @@ const FeedbackForm = () => {
         <View style={styles.radio}>
         <RadioButton lables={['yes','no']} horizontal={true} selected={setdefect}/>
         </View>
+        <Text style={styles.ques}>
+          Q4. Any other suggestions?
+        </Text>
+        <TextInput style={styles.sugg}/>
           </View>
       
         <View style={styles.button}>
@@ -96,6 +101,11 @@ const FeedbackForm = () => {
 export default FeedbackForm;
 
 const styles = StyleSheet.create({
+  sugg:{
+    backgroundColor:'white',
+    borderWidth:1,
+    marginVertical:10
+  },
   comment: {
     width: '100%',
     backgroundColor: 'white',
@@ -143,6 +153,7 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   radio:{
-    flexDirection:'row'
+    flexDirection:'row',
+    marginBottom:20
   }
 });

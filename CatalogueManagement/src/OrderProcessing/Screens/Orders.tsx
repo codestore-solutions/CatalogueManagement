@@ -6,24 +6,38 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Divider from '../../Components/Divider';
 import API from '../../Services/API_Services';
 import Svg, {Path} from 'react-native-svg';
+import OrderServices from '../Services/OrderServices';
+import { order_status } from './OrderTracking';
 
 const Orders = (props: any) => {
   let data = API.getProductDetails('');
+
+  const [list, setlist] = useState<{createdAt:string,id:number,orderStatus:number}[]>([]);
+
+  async function fetchOrders() {
+   let res = await OrderServices.GetOrders(1,20);
+   setlist(res.data.data.list);
+  }
+
+  useEffect(() => {
+    fetchOrders();
+  }, []);
+
   return (
     <View style={styles.body}>
       <FlatList
-        data={Array(2)}
-        renderItem={({index}) => (
+        data={list}
+        renderItem={({item,index}) => (
           <View>
-            <TouchableOpacity 
-            onPress={()=>{
-                props.navigation.navigate('OrderDetails')
-            }}
-            style={{flexDirection: 'row', marginTop: 20}}>
+            <TouchableOpacity
+              onPress={() => {
+                props.navigation.navigate('OrderDetails',list[index].id);
+              }}
+              style={{flexDirection: 'row', marginTop: 20}}>
               <Image
                 source={{uri: data.Attachment[0]}}
                 style={{height: 100, width: 100}}
@@ -32,12 +46,10 @@ const Orders = (props: any) => {
                 <Text
                   numberOfLines={2}
                   style={{fontSize: 18, color: 'black', marginBottom: 10}}>
-                  {data.Name}
+                 Ordered On {list[index].createdAt.split('T')[0]}
                 </Text>
-                <Text style={{color: index >= 1 ? '#999999' : '#7E72FF'}}>
-                  {index >= 1
-                    ? 'Delivered on 15 May 2023'
-                    : 'Arriving by Monday'}
+                <Text style={{color: '#7E72FF'}}>
+                  {order_status[list[index].orderStatus].name}
                 </Text>
               </View>
               <View style={{justifyContent: 'center'}}>

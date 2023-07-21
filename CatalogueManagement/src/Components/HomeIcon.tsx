@@ -2,8 +2,8 @@ import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import Svg, { G, Path, Defs } from 'react-native-svg'
 
-const HomeIcon = (props:any,focused:boolean) => {
-  if(focused){
+const HomeIcon = (props:any) => {
+  {
     return (
         <View>
            <Svg
@@ -25,9 +25,7 @@ const HomeIcon = (props:any,focused:boolean) => {
         </View>
       )
   }
-  else{
-    return <View></View>
-  }
+ 
 }
 
 export default HomeIcon

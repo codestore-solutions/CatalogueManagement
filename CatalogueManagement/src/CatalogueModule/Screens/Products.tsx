@@ -12,6 +12,7 @@ import HomeChild from '../../Components/HomeChild'
 import API from '../Services/API_Services'
 import SvgComponent from '../../Components/TabBarIcons/HomeIcon'
 import ProductServices from '../Services/ProductsServices'
+import OrderServices from '../../OrderProcessing/Services/OrderServices'
 
 const Products = (props: { navigation: { navigate: (arg0: string) => void } }) => {
 
@@ -20,7 +21,6 @@ const Products = (props: { navigation: { navigate: (arg0: string) => void } }) =
 
   useEffect(() => {
     console.log('Home Loaded::');
-    
   // Socket();
   }, [])
   
@@ -50,6 +50,9 @@ const Products = (props: { navigation: { navigate: (arg0: string) => void } }) =
         />
       </ScrollView>
     )
+  }
+  else{
+    return <View></View>
   }
 }
                              

@@ -1,4 +1,5 @@
 import {View, Text, TouchableOpacity} from 'react-native';
+import HomeIcon from './HomeIcon';
 
 type propType = {
   state: {routes: {key: string | number; name: any}[]; index: any};
@@ -12,7 +13,6 @@ type propType = {
         }) => any;
         navigate: (arg0: {name: any; merge: boolean}) => void;
       }
-    | any;
 };
 
 function MyTabBar(props: propType) {
@@ -26,7 +26,7 @@ function MyTabBar(props: propType) {
         height: '8%',
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
-        position: 'absolute',
+        // position: 'absolute',
         bottom: 0,
         width: '100%',
         elevation: 5,
@@ -72,6 +72,9 @@ function MyTabBar(props: propType) {
               testID={options.tabBarTestID}
               onPress={onPress}
               onLongPress={onLongPress}>
+                <View>
+                  <HomeIcon selected/>
+                </View>
               <Text style={{color: isFocused ? '#673ab7' : '#222',textAlignVertical:'center'}}>
                 {label}
               </Text>

@@ -6,29 +6,48 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import Svg, {Circle, ClipPath, Defs, G, Path, Rect} from 'react-native-svg';
 import Divider from '../../Components/Divider';
 import RadioButton from '../Components/RadioButton';
 import Input from '../Components/Input';
 import BankOffers from '../Components/BankOffers';
+import OrderServices from '../Services/OrderServices';
 
-const Payment = (props: any) => {
-
+const Payment = (props: {
+  route: {
+    params: {
+      productId: number;
+      varientId: number;
+      price: number;
+      discount: number;
+      quantity: number;
+      orderStatus: number;
+    }[];
+  };
+}) => {
   const [bottomSheet, setbottomSheet] = useState(false);
   console.log(props.route);
   let total = 0;
 
-  const [radio, setradio] = useState([false,true,false]);
-  
-  const [tip, settip] = useState(0)
+  const [radio, setradio] = useState([false, true, false]);
+
+  const [tip, settip] = useState(0);
 
   function getTotal() {
-    props.route.params.forEach( (i: { price: number; }) => {
-      total+= i.price;
+    console.log(props.route.params);
+
+    props.route.params.forEach((i: {price: number}) => {
+      total += i.price;
     });
   }
-  
+
+  async function createOrder() {
+    await OrderServices.CreateOrder([
+      {vendorId: 1, deliveryCharges: 99, orderItems: props.route.params},
+    ]);
+  }
+
   getTotal();
   return (
     <View>
@@ -40,21 +59,27 @@ const Payment = (props: any) => {
             marginVertical: 15,
           }}>
           <Text style={{fontSize: 16}}>Delivery to :{}</Text>
-          <Text onPress={()=>{setbottomSheet(true)}} style={{color: 'blue'}}>Change</Text>
+          <Text
+            onPress={() => {
+              setbottomSheet(true);
+            }}
+            style={{color: 'blue'}}>
+            Change
+          </Text>
         </View>
         <Divider width={'100%'} />
-        <BankOffers/>
+        <BankOffers />
         <Divider width={'100%'} />
         <Text style={{fontSize: 18, color: 'black', marginVertical: 10}}>
           Recommended Payment Option
         </Text>
         <View style={styles.darkbox}>
-
           <TouchableOpacity
-          style={{marginTop:20}}
-          onPress={()=>{setradio([true,false,false])}}
-          >
-          <RadioButton selected={radio[0]} title='Cash on delivery'/>
+            style={{marginTop: 20}}
+            onPress={() => {
+              setradio([true, false, false]);
+            }}>
+            <RadioButton selected={radio[0]} title="Cash on delivery" />
           </TouchableOpacity>
           {/* <View style={{marginVertical: 20, flexDirection: 'row'}}>
             <View style={{flexDirection: 'row'}}>
@@ -86,10 +111,15 @@ const Payment = (props: any) => {
               </Text>
             </View>
           </View> */}
-          <TouchableOpacity style={{flexDirection: 'row', justifyContent: 'space-between',marginVertical:20}}
-          onPress={()=>{setradio([false,true,false])}}
-          >
-            
+          <TouchableOpacity
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              marginVertical: 20,
+            }}
+            onPress={() => {
+              setradio([false, true, false]);
+            }}>
             {/* <View style={{flexDirection: 'row'}}>
               <Svg
                 width={24}
@@ -116,12 +146,13 @@ const Payment = (props: any) => {
               </Svg>
               <Text style={{marginLeft: 5, color: 'black'}}>Google Pay</Text>
             </View> */}
-             <RadioButton selected={radio[1]} title='Google Pay'/>
+            <RadioButton selected={radio[1]} title="Google Pay" />
             <Svg
               width={38}
               height={16}
               viewBox="0 0 38 16"
               fill="none"
+              //@ts-expect-error
               xmlns="http://www.w3.org/2000/svg"
               {...props}>
               <G clipPath="url(#clip0_212_3619)">
@@ -154,7 +185,9 @@ const Payment = (props: any) => {
             </Svg>
           </TouchableOpacity>
           <TouchableOpacity
-          onPress={()=>{setradio([false,false,true])}}
+            onPress={() => {
+              setradio([false, false, true]);
+            }}
             style={{
               flexDirection: 'row',
               marginBottom: 20,
@@ -172,12 +205,13 @@ const Payment = (props: any) => {
               </Svg>
               <Text style={{marginLeft: 5, color: 'black'}}>Phone Pay</Text>
             </View> */}
-            <RadioButton selected={radio[2]} title='Phone Pay'/>
+            <RadioButton selected={radio[2]} title="Phone Pay" />
             <Svg
               width={24}
               height={24}
               viewBox="0 0 24 24"
               fill="none"
+              //@ts-expect-error
               xmlns="http://www.w3.org/2000/svg"
               {...props}>
               <Path
@@ -203,6 +237,7 @@ const Payment = (props: any) => {
                 height={18}
                 viewBox="0 0 30 18"
                 fill="none"
+                //@ts-expect-error
                 xmlns="http://www.w3.org/2000/svg"
                 {...props}>
                 <Path
@@ -219,6 +254,7 @@ const Payment = (props: any) => {
               height={8}
               viewBox="0 0 14 8"
               fill="none"
+              //@ts-expect-error
               xmlns="http://www.w3.org/2000/svg"
               {...props}>
               <Path
@@ -242,6 +278,7 @@ const Payment = (props: any) => {
                 height={18}
                 viewBox="0 0 30 18"
                 fill="none"
+                //@ts-expect-error
                 xmlns="http://www.w3.org/2000/svg"
                 {...props}>
                 <Path
@@ -256,6 +293,7 @@ const Payment = (props: any) => {
               height={8}
               viewBox="0 0 14 8"
               fill="none"
+              //@ts-expect-error
               xmlns="http://www.w3.org/2000/svg"
               {...props}>
               <Path
@@ -279,6 +317,7 @@ const Payment = (props: any) => {
                 height={18}
                 viewBox="0 0 30 18"
                 fill="none"
+                //@ts-expect-error
                 xmlns="http://www.w3.org/2000/svg"
                 {...props}>
                 <Path
@@ -293,6 +332,7 @@ const Payment = (props: any) => {
               height={8}
               viewBox="0 0 14 8"
               fill="none"
+              //@ts-expect-error
               xmlns="http://www.w3.org/2000/svg"
               {...props}>
               <Path
@@ -316,6 +356,7 @@ const Payment = (props: any) => {
                 height={18}
                 viewBox="0 0 30 18"
                 fill="none"
+                //@ts-expect-error
                 xmlns="http://www.w3.org/2000/svg"
                 {...props}>
                 <Path
@@ -330,6 +371,7 @@ const Payment = (props: any) => {
               height={8}
               viewBox="0 0 14 8"
               fill="none"
+              //@ts-expect-error
               xmlns="http://www.w3.org/2000/svg"
               {...props}>
               <Path
@@ -343,12 +385,36 @@ const Payment = (props: any) => {
           </View>
         </View>
         <Divider width={'100%'} marginVertical={15} color="#EAEAEA" />
-        <Input placeholder='Add a tip for your delivery partner(Optional)'/>
-        <View style={{flexDirection:'row',justifyContent:'space-evenly'}}>
-          <TouchableOpacity style={styles.tip} onPress={()=>{settip(10)}}><Text style={styles.tipText}>₹10</Text></TouchableOpacity>
-          <TouchableOpacity style={styles.tip} onPress={()=>{settip(20)}}><Text style={styles.tipText}>₹20</Text></TouchableOpacity>
-          <TouchableOpacity style={styles.tip} onPress={()=>{settip(50)}}><Text style={styles.tipText}>₹50</Text></TouchableOpacity>
-          <TouchableOpacity style={styles.tip} onPress={()=>{settip(100)}}><Text style={styles.tipText}>₹100</Text></TouchableOpacity>
+        <Input placeholder="Add a tip for your delivery partner(Optional)" />
+        <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
+          <TouchableOpacity
+            style={styles.tip}
+            onPress={() => {
+              settip(10);
+            }}>
+            <Text style={styles.tipText}>₹10</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.tip}
+            onPress={() => {
+              settip(20);
+            }}>
+            <Text style={styles.tipText}>₹20</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.tip}
+            onPress={() => {
+              settip(50);
+            }}>
+            <Text style={styles.tipText}>₹50</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.tip}
+            onPress={() => {
+              settip(100);
+            }}>
+            <Text style={styles.tipText}>₹100</Text>
+          </TouchableOpacity>
         </View>
         <Text style={{fontSize: 18, color: 'black', marginBottom: 10}}>
           Price Details
@@ -371,7 +437,9 @@ const Payment = (props: any) => {
               marginVertical: 10,
             }}>
             <Text style={{}}>Quantity</Text>
-            <Text style={{fontSize: 18, color: 'black'}}>x{props.route.params.length}</Text>
+            <Text style={{fontSize: 18, color: 'black'}}>
+              x{props.route.params.length}
+            </Text>
           </View>
 
           <View
@@ -413,7 +481,9 @@ const Payment = (props: any) => {
               marginVertical: 10,
             }}>
             <Text style={{}}>Toatl Amount</Text>
-            <Text style={{fontSize: 18, color: 'black'}}>₹{total+99+tip}</Text>
+            <Text style={{fontSize: 18, color: 'black'}}>
+              ₹{total + 99 + tip}
+            </Text>
           </View>
         </View>
         <View style={{height: 150}}></View>
@@ -429,44 +499,57 @@ const Payment = (props: any) => {
             justifyContent: 'space-between',
           }}>
           <Text style={{fontSize: 18, color: 'black', marginLeft: 25}}>
-            ₹{total+99+tip}
+            ₹{total + 99 + tip}
           </Text>
-          <TouchableOpacity onPress={() => {
-            props.navigation.navigate('Gateway')
-          }}>
+          <TouchableOpacity
+            onPress={() => {
+              props.navigation.navigate('Gateway');
+              createOrder();
+            }}>
             <View style={styles.right}>
               <Text style={styles.text}>Pay Now</Text>
             </View>
           </TouchableOpacity>
         </View>
       </View>
-      <Modal transparent visible={bottomSheet} animationType='slide'>
+      <Modal transparent visible={bottomSheet} animationType="slide">
         <TouchableOpacity
-        onPress={()=>{
-          setbottomSheet(false)
-        }}
+          onPress={() => {
+            setbottomSheet(false);
+          }}
           style={{
-            height:'100%',
-            backgroundColor:'rgba(0, 0, 0, 0.5)'
+            height: '100%',
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
           }}>
           <View style={styles.bottom}>
-            <Text style={{fontSize:18,color:'black',fontWeight:'400',padding:20}}>Address</Text>
+            <Text
+              style={{
+                fontSize: 18,
+                color: 'black',
+                fontWeight: '400',
+                padding: 20,
+              }}>
+              Address
+            </Text>
             <View>
-            <Input placeholder='Pin Code'/>
-            <Input placeholder='Address (House No. Building, Street, Area)*'/>
-            <Input placeholder='Locality/Town'/>
-            <View style={{flexDirection:'row',justifyContent:'space-between'}}>
-            <Input placeholder='City' width='48%'/>
-            <Input placeholder='State' width='48%'/>
+              <Input placeholder="Pin Code" />
+              <Input placeholder="Address (House No. Building, Street, Area)*" />
+              <Input placeholder="Locality/Town" />
+              <View
+                style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                <Input placeholder="City" width="48%" />
+                <Input placeholder="State" width="48%" />
+              </View>
             </View>
-            </View>
-            <Divider width={'100%'}/>
-          <TouchableOpacity style={styles.foot} onPress={() => {
-            setbottomSheet(false)
-            props.navigation.navigate('Payment')
-          }}>
-        <Text style={{color: 'white'}}>Place Order</Text>
-      </TouchableOpacity>
+            <Divider width={'100%'} />
+            <TouchableOpacity
+              style={styles.foot}
+              onPress={() => {
+                setbottomSheet(false);
+                // props.navigation.navigate('Payment')
+              }}>
+              <Text style={{color: 'white'}}>Place Order</Text>
+            </TouchableOpacity>
           </View>
         </TouchableOpacity>
       </Modal>
@@ -485,7 +568,7 @@ const styles = StyleSheet.create({
     width: '100%',
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
-    padding:10
+    padding: 10,
   },
   addressBox: {
     margin: 20,
@@ -497,10 +580,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     padding: 10,
   },
-  tip:{
+  tip: {
     backgroundColor: '#F9F9F9',
-    padding:10,
-    margin:10
+    padding: 10,
+    margin: 10,
   },
   right: {
     paddingHorizontal: 25,
@@ -534,7 +617,7 @@ const styles = StyleSheet.create({
     width: '100%',
     bottom: 0,
   },
-  foot:{
+  foot: {
     width: '96%',
     height: 50,
     backgroundColor: '#7E72FF',
@@ -545,8 +628,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  tipText:{
-    color:'black'
-  }
+  tipText: {
+    color: 'black',
+  },
 });
-

@@ -1,3 +1,4 @@
+import { Prodtoken } from '../../Constants/consts';
 import {getApiData} from './Axios';
 
 class ProductServices {
@@ -9,6 +10,9 @@ class ProductServices {
     let res = await getApiData(
       `https://backend-catalogue-dev.azurewebsites.net/api/Products/allProductsOfCategory/${id}`,
       'GET',
+      {headers:{
+        Authorization: 'Bearer ' + Prodtoken
+      }}
     ).then(res => {
       return res})
     return res;
@@ -28,6 +32,9 @@ class ProductServices {
     let res = await getApiData(
       'https://backend-catalogue-dev.azurewebsites.net/api/Category/allCategories',
       'GET',
+      {headers:{
+        Authorization: 'Bearer ' + Prodtoken
+      }}
     ).then(res => {
       return res})
     return res;
@@ -39,6 +46,9 @@ class ProductServices {
     const res = await getApiData(
       `https://backend-catalogue-dev.azurewebsites.net/api/Products/productDetail/${prodId}`,
       'GET',
+      {headers:{
+        Authorization: 'Bearer ' + Prodtoken
+      }}
     ).then(res => {return res})
     return res;
   }
