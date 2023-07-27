@@ -1,6 +1,7 @@
 import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import React from 'react';
 import { PrimaryColor, SecondaryColor } from '../Constants/colors';
+import ImageComp from './ImageComp';
 
 type propType = {
   image: string;
@@ -11,9 +12,9 @@ type propType = {
 const Varient = (props: propType) => {
   return (
     <View style={[styles.varient,{borderColor: props.selected? PrimaryColor:'rgba(234, 234, 234, 1)'}]}>
-      <Image
-        style={{height: 100, width: 100, resizeMode: 'contain',marginTop:5}}
-        source={{uri: props.image}}
+      <ImageComp
+        imageStyle={{height: 100, width: 100, resizeMode: 'contain',marginTop:5}}
+        url={props.image}
       />
       <View style={styles.details}>
       <Text style={styles.title}>{props.title}</Text>

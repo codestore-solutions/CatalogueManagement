@@ -11,16 +11,18 @@ import Divider from '../../Components/Divider';
 import API from '../../Services/API_Services';
 import Svg, {Path} from 'react-native-svg';
 import OrderServices from '../Services/OrderServices';
-import { order_status } from './OrderTracking';
+import {order_status} from './OrderTracking';
 
 const Orders = (props: any) => {
   let data = API.getProductDetails('');
 
-  const [list, setlist] = useState<{createdAt:string,id:number,orderStatus:number}[]>([]);
+  const [list, setlist] = useState<
+    {createdAt: string; id: number; orderStatus: number}[]
+  >([]);
 
   async function fetchOrders() {
-   let res = await OrderServices.GetOrders(1,20);
-   setlist(res.data.data.list);
+    let res = await OrderServices.GetOrders(1, 20);
+    setlist(res.data.data.list);
   }
 
   useEffect(() => {
@@ -31,11 +33,11 @@ const Orders = (props: any) => {
     <View style={styles.body}>
       <FlatList
         data={list}
-        renderItem={({item,index}) => (
+        renderItem={({item, index}) => (
           <View>
             <TouchableOpacity
               onPress={() => {
-                props.navigation.navigate('OrderDetails',list[index].id);
+                props.navigation.navigate('OrderDetails', list[index].id);
               }}
               style={{flexDirection: 'row', marginTop: 20}}>
               <Image
@@ -46,7 +48,7 @@ const Orders = (props: any) => {
                 <Text
                   numberOfLines={2}
                   style={{fontSize: 18, color: 'black', marginBottom: 10}}>
-                 Ordered On {list[index].createdAt.split('T')[0]}
+                  Ordered On {list[index].createdAt.split('T')[0]}
                 </Text>
                 <Text style={{color: '#7E72FF'}}>
                   {order_status[list[index].orderStatus].name}

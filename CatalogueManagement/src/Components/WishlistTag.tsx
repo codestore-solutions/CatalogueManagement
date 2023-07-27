@@ -35,7 +35,7 @@ const WishlistTag = (props: {
       <TouchableOpacity
         style={styles.body}
         onPress={() => {
-          props.navigation.navigate('WishlistProducts', props.items);
+          props.navigation.navigate('WishlistProducts', [props.items,props.id]);
         }}>
         <Text style={styles.text}>{props.title}</Text>
         <View style={styles.iconBox}>

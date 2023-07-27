@@ -152,6 +152,16 @@ class ProductServices {
 
     return res;
   }
+
+  public static async deleteProductFromWishlist(wid:number,pid:number){
+    let res = await getApiData(
+      `https://app-orderbooking-dev.azurewebsites.net/api/v1/wishList/delete?wishlistCollectionId=${wid}&productId=${pid}`,
+      'DELETE'
+    ).then(res => {return res})
+    .catch(err => {return err})
+
+    return res;
+  }
 }
 
 export default ProductServices;

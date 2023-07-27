@@ -5,6 +5,7 @@ import Divider from './Divider';
 import { PrimaryColor } from '../Constants/colors';
 import StarRating from 'react-native-star-rating-widget';
 import StarIcon from './StarIcon';
+import ImageComp from './ImageComp';
 
 const ProductListCard = (props: {
   item: {
@@ -23,7 +24,8 @@ const ProductListCard = (props: {
       <Divider width={'100%'}/>
       <View style={{backgroundColor:'white'}}>
       <View style={styles.body}>
-        <Image style={styles.image} source={{uri: props.item.attachment}} />
+        {/* <Image style={styles.image} source={{uri: props.item.attachment}} /> */}
+        <ImageComp imageStyle={styles.image} url={props.item.attachment}/>
         <TouchableOpacity style={{width: '60%',justifyContent:'space-between',paddingTop:10,marginVertical:5}}
         onPress={() => {
           props.navigation.navigate('Product', props.item.id);

@@ -31,6 +31,7 @@ const ProductsList = (props: {
   async function AddtoWishlist(prodID: number) {}
   const [visible, setvisible] = useState(false);
   const [sort, setsort] = useState(false);
+const [Selected, setSelected] = useState(-1);
 
   function sortPriceLtoH() {
     let sorted = data.sort((a, b) => {
@@ -105,6 +106,7 @@ const ProductsList = (props: {
                 item={item}
                 navigation={props.navigation}
                 onLike={() => {
+                  setSelected(Number(item.id));
                   setshowWishlist(true);
                 }}
                 liked={false}
@@ -168,7 +170,7 @@ const ProductsList = (props: {
         <AddToWishlist
           visible={showWishlist}
           setVisible={setshowWishlist}
-          prodId={3}
+          prodId={Selected}
           price={300}
         />
       </View>

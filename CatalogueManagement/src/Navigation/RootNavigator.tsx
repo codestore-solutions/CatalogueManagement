@@ -13,8 +13,6 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import TabNavigator from './TabNavigator';
 import FlashScreen from '../CatalogueModule/Screens/FlashScreen';
 import Login from '../UserManagement/Screens/Login';
-import Signup from '../UserManagement/Screens/Signup';
-import Otpscreen from '../UserManagement/Screens/Otpscreen';
 import Payment from '../OrderProcessing/Screens/Payment';
 import Gateway from '../OrderProcessing/Screens/Gateway';
 import Orders from '../OrderProcessing/Screens/Orders';
@@ -45,7 +43,7 @@ const RootNavigator = () => {
             headerTitle: '',
           }}
         />
-        <Stack.Screen
+        {/* <Stack.Screen
           name="Signup"
           component={Signup}
           options={{
@@ -60,7 +58,7 @@ const RootNavigator = () => {
             headerShown: false,
             statusBarColor: 'white',
           }}
-        />
+        /> */}
         <Stack.Screen
           name="Tab"
           component={TabNavigator}

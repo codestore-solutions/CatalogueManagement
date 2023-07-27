@@ -13,6 +13,7 @@ import API from '../Services/API_Services'
 import SvgComponent from '../../Components/TabBarIcons/HomeIcon'
 import ProductServices from '../Services/ProductsServices'
 import OrderServices from '../../OrderProcessing/Services/OrderServices'
+import ImageComp from '../../Components/ImageComp'
 
 const Products = (props: { navigation: { navigate: (arg0: string) => void } }) => {
 

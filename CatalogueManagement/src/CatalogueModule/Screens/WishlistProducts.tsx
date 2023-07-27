@@ -8,26 +8,31 @@ import HeartIconSvg from '../../Components/HeartIconSvg';
 const WishlistProducts = (props: {
   route: {params: any};
   navigation: {navigate: (arg: string, arg0: Object) => void};
+
+ 
 }) => {
- 
+  const [state, setstate] = useState(true);
+
+  useEffect(() => {
+    
+  }, [state])
   
-  
- 
-    return (
-      <View style={styles.body}>
-        <FlatList
-        data={props.route.params}
+  return (
+    <View style={styles.body}>
+      <FlatList
+        data={props.route.params[0]}
         renderItem={({item}) => (
-          // <WishlistProductWrapper
-          //   prodId={item.productId}
-          //   navigation={props.navigation}
-          // />
-          <View></View>
+          <WishlistProductWrapper
+            setState={setstate}
+            state={state}
+            wId={props.route.params[1]}
+            prodId={item.productId}
+            navigation={props.navigation}
+          />
         )}
       />
-      </View>
-    );
-  
+    </View>
+  );
 };
 
 export default WishlistProducts;
