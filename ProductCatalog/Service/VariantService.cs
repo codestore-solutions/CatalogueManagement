@@ -26,6 +26,8 @@ namespace ProductCatalog.Service
                 Price = variantIn.Price,
                 ProductId = variantIn.ProductId,
                 IsActive = variantIn.IsActive,
+                SKU = variantIn.SKU,
+                UOM = variantIn.UOM
             };
             _variantRepository.Add(variant);
             await _unitOfWork.SaveAsync();
