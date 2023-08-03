@@ -10,24 +10,24 @@ namespace ProductCatalog.Controllers
     [ApiController]
     public class VarientController : ControllerBase
     {
-        private readonly IVarientService _varientService;
+        private readonly IVariantService _varientService;
 
-        public VarientController(IVarientService varientService)
+        public VarientController(IVariantService varientService)
         {
             _varientService = varientService;
         }
 
         [HttpPost("addVarient")]
-        public async Task<IActionResult> PostVarient(VarientIn varientIn)
+        public async Task<IActionResult> PostVarient(VariantIn varientIn)
         {
-            var res = await _varientService.AddVarient(varientIn);
+            var res = await _varientService.AddVariant(varientIn);
             return Ok(res);
         }
 
         [HttpPut("update/{id}")]
-        public async Task<IActionResult> UpdateVarient(long id, Varient varient)
+        public async Task<IActionResult> UpdateVarient(long id, Variant varient)
         {
-            await _varientService.UpdateVarient(id, varient);
+            await _varientService.UpdateVariant(id, varient);
             return Ok();
         }
 

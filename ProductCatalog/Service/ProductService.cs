@@ -15,10 +15,10 @@ namespace ProductCatalog.Service
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IProductRepository _repository;
-        private readonly IVarientService _varientService;
+        private readonly IVariantService _varientService;
         private readonly IAttachmentService _attachmentService;
 
-        public ProductService(IUnitOfWork unitOfWork, IVarientService varientService, IAttachmentService attachmentService)
+        public ProductService(IUnitOfWork unitOfWork, IVariantService varientService, IAttachmentService attachmentService)
         {
             _unitOfWork = unitOfWork;
             _repository = unitOfWork.ProductRepository;
@@ -29,7 +29,7 @@ namespace ProductCatalog.Service
         public async Task<bool> MarkInactive(long  id)
         {
             var res = await _repository.MarkInactive(id);
-            return res == true;
+            return res;
         }
 
         public async Task<long> AddProduct(ProductIn productIn)
@@ -40,7 +40,7 @@ namespace ProductCatalog.Service
             return product.Id;
         }
 
-        public async Task<long> AddProductWithDetails(ProductWithVarient productdetail)
+        public async Task<long> AddProductWithDetails(ProductWithVariant productdetail)
         {
             var productIn = new ProductIn
             {
@@ -51,13 +51,13 @@ namespace ProductCatalog.Service
                 SellerId = productdetail.SellerId
             };
             var productId = await AddProduct(productIn);
-            foreach(var item in productdetail.Varients)
+            foreach(var item in productdetail.Variants)
             {
                 item.ProductId = productId;
-                var varientId = await _varientService.AddVarient(item);
+                var varientId = await _varientService.AddVariant(item);
                 foreach (var attachmentUrl in item.Attachment)
                 {
-                    Attachment attachment = new Attachment
+                    Attachment attachment = new() 
                     {
                         ProductId = productId,
                         VarientId = varientId,
@@ -93,7 +93,7 @@ namespace ProductCatalog.Service
                     Name = item.Name,
                     Rating = _repository.GetRating(item.Id),
                     Attachment = CheckAttachment(item.Id), 
-                    Price = await _unitOfWork.VarientRepository.GetPriceOfOneVarient(item.Id)
+                    Price = await _unitOfWork.VariantRepository.GetPriceOfOneVariant(item.Id)
                 });
             }
 
@@ -105,13 +105,13 @@ namespace ProductCatalog.Service
         public async Task<ProductDetailDto?> GetProductDetail(long id)
         {
             var product = await _repository.GetAsync(id);
-            var varients = await _repository.GetVarientsByProductId(id);
+            var variants = await _repository.GetVariantsByProductId(id);
             //var attachments = await _repository.GetAttachmentsByProductId(id);
             //var reviews = await _repository.GetReviewsByProductId(id);
-            List<VarientOut> varientOuts = new();
-            foreach (var item in varients)
+            List<VariantOut> variantOuts = new();
+            foreach (var item in variants)
             {
-                varientOuts.Add(new VarientOut
+                variantOuts.Add(new VariantOut
                 {
                     Id = item.Id,
                     ProductId = item.ProductId,
@@ -136,7 +136,7 @@ namespace ProductCatalog.Service
                 SubCategoryId = product.SubCategoryId,
                 BrandId = product.BrandId,
                 VendorId = product.SellerId,
-                Varients = varientOuts
+                Varients = variantOuts
             };
         }
 
@@ -154,7 +154,7 @@ namespace ProductCatalog.Service
                     Name = item.Name,
                     Rating = _repository.GetRating(item.Id),
                     Attachment = _repository.GetAttachment(item.Id),
-                    Price = await _unitOfWork.VarientRepository.GetPriceOfOneVarient(item.Id)
+                    Price = await _unitOfWork.VariantRepository.GetPriceOfOneVariant(item.Id)
                 });
             }
 
@@ -177,7 +177,7 @@ namespace ProductCatalog.Service
                     Name = item.Name,
                     Rating = _repository.GetRating(item.Id),
                     Attachment = _repository.GetAttachment(item.Id),
-                    Price = await _unitOfWork.VarientRepository.GetPriceOfOneVarient(item.Id)
+                    Price = await _unitOfWork.VariantRepository.GetPriceOfOneVariant(item.Id)
                 });
             }
 

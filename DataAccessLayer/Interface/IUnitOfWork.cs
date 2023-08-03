@@ -14,7 +14,7 @@ namespace DataAccessLayer.Interface
         IProductRepository ProductRepository { get; }
         IReviewRepository ReviewRepository { get; }
         ISubCategoryRepository SubcategoryRepository { get; }
-        IVarientRepository VarientRepository { get; }
+        IVariantRepository VariantRepository { get; }
 
         void Save();
         Task SaveAsync();

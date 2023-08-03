@@ -3,7 +3,7 @@ using ProductCatalog.DTOs.Incoming;
 
 namespace ProductCatalog.DTOs
 {
-    public class ProductWithVarient
+    public class ProductWithVariant
     {
         public string Name { get; set; } = null!;
         public long CategoryId { get; set; }
@@ -11,6 +11,6 @@ namespace ProductCatalog.DTOs
         public long SellerId { get; set; }
         public long BrandId { get; set; }
 
-        public IList<VarientIn> Varients { get; set; } = new List<VarientIn>();
+        public IList<VariantIn> Variants { get; set; } = new List<VariantIn>();
     }
 }

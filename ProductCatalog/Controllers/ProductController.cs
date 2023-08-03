@@ -25,7 +25,10 @@ namespace ProductCatalog.Controllers
 
 
 
-
+        /// <summary>
+        /// Gets list of all products
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("allProducts")]
         public async Task<ActionResult<ResponseDto<IEnumerable<ProductOverview>>>> Get()
         {
@@ -34,6 +37,11 @@ namespace ProductCatalog.Controllers
             return Ok(productOverviews);
         }
 
+        /// <summary>
+        /// Get details of specific product
+        /// </summary>
+        /// <param name="productId">Id of product</param>
+        /// <returns></returns>
         [HttpGet("productDetail/{productId}")]
         public async Task<ActionResult<ProductDetailDto>> GetProductDetailAsync(long productId)
         {
@@ -41,6 +49,11 @@ namespace ProductCatalog.Controllers
             return Ok(detail);
         }
 
+        /// <summary>
+        /// Get lists of products by category
+        /// </summary>
+        /// <param name="categoryId"></param>
+        /// <returns></returns>
         [HttpGet("allProductsOfCategory/{categoryId}")]
         public async Task<ActionResult<ProductOverview>> GetProductByCategory(long categoryId)
         {
@@ -52,6 +65,11 @@ namespace ProductCatalog.Controllers
             return Ok(products);
         }
 
+        /// <summary>
+        /// Get lists of products by sub-category
+        /// </summary>
+        /// <param name="subCategoryId"></param>
+        /// <returns></returns>
         [HttpGet("allProductsOfSubCategory/{subCategoryId}")]
         public async Task<ActionResult<ProductOverview>> GetProductBySubCategory(long subCategoryId)
         {
@@ -63,6 +81,11 @@ namespace ProductCatalog.Controllers
             return Ok(products);
         }
 
+        /// <summary>
+        /// Add a product
+        /// </summary>
+        /// <param name="productIn"></param>
+        /// <returns></returns>
         [HttpPost("addProduct")]
         public async Task<IActionResult> AddProduct(ProductIn productIn)
         {
@@ -70,13 +93,23 @@ namespace ProductCatalog.Controllers
             return Ok(id);
         }
 
+        /// <summary>
+        /// Add product with its variants
+        /// </summary>
+        /// <param name="productIn"></param>
+        /// <returns></returns>
         [HttpPost("addProductWithDetail")]
-        public async Task<IActionResult> AddProductWithVarientsAndAttachment(ProductWithVarient productIn)
+        public async Task<IActionResult> AddProductWithVariantsAndAttachment(ProductWithVariant productIn)
         {
             var id = await _productService.AddProductWithDetails(productIn);
             return Ok(id);
         }
 
+        /// <summary>
+        /// Mark product as inactive
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpPost("markInactive/{id}")]
         public async Task<IActionResult> MarkProductInactive(long id)
         {

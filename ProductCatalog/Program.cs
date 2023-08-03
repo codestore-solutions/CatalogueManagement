@@ -59,7 +59,7 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IReviewService, ReviewService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ISubCategoryService, SubCategoryService>();
-builder.Services.AddScoped<IVarientService, VarientService>();
+builder.Services.AddScoped<IVariantService, VariantService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

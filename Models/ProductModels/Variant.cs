@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Models.ProductModels
 {
-    public class Varient : EntityBase
+    public class Variant : EntityBase
     {
         //[Key]
         //public long Id { get; set; }

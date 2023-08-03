@@ -13,6 +13,6 @@ namespace ProductCatalog.DTOs
         public long VendorId { get; set; }
         public string SellerName = null!;
         //public decimal Rating { get; set; }
-        public IEnumerable<VarientOut> Varients { get; set; } = null!;
+        public IEnumerable<VariantOut> Varients { get; set; } = null!;
     }
 }
