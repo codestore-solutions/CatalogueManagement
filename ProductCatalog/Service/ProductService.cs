@@ -103,7 +103,7 @@ namespace ProductCatalog.Service
         {
             var product = await _repository.GetAsync(id);
             if(product == null)
-                return new ProductDetailDto();
+                return null;
             
             var variants = await _repository.GetVariantsByProductId(id);
             var brand = await _unitOfWork.BrandRepository.GetAsync(product.BrandId);
