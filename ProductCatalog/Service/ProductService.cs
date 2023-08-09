@@ -128,8 +128,6 @@ namespace ProductCatalog.Service
                 });
             }
 
-            if (product == null) return null;
-
             return new ProductDetailDto()
             {
                 Id = product.Id,
