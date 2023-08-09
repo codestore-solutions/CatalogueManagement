@@ -1,4 +1,5 @@
-﻿using Models.ProductModels;
+﻿using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Models.ProductModels;
 using ProductCatalog.DTOs.Incoming;
 
 namespace ProductCatalog.DTOs
@@ -9,10 +10,16 @@ namespace ProductCatalog.DTOs
         public string Name { get; set; } = null!;
         public long SubCategoryId { get; set; }
         public long CategoryId { get; set; }
+        public string? CategoryName { get; set; }
         public long BrandId {get; set; }
+        public string? BrandName { get; set; }
         public long VendorId { get; set; }
-        public string SellerName = null!;
-        //public decimal Rating { get; set; }
+        public string? SellerName = null!;
+        
+        //note:- need to implement on DBModal
+        public DateTime PublishedOn { get; set; }
+        
+        public decimal Rating { get; set; }
         public IEnumerable<VariantOut> Varients { get; set; } = null!;
     }
 }

@@ -45,8 +45,12 @@ namespace ProductCatalog.Controllers
         [HttpGet("productDetail/{productId}")]
         public async Task<ActionResult<ProductDetailDto>> GetProductDetailAsync(long productId)
         {
-            var detail = await _productService.GetProductDetail(productId);
-            return Ok(detail);
+            var productDetails = await _productService.GetProductDetail(productId);
+            if(productDetails == null)
+            {
+                return NoContent();
+            }
+            return productDetails;
         }
 
         /// <summary>

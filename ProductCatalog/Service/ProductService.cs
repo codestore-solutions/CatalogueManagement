@@ -82,9 +82,7 @@ namespace ProductCatalog.Service
         public async Task<ResponseDto<IEnumerable<ProductOverview>>> GetAll()
         {
             var query = await _repository.GetAllAsync();
-
-            List<ProductOverview> products = new List<ProductOverview>();
-
+            List<ProductOverview> products = new();
             foreach (var item in query)
             {
                 products.Add(new ProductOverview()
@@ -98,14 +96,18 @@ namespace ProductCatalog.Service
             }
 
             var res = ResponseDto<IEnumerable<ProductOverview>>.CreateSuccessResponse((int)StatusCodes.Status200OK, true, products);
-
             return res;
         }
 
         public async Task<ProductDetailDto?> GetProductDetail(long id)
         {
             var product = await _repository.GetAsync(id);
+            if(product == null)
+                return new ProductDetailDto();
+            
             var variants = await _repository.GetVariantsByProductId(id);
+            var brand = await _unitOfWork.BrandRepository.GetAsync(product.BrandId);
+            var category = await _unitOfWork.CategoryRepository.GetAsync(product.CategoryId);
             //var attachments = await _repository.GetAttachmentsByProductId(id);
             //var reviews = await _repository.GetReviewsByProductId(id);
             List<VariantOut> variantOuts = new();
@@ -133,10 +135,15 @@ namespace ProductCatalog.Service
                 Id = product.Id,
                 Name = product.Name,
                 CategoryId = product.CategoryId,
+                CategoryName = category?.Name,
                 SubCategoryId = product.SubCategoryId,
                 BrandId = product.BrandId,
+                BrandName = brand?.Name,
+                Rating = _repository.GetRating(product.Id),
                 VendorId = product.SellerId,
-                Varients = variantOuts
+                Varients = variantOuts,
+                //Note: need to implement on DBModel (this is temporary fix for this field)
+                PublishedOn = DateTime.Today
             };
         }
 
