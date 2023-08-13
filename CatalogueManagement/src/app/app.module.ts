@@ -3,58 +3,33 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NavComponent } from './components/nav/nav.component';
-import { ProductsComponent } from './components/products/products.component';
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
+import { PagesComponent } from './pages/pages.component';
+import { AuthGuard } from './services/guards/auth.guard';
+import { AnonymousGuard } from './services/guards/anonymous.guard';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { RequestInterceptor } from './services/interceptors/http-interceptor';
 import { SharedModule } from './shared_modules/shared/shared.module';
-import { dataReducer } from './store/reducer/product.reducer';
-import { DataService } from './services/data.service';
-
-import { MatGridListModule } from '@angular/material/grid-list';
-import { MatCardModule } from '@angular/material/card';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { BookingsComponent } from './components/bookings/bookings.component';
-import { OrdersComponent } from './components/orders/orders.component';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { TokenIntercepter } from './services/token.intercepter';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    // NavComponent,
-    // ProductsComponent,
-    // VariantComponent,
-    // ProductDetailsComponent,
-    // CategoryListComponent,
-    // BrandListComponent,
-    // SubCategoryComponent,
-    // ProdDetailComponent,
-    // DashboardComponent,
-    // BookingsComponent,
-    // OrdersComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     BrowserAnimationsModule,
+    AppRoutingModule,
+    HttpClientModule,
     SharedModule,
-    StoreModule.forRoot({ category: dataReducer }, {}),
     EffectsModule.forRoot([]),
-    MatGridListModule,
-    MatCardModule,
-    MatMenuModule,
-    MatIconModule,
-    MatButtonModule
+    StoreModule.forRoot({}, {})
   ],
-  providers: [DataService, {
-    provide: HTTP_INTERCEPTORS,
-    useClass: TokenIntercepter,
-    multi: true
-  }],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: RequestInterceptor, multi: true },
+    [ AuthGuard, AnonymousGuard ]
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

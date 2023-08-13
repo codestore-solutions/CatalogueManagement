@@ -1,9 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { environment } from "src/environments/environment";
-import { Brand } from "../model/brand.model";
-import { catchError } from "rxjs";
-
 
 interface category {
     id: string;
@@ -13,11 +10,11 @@ interface category {
 }
 @Injectable()
 export class DataService {
-    categoryURL = environment.categoryURL;
-    subCategoryURL = environment.subCategoryURL;
-    brandURL = environment.brandURL;
-    productURL = environment.productURL;
-    variantURL = environment.varientURL;
+    categoryURL = environment.baseURL;
+    subCategoryURL = environment.baseURL;
+    brandURL = environment.baseURL;
+    productURL = environment.baseURL;
+    variantURL = environment.baseURL;
     constructor(private http: HttpClient) {
 
     }
@@ -81,15 +78,10 @@ export class DataService {
     }
 
     getProducts() {
-        return this.http.get(this.productURL + `allProducts`);
+        return this.http.get(this.productURL + `/Products/allProducts`);
     }
 
     getProductById(productID) {
-        return this.http.get(this.productURL + `productDetail/${productID}`);
+        return this.http.get(this.productURL + `/Products/productDetail/${productID}`);
     } 
-
-    // Auth API's
-    login(userCred) {
-        return this.http.post(environment.auth, userCred, {responseType: 'text'});
-    }
 } 

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -18,6 +18,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatTabsModule } from '@angular/material/tabs';
 import { FormsModule } from '@angular/forms';
+import { MatSortModule } from '@angular/material/sort';
 import {
   MatFormFieldModule
 } from '@angular/material/form-field';
@@ -28,13 +29,12 @@ import {
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { PortalModule } from '@angular/cdk/portal';
-import { HttpClientModule } from '@angular/common/http';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatChipsModule} from '@angular/material/chips';
-import { FlexLayoutModule } from '@angular/flex-layout';
-
+import { DateFormat, DateTimeFormatPipe } from 'src/app/services/custom-pipe/dateformatsadsada';
+import { NgbModule, NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
 
 const modules = [
   MatToolbarModule,
@@ -60,16 +60,20 @@ const modules = [
   MatStepperModule,
   MatProgressSpinnerModule,
   PortalModule,
-  HttpClientModule,
   MatCheckboxModule,
   MatSnackBarModule,
   MatExpansionModule,
   MatChipsModule,
-  FlexLayoutModule
+  MatSortModule,
+  NgbModule,
+  NgbRatingModule
 ]
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    DateTimeFormatPipe,
+    DateFormat
+  ],
   imports: [
     CommonModule,
     modules
