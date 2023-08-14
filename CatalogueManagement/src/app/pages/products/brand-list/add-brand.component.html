@@ -1,0 +1,32 @@
+<div class="dialog-container" *ngIf="data.requestType == 'add'">
+  <div class="header">
+    <h1 mat-dialog-title>Add Brand</h1>
+    <button mat-icon-button (click)="onClose()"><img src="../../../assets/close.png"></button>
+  </div>
+  <div class="content">
+    <div class="brand-input">
+      <p>Enter Brand Name :</p>
+      <div class="change-container">
+        <input type="text" [(ngModel)]="name">
+        <button mat-raised-button (click)="onSave()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="dialog-container" *ngIf="data.requestType =='update'">
+  <div class="header">
+    <h1 mat-dialog-title>Edit Brand</h1>
+    <button mat-icon-button (click)="onClose()"><img src="../../../assets/close.png"></button>
+  </div>
+  <div class="content">
+    <div class="brand-input">
+      <p>Enter Brand Name :</p>
+      <div class="change-container">
+        <input type="text" [(ngModel)]="name">
+        <button mat-raised-button (click)="onSave()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+

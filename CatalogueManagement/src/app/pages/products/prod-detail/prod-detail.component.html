@@ -1,0 +1,195 @@
+<div class="header">
+  <mat-icon (click)="backNav()">keyboard_backspace</mat-icon>
+  <p class="title">Product Details</p>
+</div>
+<div style="margin: 2% 3% 0% 3%;
+display: flex;
+background-color: #FFFFFF;
+box-shadow: 0px 4px 4px 0px #0000001A;
+border: 1px solid #EAEAEA;
+border-radius: 15px;" class="py-2">
+<ng-container >
+  <div class="container">
+    <div class="row gx-5">
+      <aside class="col-lg-4">
+        <mat-card class="border rounded-4 mb-3 d-flex justify-content-center">
+          <img style="max-width: 100%; max-height: 60vh; margin: auto;" class="fit" [src]="previewImage">
+        </mat-card>
+        <div class="d-flex justify-content-center mb-3">
+          <ng-container *ngFor="let attachment of productDetails.attachment">
+            <mat-card class="border rounded-4" style="padding: 5px 5px 5px 5px;box-shadow: 0px 4px 4px 0px #0000001A;cursor:pointer">
+              <img width="60" height="60" class="rounded-2" (click)="onClickImage(attachment)" [src]="attachment" alt="img">
+            </mat-card>
+            <span class="px-2"></span>
+          </ng-container>
+        </div>
+      </aside>
+      <main class="col-lg-8">
+        <div class="ps-lg-3">
+          <div class="heading-container">
+            <div class="title-container">
+              <div class="title">
+                <h1>{{productDetails.productTitle}}</h1>
+              </div>
+              <div class="brand-container">
+                <p class="brand-name">{{productDetails.brandName}} | <span style="color: #7E8299;">Published : {{productDetails.createdOn | date: dateFormat }}</span></p>
+              </div>
+              <div class="rating-container">
+                <app-rating-decimal [rating]="productDetails.rating"></app-rating-decimal>
+                 &nbsp;&nbsp;<p style="color: #7E8299;">({{productDetails.feedbackCount}} Customer Riview)</p>
+              </div>
+            </div>
+            <div class="edit">
+              <!-- edit button -->
+              <mat-card style="padding: 8px;background-color: #f7f7f7;">
+                <mat-icon [routerLink]="['edit-product', requester]" style="color: blueviolet;display: flex;cursor: pointer;">create</mat-icon>
+              </mat-card>
+            </div>
+          </div>
+
+          <div class="unit-container">
+            <div class="units">
+              <div class="icon">
+                <i class="bi bi-cash"></i>
+              </div>
+              <div>
+                <p class="unit-text">Price :</p>
+                <p class="value">{{productDetails.price}}</p>
+              </div>
+            </div>
+            <div class="units">
+              <div class="icon">
+                <i class="bi bi-upc"></i>
+              </div>
+              <div>
+                <p class="unit-text">SKU :</p>
+                <p class="value">{{productDetails.sku}}</p>
+              </div>
+            </div>
+            <div class="units">
+              <div class="icon">
+                <i class="bi bi-files"></i>
+              </div>
+              <div>
+                <p class="unit-text">No. of Orders :</p>
+                <p class="value">{{productDetails.ordersCount}}</p>
+              </div>
+            </div>
+            <div class="units">
+              <div class="icon">
+                <i class="bi bi-database"></i>
+              </div>
+              <div>
+                <p class="unit-text">Available Stocks :</p>
+                <p class="value">{{productDetails.availableStock}}</p>
+              </div>
+            </div>
+          </div>
+          <div class="row py-2 d-flex">
+            <div class="col-6 lg-6 d-flex">
+              <mat-card style="cursor: pointer;">
+                <button (click)="onClickChangeVariant(1)" class="primary">S</button>
+              </mat-card>
+            &nbsp;&nbsp;
+              <mat-card style="cursor: pointer;">
+                <button (click)="onClickChangeVariant(2)" class="primary">M</button>
+              </mat-card>
+            </div>
+            <div class="col-6 lg-6">
+
+            </div>
+          </div>
+          <div class="description-container">
+            <!-- container for description -->
+            <p class="description">Description :</p>
+            <p class="content">{{productDetails.productDescription}}</p>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</ng-container>
+</div>
+<div style="margin: 3% 3% 3% 3%;
+display: flex;
+background-color: #FFFFFF;
+box-shadow: 0px 4px 4px 0px #0000001A;
+border: 1px solid #EAEAEA;
+border-radius: 15px;">
+    <div class="row gx-4">
+      <div class="col-lg-12 mb-6">
+        <div class="border rounded-2 px-3 py-2 bg-white">
+          <mat-tab-group>
+            <mat-tab label="Product Details">
+              <p class="content">
+                With supporting text below as a natural lead-in to additional content. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+                pariatur.
+              </p>
+              <!--Todo: mat table -->
+              <div class="py-2">
+                <p class="li-title">Specifications</p>
+                <table mat-table [dataSource]="dataSource">
+                  <!-- Particular Column -->
+                  <ng-container matColumnDef="position">
+                    <th hidden mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell style="background: aliceblue;" *matCellDef="let element"> {{element.position}} </td>
+                  </ng-container>
+
+                  <!-- Value Column -->
+                  <ng-container matColumnDef="name">
+                    <th hidden mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell style="padding-left: 5%;" *matCellDef="let element"> {{element.name}} </td>
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+
+              </div>
+
+            </mat-tab>
+            <mat-tab label="Features & Services">
+              <p class="content">Tab content or sample information now <br />
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+              aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+              officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+              nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo</p>
+               <!-- feature-service-container -->
+              <ng-container>
+                <div class="row mb-2 py-2" style="margin: 0%!important;">
+                  <div class="col-12 col-md-6">
+                    <p class="li-title">Features: </p>
+                    <ul class="mb-0">
+                      <li class="li-item" *ngFor="let feature of productDetails.features">{{feature}}</li>
+                    </ul>
+                  </div>
+                  <div class="col-12 col-md-6 mb-0">
+                    <p class="li-title">Services: </p>
+                    <ul>
+                      <li class="li-item" *ngFor="let service of productDetails.services">{{service}}</li>
+                    </ul>
+                  </div>
+                </div>
+              </ng-container>
+            </mat-tab>
+            <mat-tab label="Seller Info">
+              <p class="content">Another tab content or sample information now <br />
+              Dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+              commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+              mollit anim id est laborum.</p>
+            </mat-tab>
+          </mat-tab-group>
+        </div>
+      </div>
+      <!-- <div class="col-lg-4">
+        <div class="px-0 border rounded-2 shadow-0">
+          <mat-card>
+            Similar Items
+          </mat-card>
+        </div>
+      </div> -->
+    </div>
+</div>
+
+

@@ -1,0 +1,48 @@
+<div class="title-container">
+  <h1 class="title-text">Brands</h1>
+  <div class="filter-container">
+    <input class="search-filter" type="text" (keyup)="applySearchFilter($event)" placeholder="Search" #input>
+    <button mat-icon-button class="add-brand" (click)="addBrand()"><img src="../../../assets/AddFile.png"></button>
+  </div>
+
+</div>
+<div class="table-container">
+
+  <table mat-table [dataSource]="dataSource" class="brand-table">
+    <!-- Checkbox column -->
+    <!-- <ng-container matColumnDef="select">
+      <th mat-header-cell *matHeaderCellDef class="brand-table-header">
+        <mat-checkbox (change)="toggleAllRows()" [checked]="selection.hasValue() && isAllSelected()"
+          [indeterminate]="selection.hasValue() && !isAllSelected()" color="warn">
+
+        </mat-checkbox>
+      </th>
+      <td mat-cell *matCellDef="let row" class="brand-table-cell">
+        <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+          [checked]="selection.isSelected(row)" class="brand-checkbox" color="warn">
+        </mat-checkbox>
+      </td>
+    </ng-container> -->
+
+    <ng-container *ngFor="let column of tableHeaders; let i=index" [matColumnDef]="column.field_name">
+      <th mat-header-cell *matHeaderCellDef class="brand-table-header header-text">
+        {{column.header}}
+      </th>
+      <td mat-cell *matCellDef="let row; let i=index" class="brand-table-cell">
+        <div *ngIf="column.header == 'S/N'">
+          {{i+1}}
+        </div>
+        <div *ngIf="column.header != 'Action'">
+          {{row[column.field_name]}}
+        </div>
+        <div *ngIf="column.header == 'Action'">
+          <button mat-icon-button (click)="updateBrand(row)"><img src="../../../assets/edit.svg"></button>
+          <button mat-icon-button (click)="deleteBrand(row)"><img src="../../../assets/Vector (2).png"></button>
+        </div>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+</div>
