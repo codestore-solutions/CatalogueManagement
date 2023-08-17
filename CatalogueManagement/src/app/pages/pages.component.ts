@@ -25,7 +25,7 @@ export class PagesComponent {
           { label: 'Products', icon: 'bi bi-cart4', path: 'products'},
           { label: 'Add Products', icon: '', path: 'products/add'},
           { label: 'Category', icon:'', path:'products/category-list'},
-          { label: 'Brands', icon: '', path: 'brand-list'},
+          { label: 'Brands', icon: '', path: 'products/brand-list'},
         ]}
       ]
 

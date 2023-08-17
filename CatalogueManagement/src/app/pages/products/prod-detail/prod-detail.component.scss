@@ -274,24 +274,6 @@
   }
 }
 */
-.header {
-  margin: 2% 5% 0% 3%;
-  display: flex;
-  width: 100%;
-  gap: 2%;
-
-  mat-icon{
-    cursor: pointer;
-  }
-  .title {
-    font-size: 25px;
-    font-weight: 600;
-    letter-spacing: 0em;
-    text-align: left;
-    align-self: center;
-    }
-}
-
 .unit-container {
   margin-top: 1%;
   .units {

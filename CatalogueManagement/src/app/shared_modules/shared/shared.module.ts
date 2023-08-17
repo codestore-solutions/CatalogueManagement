@@ -35,6 +35,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {MatChipsModule} from '@angular/material/chips';
 import { DateFormat, DateTimeFormatPipe } from 'src/app/services/custom-pipe/dateformatsadsada';
 import { NgbModule, NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
+import {MatRadioModule} from '@angular/material/radio';
 
 const modules = [
   MatToolbarModule,
@@ -65,6 +66,7 @@ const modules = [
   MatExpansionModule,
   MatChipsModule,
   MatSortModule,
+  MatRadioModule,
   NgbModule,
   NgbRatingModule
 ]

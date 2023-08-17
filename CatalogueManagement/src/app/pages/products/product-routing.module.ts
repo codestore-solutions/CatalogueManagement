@@ -5,6 +5,8 @@ import { ProductsComponent } from './products.component';
 import { CategoryListComponent } from './category-list/category-list.component';
 import { ProdWelcomeComponent } from './prod-welcome/prod-welcome.component';
 import { ProdDetailComponent } from './prod-detail/prod-detail.component';
+import { BrandListComponent } from './brand-list/brand-list.component';
+import { EditProductComponent } from './product-list/edit-product/edit-product.component';
 
 Injectable({
   providedIn: 'root'
@@ -30,11 +32,15 @@ const routes: Routes = [
         },
         {
           path:'add',
-          component:ProductsComponent
+          component:EditProductComponent
         },
         {
-          path:'catagory-list',
+          path:'category-list',
           component:CategoryListComponent
+        },
+        {
+          path:'brand-list',
+          component:BrandListComponent
         }
       ]
   }

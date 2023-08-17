@@ -12,6 +12,7 @@ import { BrandListComponent } from './brand-list/brand-list.component';
 import { ProdWelcomeComponent } from './prod-welcome/prod-welcome.component';
 import { CarouselComponent } from 'src/app/carousel/carousel.component';
 import { RatingDecimalComponent } from '../rating-decimal/rating-decimal.component';
+import { EditProductComponent } from './product-list/edit-product/edit-product.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { RatingDecimalComponent } from '../rating-decimal/rating-decimal.compone
     ProductListComponent,
     CarouselComponent,
     RatingDecimalComponent,
+    EditProductComponent,
   ],
   imports: [
     CommonModule,

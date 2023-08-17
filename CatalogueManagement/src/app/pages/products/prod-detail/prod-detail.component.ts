@@ -20,7 +20,6 @@ export class ProdDetailComponent implements OnInit{
   displayedColumns: string[] = ['position', 'name'];
   dataSource = ELEMENT_DATA;
   ngOnInit(): void {
-    
     this.service.getProductById(parseInt(atob(this.requester))).subscribe((data:any)=>{
       //this.productDetails = data;
       console.log(data);
@@ -106,7 +105,6 @@ export class ProdDetailComponent implements OnInit{
     }
   }
   }
-
 }
 export class ProductDetailDto{
   productTitle:string;

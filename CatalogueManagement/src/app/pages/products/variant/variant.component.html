@@ -1,50 +1,149 @@
-<h1 mat-dialog-title>Add Variant</h1>
-<div mat-dialog-content class="dialog-box-content">
-  <div>
-    <form [formGroup]="variantForm">
-      <div formArrayName="variant">
-        <ng-container *ngFor="let variant in variantForm.get(''); let i=index">
-          <div [formGroupName]="i" class="m-2">
-            <div>
-              <p class="fs-4">Name :</p>
-              <mat-form-field class="w-100">
+<mat-stepper linear #stepper>
+  <mat-step [stepControl]="basicInfo">
+    <form [formGroup]="basicInfo">
+      <ng-template matStepLabel>Basic Info</ng-template>
+      <fieldset>
+        <legend>Variant Info</legend>
+        <ng-container>
+          <div class="row">
+            <div class="form-group col-lg-4 col-sm-4">
+              <mat-form-field>
+                <mat-label>Name</mat-label>
                 <input matInput type="text" formControlName="name">
+                <mat-error *ngIf="basicInfo.get('name').hasError('required') || (basicInfo.get('name').dirty || basicInfo.get('name').touched)">Name is required</mat-error>
               </mat-form-field>
             </div>
-            <div>
-              <p class="fs-4">Description :</p>
-              <mat-form-field class="w-100">
-                <textarea matInput type="text" formControlName="description"></textarea>
+            <div class="form-group col-lg-4 col-sm-4">
+              <mat-form-field>
+                <mat-label>UOM</mat-label>
+                <input matInput type="text" formControlName="uom">
+                <mat-error *ngIf="basicInfo.get('uom').hasError('required') || (basicInfo.get('uom').dirty || basicInfo.get('uom').touched)">UOM is required</mat-error>
               </mat-form-field>
             </div>
-            <div class="input-group mb-3">
-              <form [formGroup]="variant">
-                <button mat-raised-button (click)="addAttachment(variant)" type="button">Add Attachment</button>
-                <div formArrayName="image">
-                  <ng-container *ngFor="let image of variant.get('image')['controls']; let i=index">
-
-                    <mat-card class="attachment-card">
-                      <a type="button" mat-button (click)="fileInput.click()" class="add-icon"><img
-                          src="../../../assets/foundation_upload-cloud.svg"></a>
-                      <input hidden [formControlName]="i" #fileInput type="file">
-                      <a mat-button color='warn' (click)="removeAttachment(variant,i)" class="delete-icon">
-                        Remove
-                      </a>
-                    </mat-card>
-                  </ng-container>
-                </div>
-              </form>
+            <div class="form-group col-lg-4 col-sm-4">
+              <mat-form-field>
+                <mat-label>SKU</mat-label>
+                <input matInput type="text" formControlName="sku">
+              </mat-form-field>            
             </div>
           </div>
-          <button mat-raised-button color='warn' class="w-100 mt-3" (click)="removeVariant(i)">Remove
-            Varient</button>
+          <div class="row mt-3">
+            <div class="form-group col-lg-4 col-sm-4">
+              <mat-form-field>
+                <mat-label>Price</mat-label>
+                <input matInput type="text" formControlName="price">
+                <mat-error *ngIf="basicInfo.get('price').hasError('required') || (basicInfo.get('price').dirty || basicInfo.get('price').touched)">Price is required</mat-error>
+              </mat-form-field>
+            </div>
+            <div class="form-group col-lg-4 col-sm-4">
+              <mat-form-field>
+                <mat-label>Stocks</mat-label>
+                <input matInput type="text" formControlName="stock">
+                <mat-error *ngIf="basicInfo.get('stock').hasError('required') || (basicInfo.get('stock').dirty || basicInfo.get('stock').touched)">Stock is required</mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <mat-divider></mat-divider>
+          <div class="row mt-3">
+            <div>
+              <label for="prodImage">Product Image</label>
+            </div>
+            <div class="form-group col-lg-12 col-sm-12 attachment" style="display: flex;">
+              <mat-card style="float: left;padding: 7px;">
+                <a type="button" mat-button (click)="fileInput.click()" class="add-icon"><img
+                    src="../../../assets/foundation_upload-cloud.svg">
+                  <input class="form-control" formControlName="prodImage" hidden #fileInput type="file" (change)="selectFiles($event)" multiple>
+                </a>
+                <mat-error *ngIf="!hasImage">At least one image is required</mat-error>
+              </mat-card>
+              
+              <span class="px-2"></span>
+              <ng-container *ngFor="let preview of previews">
+                <mat-card style="padding: 7px;">
+                  <img height="50px" width="50px" [src]="preview" class="preview" />
+                </mat-card>
+                <span class="px-2"></span>
+              </ng-container>
+            </div>
+          </div>
+          <mat-divider></mat-divider>
         </ng-container>
+      </fieldset>
+      <div mat-diaglog-actions class="mt-3" style="float: right;">
+        <button mat-raised-button mat-dialog-close>Cancel</button>
+        &nbsp;&nbsp;
+        <button mat-raised-button class="btn btn-primary" (click)="onSubmitBaisc(stepper)" >Save & Next</button>
       </div>
     </form>
-  </div>
-  <button mat-button color="primary" (click)="addVariant()" class="mt-1">Add Varient</button>
-</div>
-<div mat-diaglog-actions>
-  <button mat-button mat-dialog-close (click)="close()">Save</button>
-  <button mat-button mat-dialog-close>Cancel</button>
-</div>
+  </mat-step>
+  <mat-step [stepControl]="secondFormGroup">
+    <form [formGroup]="secondFormGroup">
+      <ng-template matStepLabel>Features & Services</ng-template>
+      <mat-form-field>
+        <mat-label>Address</mat-label>
+        <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY" required>
+      </mat-form-field>
+      <div mat-diaglog-actions style="float: right;margin-top: 5%;">
+        <button mat-raised-button matStepperPrevious>Back</button>
+        &nbsp;&nbsp;
+        <button mat-raised-button class="btn btn-primary" (click)="onSubmitBaisc(stepper)" >Save & Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Done</ng-template>
+    <form [formGroup]="variantForm">
+      <mat-divider></mat-divider>
+      <div class="row" style="padding-top: inherit;">
+        <div class="form-group col-lg-5 col-sm-5">
+          <label for="stock">Features</label>
+          <input type="text" class="form-control" id="stock" placeholder="Enter Stock">
+          <mat-icon style="float: right;">add</mat-icon>
+        </div>
+  
+        <div class="form-group col-lg-5 col-sm-5">
+          <label for="stock">Services</label>
+          <input type="text" class="form-control" id="stock" placeholder="Enter Stock">
+        </div>
+      </div>
+      <mat-divider></mat-divider>
+      <div class="row">
+        <div class="form-group col-lg-12 col-sm-12">
+          <div style="float: right;">
+            <label>Add Variant Details &nbsp;</label>
+            <button mat-icon-button style="background-color: #0d6efd;color: white;"
+              (click)="addVariantDetail()"><mat-icon>add</mat-icon></button>
+          </div>
+          <table class="mat-table" formArrayName="variantDetails">
+            <tr *ngFor="let quantity of variantsDetails().controls; let i=index" [formGroupName]="i">
+              <td>
+                <label>Specification:</label>
+                <input type="text" formControlName="specification" class="form-control">
+              </td>
+              <td>
+                <label>Data:</label>
+                <input type="text" formControlName="description" class="form-control">
+              </td>
+              <td>
+                <button mat-icon-button style="margin-top: 15px;color: #0d6efd;"
+                  (click)="removeDetail(i)"><mat-icon>cancel</mat-icon></button>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </form>
+    
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button (click)="stepper.reset()">Reset</button>
+    </div>
+  </mat-step>
+</mat-stepper>
+
+
+<!-- <div mat-diaglog-actions style="float: right;">
+  <button mat-raised-button class="btn btn-primary" mat-dialog-close (click)="close()">Save</button>
+  &nbsp;&nbsp;
+  <button mat-raised-button mat-dialog-close>Cancel</button>
+</div> -->
