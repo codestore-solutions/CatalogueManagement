@@ -9,18 +9,8 @@ form {
   }
 }
 
-
 :host ::ng-deep .mat-horizontal-stepper-header{
 height: 50px;
-}
-:host ::ng-deep .mat-form-field-underline{
-  width: 0%;
-}
-
-:host ::ng-deep .mat-form-field-flex{
-  border: 1px solid #dee2e6;
-  border-radius: 5px;
-  padding-left: 5px;
 }
 
 ::ng-deep .mat-horizontal-stepper-header{
@@ -50,7 +40,7 @@ fieldset {
   padding: 20px;
   border: solid 1px #dac9c9;
   border-radius: 10px;
-
+  width: fit-content!important;
   legend {
     color: #dac9c9;
     float: inherit;
@@ -71,8 +61,11 @@ fieldset {
   }
 }
 table{
-  width: inherit!important;
+  // width: inherit!important;
   tr{
     border-bottom: 1px thin;
   }
+}
+:host ::ng-deep .mat-form-field-flex{
+  height: 45px;
 }

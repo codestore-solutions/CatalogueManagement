@@ -11,8 +11,8 @@ import { SubCategoryComponent } from './category-list/sub-category/sub-category.
 import { BrandListComponent } from './brand-list/brand-list.component';
 import { ProdWelcomeComponent } from './prod-welcome/prod-welcome.component';
 import { CarouselComponent } from 'src/app/carousel/carousel.component';
-import { RatingDecimalComponent } from '../rating-decimal/rating-decimal.component';
 import { EditProductComponent } from './product-list/edit-product/edit-product.component';
+import { RatingDecimalComponent } from '../common/rating-decimal/rating-decimal.component';
 
 @NgModule({
   declarations: [
@@ -25,8 +25,8 @@ import { EditProductComponent } from './product-list/edit-product/edit-product.c
     BrandListComponent,
     ProductListComponent,
     CarouselComponent,
-    RatingDecimalComponent,
     EditProductComponent,
+    RatingDecimalComponent
   ],
   imports: [
     CommonModule,

@@ -3,79 +3,131 @@
     <p class="title">{{'Add/Edit'}} Product </p>
 </div>
 <div class="content-container py-2">
-    <form style="width: 100%;padding:3%;">
+    <form [formGroup]="productForm" style="width: 100%;padding:3%;">
     <fieldset>
         <legend> {{'Add/Edit'}} - Product</legend>
             <div class="row d-flex">
                 <div class="form-group col-lg-4">
-                    <mat-form-field style="width: 100%;">
-                        <mat-label>Product Title*</mat-label>
+                    <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-label>Product Title</mat-label>
                         <input matInput type="text" formControlName="title">
-                        <!-- <mat-error *ngIf="basicInfo.get('name').hasError('required') || (basicInfo.get('name').dirty || basicInfo.get('name').touched)">Name is required</mat-error> -->
+                        <mat-error *ngIf="productForm.get('title').hasError('required') || (productForm.get('title').dirty || productForm.get('title').touched)">Title is required</mat-error>
                     </mat-form-field>
                 </div>
                 <div class="form-group col-lg-4">
-                    <mat-form-field style="width: 100%;">
+                    <mat-form-field appearance="outline" style="width: 100%;">
                         <mat-label>Choose one</mat-label>
-                        <mat-select>
-                            <mat-option>Clear</mat-option>
+                        <mat-select formControlName="brandId">
                             <mat-option value="valid">Boats</mat-option>
                             <mat-option value="invalid">MI</mat-option>
                         </mat-select>
-                        <mat-hint>Errors appear instantly!</mat-hint>
-                        <!-- <mat-error *ngIf="selected.hasError('required')">You must make a selection</mat-error>
-                            <mat-error *ngIf="selected.hasError('pattern') && !selected.hasError('required')">
-                              Your selection is invalid
-                            </mat-error> -->
+                        <mat-error *ngIf="productForm.get('brandId').hasError('required')">Brand is required</mat-error>
                     </mat-form-field>
                 </div>
                 <div class="form-group col-lg-4">
-                    <mat-form-field style="width: 100%;">
+                    <mat-form-field appearance="outline" style="width: 100%;">
                         <mat-label>Tags</mat-label>
                         <input matInput type="text" formControlName="tags">
                         <!-- <mat-error *ngIf="basicInfo.get('name').hasError('required') || (basicInfo.get('name').dirty || basicInfo.get('name').touched)">Name is required</mat-error> -->
                     </mat-form-field>
                 </div>
             </div>
-            <div class="row d-flex mt-3">
+            <div class="row d-flex mt-1">
                 <div class="form-group col-lg-6">
-                        <mat-form-field style="width: 100%;">
+                        <mat-form-field appearance="outline" style="width: 100%;">
                             <mat-label>Select Catagory</mat-label>
-                            <mat-select>
-                                <mat-option>Clear</mat-option>
+                            <mat-select formControlName="categoryId">
                                 <mat-option value="valid">Electric</mat-option>
                                 <mat-option value="invalid">NONE</mat-option>
                             </mat-select>
-                            <mat-hint>Errors appear instantly!</mat-hint>
-                            <!-- <mat-error *ngIf="selected.hasError('required')">You must make a selection</mat-error>
-                                <mat-error *ngIf="selected.hasError('pattern') && !selected.hasError('required')">
-                                  Your selection is invalid
-                                </mat-error> -->
+                            <mat-error *ngIf="productForm.get('categoryId').hasError('required')">Category is required</mat-error>
                         </mat-form-field>
                 </div>
                 <div class="form-group col-lg-6">
-                    <mat-form-field style="width: 100%;">
-                        <mat-label>Select Catagory</mat-label>
-                        <mat-select>
-                            <mat-option>Clear</mat-option>
-                            <mat-option value="valid">Electric</mat-option>
+                    <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-label>Select Sub-Catagory</mat-label>
+                        <mat-select formControlName="subCategoryId">
+                            <mat-option value="valid">Electric-W</mat-option>
                             <mat-option value="invalid">NONE</mat-option>
                         </mat-select>
-                        <mat-hint>Errors appear instantly!</mat-hint>
-                        <!-- <mat-error *ngIf="selected.hasError('required')">You must make a selection</mat-error>
-                            <mat-error *ngIf="selected.hasError('pattern') && !selected.hasError('required')">
-                              Your selection is invalid
-                            </mat-error> -->
+                        <mat-error *ngIf="productForm.get('subCategoryId').hasError('required')">Sub-Category is required</mat-error>
                     </mat-form-field>
                 </div>
             </div>
-            <div class="row d-flex mt-3 form-group">
-                <mat-form-field style="width: 100%;">
-                    <mat-label>Product Details*</mat-label>
-                    <textarea matInput placeholder="Ex. It makes me feel..."></textarea>
-                  </mat-form-field>
+            <div class="row d-flex mt-1">
+                <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>Product Details</mat-label>
+                    <textarea formControlName="productDescription" matInput placeholder="Ex. It makes me feel..."></textarea>
+                    <mat-error *ngIf="productForm.get('productDescription').hasError('required')">Product Descrioption is required</mat-error>  
+                </mat-form-field>
             </div>
     </fieldset>
-    <button mat-raised-button class="btn btn-primary mt-3" style="float: right;" (click)="openDialog()">Save & Add Variant</button>
+    <button mat-raised-button class="btn btn-primary mt-1" style="float: right;" (click)="onAddVariant()">Save & Add Variant</button>
 </form>
+</div>
+
+<div class="table-container">
+        <table mat-table [dataSource]="dataSource" class="product-table" matSort>
+    
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef class="product-table-header">Sr. No.</th>
+            <td mat-cell *matCellDef="let row let i=index" class="product-table-cell"> {{i+1}} </td>
+          </ng-container>
+    
+           <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="product-table-header">Name</th>
+            <td mat-cell *matCellDef="let row" class="product-table-cell"> <img [src]="row.attachment" alt="prod_img" class="product-table-cell grid-img"> {{row.name}}</td>
+          </ng-container>
+    
+          <ng-container matColumnDef="catagory">
+            <th mat-header-cell *matHeaderCellDef class="product-table-header">Category</th>
+            <td mat-cell *matCellDef="let row" class="product-table-cell">Default_Cat</td>
+          </ng-container>
+    
+          <ng-container matColumnDef="stock">
+            <th mat-header-cell *matHeaderCellDef class="product-table-header">Stock</th>
+            <td mat-cell *matCellDef="let row" class="product-table-cell">12</td>
+          </ng-container>
+    
+          <ng-container matColumnDef="brand">
+            <th mat-header-cell *matHeaderCellDef class="product-table-header">Brand</th>
+            <td mat-cell *matCellDef="let row" class="product-table-cell">Boat</td>
+          </ng-container>
+      
+          <ng-container matColumnDef="price">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="product-table-header">Price</th>
+            <td mat-cell *matCellDef="let row" class="product-table-cell"> {{row.price}} </td>
+          </ng-container>
+      
+          <ng-container matColumnDef="rating">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="product-table-header">Rating</th>
+            <td mat-cell *matCellDef="let row" class="product-table-cell"> {{row.rating}} </td>
+          </ng-container>
+    
+          <ng-container matColumnDef="date">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="product-table-header">Publish On</th>
+            <td mat-cell *matCellDef="let row" class="product-table-cell">09 Aug </td>
+          </ng-container>
+      
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="product-table-header">Action</th>
+            <td mat-cell *matCellDef="let row" class="product-table-cell"> 
+              <div clas="action">
+                  <i style="font-size: large; color: blueviolet;cursor: pointer;" [routerLink]="['view',row.id]" mat-icon-button class="bi bi-eye"></i> &nbsp; &nbsp;
+                  <i style="font-size: large;color: #fd5454;cursor: pointer;" (click)="onEditVariant(row.id)" [routerLink]="['edit-product', row.id]" class="bi bi-pencil-square"></i>&nbsp; &nbsp;
+                  <i style="font-size: large;color: #fd5454;cursor: pointer;" class="bi bi-trash3"></i>
+              </div>
+            </td>
+          </ng-container>
+    
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      
+          <!-- Row shown when there is no matching data. -->
+          <tr class="mat-row" *matNoDataRow>
+            <td class="product-table-cell" style="text-align: center;" colspan="4">No data matching</td>
+          </tr>
+        </table>
+      
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users" class="product-paginator"></mat-paginator>
 </div>
