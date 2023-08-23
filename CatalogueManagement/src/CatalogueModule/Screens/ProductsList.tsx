@@ -9,18 +9,21 @@ import Highlight from '../../Components/Highlight';
 import Slider from '../../Components/Slider';
 import StarRating from '../../FeedbackManagement/Components/StarRating';
 import Sort from '../../Components/Sort';
+import {COLORS} from '../../Constants/colors';
 
 const ProductsList = (props: {
   navigation: {navigate: (arg0: string, arg: Object) => void};
   route: any;
 }) => {
-  const [data, setdata] = useState<{
-    id: string | number;
-    attachment: string;
-    name: string;
-    price: string;
-    rating: number;
-  }[]>([]);
+  const [data, setdata] = useState<
+    {
+      id: string | number;
+      attachment: string;
+      name: string;
+      price: string;
+      rating: number;
+    }[]
+  >([]);
 
   async function getData() {
     let res = await ProductServices.getAllProducts(props.route.params.id);
@@ -31,22 +34,22 @@ const ProductsList = (props: {
   async function AddtoWishlist(prodID: number) {}
   const [visible, setvisible] = useState(false);
   const [sort, setsort] = useState(false);
-const [Selected, setSelected] = useState(-1);
+  const [Selected, setSelected] = useState(-1);
 
   function sortPriceLtoH() {
     let sorted = data.sort((a, b) => {
       return Number(a.price) - Number(b.price);
-  });
-  setdata(sorted);
-  setsort(!sort);
+    });
+    setdata(sorted);
+    setsort(!sort);
   }
 
   function sortPriceHtoL() {
     let sorted = data.sort((a, b) => {
       return Number(b.price) - Number(a.price);
-  });
-  setdata(sorted);
-  setsort(!sort);
+    });
+    setdata(sorted);
+    setsort(!sort);
   }
 
   useEffect(() => {
@@ -97,13 +100,14 @@ const [Selected, setSelected] = useState(-1);
     );
   } else {
     return (
-      <View>
+      <View style={{backgroundColor: COLORS.BackgroundColor}}>
         <View style={{height: '92%'}}>
           <FlatList
             data={data}
-            renderItem={({item}) => (
+            renderItem={({item, index}) => (
               <ProductListCard
                 item={item}
+                index={index}
                 navigation={props.navigation}
                 onLike={() => {
                   setSelected(Number(item.id));
@@ -166,7 +170,12 @@ const [Selected, setSelected] = useState(-1);
             </View>
           </View>
         </Modal>
-        <Sort visible={sort} setvisible={setsort} lowtohigh={sortPriceLtoH} hightolow={sortPriceHtoL}/>
+        <Sort
+          visible={sort}
+          setvisible={setsort}
+          lowtohigh={sortPriceLtoH}
+          hightolow={sortPriceHtoL}
+        />
         <AddToWishlist
           visible={showWishlist}
           setVisible={setshowWishlist}

@@ -2,12 +2,19 @@ import {getApiData} from './Axios';
 
 class UserServices {
   public static async getCart() {
+    console.log('====================================');
+    console.log('get cart called');
+    console.log('====================================');
     let res = await getApiData(
       'https://app-orderbooking-dev.azurewebsites.net/api/v1/cart?userId=5',
       'GET',
-    ).then(res => {
-      return res;
-    });
+    )
+      .then(res => {
+        return res;
+      })
+      .catch(err => {
+        console.log(err.toString());
+      });
     return res;
   }
 

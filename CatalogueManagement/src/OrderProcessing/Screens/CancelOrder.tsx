@@ -7,11 +7,31 @@ import {
   Modal,
 } from 'react-native';
 import React, {useState} from 'react';
-import API from '../../Services/API_Services';
+// import API from '../../Services/API_Services';
 import Divider from '../../Components/Divider';
 import Svg, {Path} from 'react-native-svg';
 
-let data = API.getProductDetails('');
+const data = {
+  category: 'Electronics',
+  subCategory: 'Mobile',
+  Name: 'Google Pixel 6a (Charcoal, 128 GB) (6 GB RAM)',
+  Varients: [
+    {
+      description:
+        'Experience intuitiveness and enjoy seamless operation with smooth transition with the 5G-ready Google Pixel 6a that comes bundled with a myriad of innovative features.',
+      price: '₹27,999',
+      available: true,
+      rating: 4.5,
+    },
+  ],
+  Attachment: [
+    'https://rukminim1.flixcart.com/image/416/416/xif0q/mobile/s/y/0/-original-imaggbrbxkqr3v3u.jpeg?q=70',
+    'https://rukminim1.flixcart.com/image/416/416/xif0q/mobile/r/9/t/-original-imaggbrb3gyagad8.jpeg?q=70',
+    'https://rukminim1.flixcart.com/image/416/416/xif0q/mobile/y/b/t/-original-imaggbrbkxzra38y.jpeg?q=70',
+    'https://rukminim1.flixcart.com/image/416/416/xif0q/mobile/r/s/c/-original-imaggbrb42866wgx.jpeg?q=70',
+    'https://rukminim1.flixcart.com/image/416/416/xif0q/mobile/p/l/m/-original-imaggbrbkzgzffez.jpeg?q=70',
+  ],
+};
 
 const CancelOrder = (props: any) => {
   const [visible, setvisible] = useState(false);
@@ -81,12 +101,12 @@ const CancelOrder = (props: any) => {
               }}>
               Order Canceled Successfully
             </Text>
-              <Text>Your order has been successfully canceled</Text>
+            <Text>Your order has been successfully canceled</Text>
             <TouchableOpacity
               style={styles.footer}
               onPress={() => {
                 setbottomSheet(false);
-                props.navigation.navigate('Home')
+                props.navigation.navigate('Home');
               }}>
               <Text style={{color: 'white'}}>Go to Homepage</Text>
             </TouchableOpacity>
@@ -184,7 +204,7 @@ const styles = StyleSheet.create({
     width: '100%',
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
-    alignItems:'center',
-    justifyContent:'center'
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

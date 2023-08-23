@@ -14,27 +14,46 @@ import Wishlist from '../CatalogueModule/Screens/Wishlist';
 import AddWishlistButton from '../Components/AddWishlistButton';
 import Menu from '../CatalogueModule/Screens/Menu';
 import MenuIcon from '../Components/MenuIcon';
+import HomeOutline from '../Components/SvgIcons/BottomTabIcons/HomeOutline';
+import HomeFilledActive from '../Components/SvgIcons/BottomTabIcons/HomeFilledActve';
 
 const TabNavigator = () => {
   const Tab = createBottomTabNavigator();
   return (
     <Tab.Navigator
-    // tabBar={props => (
-    //   <MyTabBar
-    //     state={props.state}
-    //     navigation={props.navigation}
-    //     descriptors={props.descriptors}
-    //   />
-    // )}
-    >
+      // tabBar={props => (
+      //   <MyTabBar
+      //     state={props.state}
+      //     navigation={props.navigation}
+      //     descriptors={props.descriptors}
+      //   />
+      // )}
+      // sceneContainerStyle={{backgroundColor: 'white', paddingBottom: 60}}
+      screenOptions={{
+        tabBarStyle: {
+          position: 'absolute',
+          borderTopRightRadius: 30,
+          borderTopLeftRadius: 30,
+          height: 60,
+          paddingTop: 5,
+          paddingHorizontal: 5,
+          borderWidth: 1,
+          borderTopWidth: 1,
+          borderColor: '#eee',
+        },
+        tabBarShowLabel: false,
+        tabBarItemStyle: {
+          justifyContent: 'center',
+          alignItems: 'center',
+        },
+      }}>
       <Tab.Screen
         component={Products}
         name="Home"
         options={{
           headerShown: false,
-          tabBarIcon: ({focused}) => {
-            return <HomeIcon focused={false} />;
-          },
+          tabBarIcon: ({focused}) =>
+            focused ? <HomeFilledActive /> : <HomeOutline />,
         }}
       />
 
@@ -71,13 +90,13 @@ const TabNavigator = () => {
         }}
       />
 
-<Tab.Screen
+      <Tab.Screen
         component={Menu}
         name="Menu"
         options={{
           headerShown: false,
           tabBarIcon: ({focused}) => {
-            return <MenuIcon/>;
+            return <MenuIcon />;
           },
         }}
       />

@@ -32,7 +32,7 @@ class API {
     return categories;
   }
 
-  public static getAdBanner(){
+  public static getAdBanner() {
     return adbanner;
   }
 }

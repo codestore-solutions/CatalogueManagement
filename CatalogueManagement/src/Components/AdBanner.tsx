@@ -14,7 +14,11 @@ const AdBanner = (props: {
       onPress={() => {
         props.navigation.navigate('Product', 11);
       }}>
-      <Image style={{width: '100%', height: 200}} source={{uri: data.image}} />
+      <Image
+        resizeMode="contain"
+        style={{width: '100%', height: 200}}
+        source={{uri: data.image}}
+      />
     </TouchableOpacity>
   );
 };

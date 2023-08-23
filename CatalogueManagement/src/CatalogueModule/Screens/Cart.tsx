@@ -11,14 +11,13 @@ import React, {useState, useEffect} from 'react';
 import CartItem from '../../Components/CartItem';
 import UserServices from '../Services/UserServices';
 import Divider from '../../Components/Divider';
-import Svg, {Path} from 'react-native-svg';
 import BankOffers from '../../OrderProcessing/Components/BankOffers';
+import {useRoute} from '@react-navigation/native';
 
 const Cart = (
   props:
     | {
         navigation: {navigate: (arg0: string, arg1: {root: string}) => void};
-        route: any;
       }
     | any,
 ) => {
@@ -44,22 +43,23 @@ const Cart = (
     }[]
   >([]);
 
+  const route = useRoute();
+
   async function remove(id: number) {
     await UserServices.remove(id);
     setstate(!state);
   }
 
-  async function getData() {
-    let res = await UserServices.getCart();
-    setdata(res?.data.data.cartItems);
-  }
+  // async function getData() {
+  //   let res = await UserServices.getCart();
+  //   setdata(res?.data.data.cartItems);
+  // }
 
-  useEffect(() => {
-    getData();
-  }, [state]);
+  // useEffect(() => {
+  //   getData();
+  // }, [state]);
 
   console.log(items);
-  
 
   return (
     <View style={styles.body}>
@@ -123,7 +123,7 @@ const Cart = (
       <BankOffers />
       <Divider width={'100%'} />
       <View>
-        <FlatList 
+        <FlatList
           data={data}
           extraData={state}
           renderItem={({item, index}) => (
@@ -180,7 +180,7 @@ const Cart = (
               onPress={() => {
                 setbottomSheet(false);
                 if (data.length != 0) {
-                  props.navigation.navigate('Payment',items);
+                  props.navigation.navigate('Payment', items);
                 } else {
                   Alert.alert('Can not Proceed', 'Cart is Empty');
                 }

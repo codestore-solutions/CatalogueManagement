@@ -1,10 +1,31 @@
 import {FlatList, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import GridCard from './GridCard';
-import API from '../Services/API_Services';
 
-const Bestsellers = (props: { navigation: { navigate: (arg0: string) => any; }; }) => {
-  const data = API.getProductDetails('');
+const Bestsellers = (props: {
+  navigation: {navigate: (arg0: string) => any};
+}) => {
+  const data = {
+    category: 'Electronics',
+    subCategory: 'Mobile',
+    Name: 'Google Pixel 6a (Charcoal, 128 GB) (6 GB RAM)',
+    Varients: [
+      {
+        description:
+          'Experience intuitiveness and enjoy seamless operation with smooth transition with the 5G-ready Google Pixel 6a that comes bundled with a myriad of innovative features.',
+        price: '₹27,999',
+        available: true,
+        rating: 4.5,
+      },
+    ],
+    Attachment: [
+      'https://rukminim1.flixcart.com/image/416/416/xif0q/mobile/s/y/0/-original-imaggbrbxkqr3v3u.jpeg?q=70',
+      'https://rukminim1.flixcart.com/image/416/416/xif0q/mobile/r/9/t/-original-imaggbrb3gyagad8.jpeg?q=70',
+      'https://rukminim1.flixcart.com/image/416/416/xif0q/mobile/y/b/t/-original-imaggbrbkxzra38y.jpeg?q=70',
+      'https://rukminim1.flixcart.com/image/416/416/xif0q/mobile/r/s/c/-original-imaggbrb42866wgx.jpeg?q=70',
+      'https://rukminim1.flixcart.com/image/416/416/xif0q/mobile/p/l/m/-original-imaggbrbkzgzffez.jpeg?q=70',
+    ],
+  };
   return (
     <View>
       <Text style={styles.text}>Bestsellers</Text>
@@ -21,7 +42,9 @@ const Bestsellers = (props: { navigation: { navigate: (arg0: string) => any; }; 
             price={data.Varients[0].price}
             likeEnabled={true}
             liked={false}
-            onPress={()=>{props.navigation.navigate('ProductsGrid')}}
+            onPress={() => {
+              props.navigation.navigate('ProductsGrid');
+            }}
           />
         )}
       />

@@ -1,34 +1,37 @@
-import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
-import React, {useEffect, useLayoutEffect, useState} from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  ActivityIndicator,
+} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import ProductServices from '../CatalogueModule/Services/ProductsServices';
-import API from '../CatalogueModule/Services/API_Services';
 import Svg, {Path} from 'react-native-svg';
-import Divider from './Divider';
 import QuantityCounter from './QuantityCounter';
+import {COLORS} from '../Constants/colors';
 
-const CartItem = (
-  props:
-    | {
-        id: number;
-        quantity: number;
-        setQuantity: (arg0: string, arg1: boolean, arg2: number) => void;
-        remove: (arg0: number) => void;
-        items:{
-          productId: number;
-          varientId: number;
-          price: number;
-          discount: number;
-          quantity: number;
-          orderStatus: number;
-        }[];
-        setItems:any;
-        index:number
-      }
-) => {
+const CartItem = (props: {
+  id: number;
+  quantity: number;
+  // setQuantity: (arg0: string, arg1: boolean, arg2: number) => void;
+  remove?: (arg0: number) => void;
+  items?: {
+    productId: number;
+    varientId: number;
+    price: number;
+    discount: number;
+    quantity: number;
+    orderStatus: number;
+  }[];
+  setItems?: any;
+  index: number;
+}) => {
+  const [qty, setQty] = useState(props.quantity);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const [qty, setqty] = useState(props.quantity);
-
-  const [data, setdata] = useState<{
+  const [data, setData] = useState<{
     name: string;
     id: number;
     rating: number;
@@ -44,53 +47,59 @@ const CartItem = (
   }>(Object);
 
   async function getData() {
-    const res = await ProductServices.getProduct(props.id);
-    setdata(res?.data);
-    props.items[props.index]={
-      productId: props.id,
-          varientId: props.id,
-          price: data.varients[0].price,
-          discount: 0,
-          quantity: props.quantity,
-          orderStatus: 0
+    ProductServices.getProduct(props.id)
+      .then(res => {
+        setData(res?.data);
+        setIsLoading(false);
+        console.log(res?.data);
+      })
+      .catch(console.log);
+    if (props.items) {
+      props.items[props.index] = {
+        productId: props.id,
+        varientId: props.id,
+        price: data.varients[0].price,
+        discount: 0,
+        quantity: props.quantity,
+        orderStatus: 0,
+      };
+      props.setItems(props.items);
     }
-    props.setItems(props.items);
   }
 
   useEffect(() => {
     getData();
   }, []);
 
-  if (Object.keys(data).length == 0) {
-    return (
-      <View
-        style={{
-          height: 130,
-          width: '97%',
-          backgroundColor: '#F1F3F6',
-          borderRadius: 15,
-          alignSelf: 'center',
-          marginVertical: 10,
-        }}></View>
-    );
-  } else {
-    return (
-      <View style={styles.card}>
+  if (isLoading) return <ActivityIndicator size={30} style={{margin: 40}} />;
+
+  return (
+    <View style={styles.card}>
+      <View style={styles.image}>
         <Image
-          style={styles.image}
-          source={{uri: data.varients[0].attachment[0]}}
+          style={{height: '100%', width: '100%'}}
+          resizeMode="contain"
+          // source={{uri: data.varients[0].attachment[0]}}
+          source={require('../Assets/Images/sampleProductImage.png')}
         />
-        <View>
-          <View style={{flexDirection: 'row'}}>
-            <Text
-              numberOfLines={2}
-              style={{fontSize: 18, color: 'black', width: '70%'}}>
-              {data.name}
-            </Text>
-            {/* Dustbin Icon */}
+      </View>
+      <View>
+        <View style={{flexDirection: 'row'}}>
+          <Text
+            numberOfLines={2}
+            style={{
+              fontSize: 18,
+              fontWeight: '600',
+              color: 'black',
+              width: '70%',
+            }}>
+            {data.name}
+          </Text>
+          {/* Dustbin Icon */}
+          {props.remove && (
             <TouchableOpacity
               onPress={() => {
-                props.remove(props.id);
+                props.remove && props.remove(props.id);
               }}
               style={{
                 alignItems: 'center',
@@ -112,30 +121,60 @@ const CartItem = (
                 />
               </Svg>
             </TouchableOpacity>
+          )}
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}>
+          <View style={styles.varientCard}>
+            <Text>Color : </Text>
+            <Text style={{color: 'black', fontWeight: '500'}}>Charcoal</Text>
           </View>
-          <View style={{flexDirection: 'row',alignItems:'center',marginTop:10}}>
-            <View style={styles.varientCard}>
-              <Text>Varient :</Text>
-              <Text style={{color: 'black', fontWeight: '500'}}>Charcoal</Text>
-            </View>
-            <View style={{flexDirection: 'row'}}>
-              <Text style={{fontSize: 16, marginLeft: 10,color:'black'}}>Qty. </Text>
-              <QuantityCounter quantity={qty} setQuant={setqty}/>
-              <View>
-                {/* <Text style={{fontSize: 20, marginLeft: 10}}>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Text style={{fontSize: 16, marginLeft: 10, color: 'black'}}>
+              Qty.{' '}
+            </Text>
+            <QuantityCounter quantity={qty} setQuant={setQty} />
+            <View>
+              {/* <Text style={{fontSize: 20, marginLeft: 10}}>
                   {props.quantity}
                 </Text> */}
-              </View>
             </View>
           </View>
-          <Text style={{fontSize: 20}}>Price: ₹{data.varients[0].price}/-</Text>
-          <Text>
-            <Text style={{color: 'black'}}>10 Days</Text> return available
-          </Text>
         </View>
+        <Text style={{fontSize: 22, color: '#000', alignItems: 'center'}}>
+          ₹{data.varients[0].price}/-{'  '}
+          <Text
+            style={{
+              fontSize: 20,
+              color: COLORS.TextLight,
+              marginLeft: 10,
+              textDecorationLine: 'line-through',
+            }}>
+            ₹2,144
+          </Text>
+          <Text
+            style={{
+              fontSize: 18,
+              color: COLORS.PrimaryColor,
+              marginLeft: 10,
+            }}>
+            {'   '}(47% OFF)
+          </Text>
+        </Text>
+
+        <Text style={{marginTop: 5}}>
+          <Text style={{color: 'black'}}>10 Days</Text> return available
+        </Text>
+        <Text style={{marginTop: 5}}>
+          Delivery by <Text style={{color: 'black'}}>15 May 2023</Text>
+        </Text>
       </View>
-    );
-  }
+    </View>
+  );
 };
 
 export default CartItem;
@@ -150,13 +189,17 @@ const styles = StyleSheet.create({
   },
   card: {
     flexDirection: 'row',
-    margin: 10,
+    marginVertical: 20,
   },
   image: {
     height: 100,
     width: 100,
-    borderRadius: 5,
+    borderRadius: 20,
     marginRight: 20,
+    backgroundColor: COLORS.Grey,
+    borderWidth: 1,
+    borderColor: COLORS.BorderColor,
+    padding: 10,
   },
   header: {
     fontSize: 18,

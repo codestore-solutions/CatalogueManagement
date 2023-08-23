@@ -22,6 +22,8 @@ import OrderTracking from '../OrderProcessing/Screens/OrderTracking';
 import ProductsGrid from '../CatalogueModule/Screens/ProductsGrid';
 import WishlistProducts from '../CatalogueModule/Screens/WishlistProducts';
 import FeedbackForm from '../FeedbackManagement/Screens/FeedbackForm';
+import FeedbackView from '../FeedbackManagement/Screens/FeedbackView';
+import DeliveryTimeSelection from '../OrderProcessing/Screens/DeliveryTimeSelection';
 const RootNavigator = () => {
   const Stack = createNativeStackNavigator();
   return (
@@ -32,7 +34,6 @@ const RootNavigator = () => {
           component={FlashScreen}
           options={{
             headerShown: false,
-            statusBarColor: 'white',
           }}
         />
         <Stack.Screen
@@ -43,8 +44,9 @@ const RootNavigator = () => {
             headerTitle: '',
           }}
         />
-        {/* <Stack.Screen
-          name="Signup"
+        {/* respected components missing for below 2 stacks */}
+        {/* <Stack.Screen  
+          name="SignUp"
           component={Signup}
           options={{
             headerShown: false,
@@ -64,7 +66,6 @@ const RootNavigator = () => {
           component={TabNavigator}
           options={{
             headerShown: false,
-            statusBarColor: '#7e72ff',
           }}
         />
         <Stack.Screen
@@ -72,6 +73,7 @@ const RootNavigator = () => {
           component={ProductsList}
           options={({navigation, route}: {navigation: any; route: any}) => ({
             headerTitle: route.params.title,
+            headerShadowVisible: false,
           })}
         />
 
@@ -80,17 +82,18 @@ const RootNavigator = () => {
           component={ProductDetails}
           options={{
             headerShown: false,
-            statusBarColor: 'white',
           }}
         />
 
         <Stack.Screen name="Cart" component={Cart} />
+        {/* <Stack.Screen name="BuyNow" component={Cart} /> */}
 
         <Stack.Screen
-          name="Buynow"
+          name="BuyNow"
           component={BuyNow}
           options={{
-            title: '',
+            title: 'Buy Now',
+            headerShadowVisible: false,
           }}
         />
 
@@ -102,8 +105,6 @@ const RootNavigator = () => {
           }}
         />
 
-      
-
         <Stack.Screen
           name="Error"
           component={ErrorScreen}
@@ -113,6 +114,12 @@ const RootNavigator = () => {
         />
 
         <Stack.Screen name="Payment" component={Payment} />
+
+        <Stack.Screen
+          name="DeliveryTimeSelection"
+          component={DeliveryTimeSelection}
+          options={{title: 'Cart', headerShadowVisible: false}}
+        />
 
         <Stack.Screen name="Orders" component={Orders} />
 
@@ -128,14 +135,11 @@ const RootNavigator = () => {
           name="WishlistProducts"
           component={WishlistProducts}
           options={{
-            title:''
-          }
-          }
+            title: '',
+          }}
         />
-        <Stack.Screen
-        name='Feedback'
-        component={FeedbackForm}
-        />
+        {/* <Stack.Screen name="Feedback" component={FeedbackForm} /> */}
+        <Stack.Screen name="Feedback" component={FeedbackView} />
       </Stack.Navigator>
     </NavigationContainer>
   );

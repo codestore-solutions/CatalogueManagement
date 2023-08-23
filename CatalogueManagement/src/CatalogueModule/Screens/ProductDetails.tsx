@@ -6,7 +6,8 @@ import {
   View,
   Image,
   ActivityIndicator,
-  TouchableOpacity
+  TouchableOpacity,
+  StatusBar,
 } from 'react-native';
 import React, {useState, useEffect, useLayoutEffect} from 'react';
 import FooterButtons from '../../Components/FooterButtons';
@@ -15,13 +16,16 @@ import ProductServices from '../Services/ProductsServices';
 import ProductCarousel from '../../Components/ProductCarousel';
 import Divider from '../../Components/Divider';
 import Varient from '../../Components/Varient';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import LikeIcon from '../../Components/LikeIcon';
+import {COLORS} from '../../Constants/colors';
+import BackArrowIcon from '../../Components/SvgIcons/BackArrow';
 
-const ProductDetails = (props: {
-  navigation: {navigate: (arg0: string) => void};
-  route: {params: string | number};
-}) => {
+const ProductDetails = () => {
+  const navigation = useNavigation();
+  const route: any = useRoute();
   //create type
-  const [data, setdata] = useState<{
+  const [data, setData] = useState<{
     name: string;
     id: number;
     rating: number;
@@ -38,11 +42,11 @@ const ProductDetails = (props: {
   }>(Object);
 
   async function getData() {
-    const res = await ProductServices.getProduct(props.route.params);
-    setdata(res?.data);
+    const res = await ProductServices.getProduct(route.params.id);
+    setData(res?.data);
   }
 
-  const [selectedVarient, setselectedVarient] = useState(0);
+  const [selectedVariant, setSelectedVariant] = useState(0);
 
   useEffect(() => {
     getData();
@@ -57,12 +61,51 @@ const ProductDetails = (props: {
   } else {
     return (
       <View>
+        <StatusBar
+          backgroundColor={'transparent'}
+          translucent
+          barStyle="dark-content"
+        />
         <View style={styles.body}>
           <ScrollView showsVerticalScrollIndicator={false}>
+            <View
+              style={{
+                position: 'absolute',
+                top: StatusBar.currentHeight
+                  ? StatusBar.currentHeight + 20
+                  : 40,
+                height: 50,
+                width: '100%',
+                flexDirection: 'row',
+                paddingEnd: '4%',
+                paddingStart: '2%',
+                justifyContent: 'space-between',
+                zIndex: 99,
+              }}>
+              <TouchableOpacity
+                style={{
+                  alignItems: 'center',
+                }}
+                onPress={() => navigation.goBack()}>
+                <BackArrowIcon />
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{
+                  backgroundColor: COLORS.Light,
+                  elevation: 3,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  aspectRatio: 1,
+                  borderRadius: 100,
+                }}>
+                <LikeIcon />
+              </TouchableOpacity>
+            </View>
             <ProductCarousel
-              Attachment={data.varients[selectedVarient].attachment}
+              Attachment={data.varients[selectedVariant].attachment}
               rating={4}
             />
+
             <Text style={styles.prodName}>{data.name}</Text>
             <View style={styles.rating}>
               <Text style={{margin: 5}}>
@@ -76,11 +119,11 @@ const ProductDetails = (props: {
                       color: '#999999',
                     },
                   ]}>
-                  ₹{data.varients[selectedVarient].price + 500}/-
+                  ₹{data.varients[selectedVariant].price + 500}/-
                 </Text>
                 <Text style={styles.prodName}>
                   {' '}
-                  ₹{data.varients[selectedVarient].price}/-
+                  ₹{data.varients[selectedVariant].price}/-
                 </Text>
               </Text>
               <Text style={{color: 'blue'}}>(20% OFF)</Text>
@@ -102,15 +145,16 @@ const ProductDetails = (props: {
               data={data.varients}
               horizontal
               renderItem={({item, index}) => (
-                <TouchableOpacity 
-                 onPress={()=>{setselectedVarient(index)}}
-                >
+                <TouchableOpacity
+                  onPress={() => {
+                    setSelectedVariant(index);
+                  }}>
                   <Varient
-                  image={data.varients[index].attachment[0]}
-                  title={data.name}
-                  price={data.varients[index].price}
-                  selected={index === selectedVarient}
-                />
+                    image={data.varients[index].attachment[0]}
+                    title={data.name}
+                    price={data.varients[index].price}
+                    selected={index === selectedVariant}
+                  />
                 </TouchableOpacity>
               )}
             />
@@ -125,18 +169,18 @@ const ProductDetails = (props: {
               EMI starting form ₹70/month
             </Text>
             <Text style={{fontSize: 18, margin: 8}}>
-              {data.varients[selectedVarient].description}
+              {data.varients[selectedVariant].description}
             </Text>
             <View style={{height: 120}}></View>
             {/* <Recommended /> */}
           </ScrollView>
           <FooterButtons
             vendorId={data.vendorId}
-            navigation={props.navigation}
+            navigation={navigation}
             id={data.id}
-            vid={data.varients[selectedVarient].id}
+            vid={data.varients[selectedVariant].id}
             qty={1}
-            price={data.varients[selectedVarient].price}
+            price={data.varients[selectedVariant].price}
           />
         </View>
       </View>
@@ -149,7 +193,6 @@ export default ProductDetails;
 const styles = StyleSheet.create({
   body: {
     backgroundColor: 'white',
-    paddingHorizontal: 10,
     height: '100%',
   },
   prodName: {

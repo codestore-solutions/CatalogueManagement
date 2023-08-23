@@ -4,23 +4,16 @@ import ProductListCard from '../../Components/ProductListCard';
 import ProductServices from '../Services/ProductsServices';
 import WishlistProductWrapper from '../../Components/WishlistProductWrapper';
 import HeartIconSvg from '../../Components/HeartIconSvg';
+import {useRoute} from '@react-navigation/native';
 
-const WishlistProducts = (props: {
-  route: {params: any};
-  navigation: {navigate: (arg: string, arg0: Object) => void};
+const WishlistProducts = () => {
+  const route = useRoute();
 
- 
-}) => {
-  const [state, setstate] = useState(true);
-
-  useEffect(() => {
-    
-  }, [state])
-  
   return (
     <View style={styles.body}>
-      <FlatList
-        data={props.route.params[0]}
+      {/* to fix this flatlist data params */}
+      {/* <FlatList
+        data={route.params}
         renderItem={({item}) => (
           <WishlistProductWrapper
             setState={setstate}
@@ -30,7 +23,7 @@ const WishlistProducts = (props: {
             navigation={props.navigation}
           />
         )}
-      />
+      /> */}
     </View>
   );
 };

@@ -13,21 +13,12 @@ import RadioButton from '../Components/RadioButton';
 import Input from '../Components/Input';
 import BankOffers from '../Components/BankOffers';
 import OrderServices from '../Services/OrderServices';
+import {useRoute} from '@react-navigation/native';
 
-const Payment = (props: {
-  route: {
-    params: {
-      productId: number;
-      varientId: number;
-      price: number;
-      discount: number;
-      quantity: number;
-      orderStatus: number;
-    }[];
-  };
-}) => {
+const Payment = () => {
+  const route = useRoute();
   const [bottomSheet, setbottomSheet] = useState(false);
-  console.log(props.route);
+  console.log(route);
   let total = 0;
 
   const [radio, setradio] = useState([false, true, false]);
@@ -35,17 +26,18 @@ const Payment = (props: {
   const [tip, settip] = useState(0);
 
   function getTotal() {
-    console.log(props.route.params);
+    console.log(route.params);
 
-    props.route.params.forEach((i: {price: number}) => {
-      total += i.price;
-    });
+    // route?.params?.forEach((i: {price: number}) => { // to fix
+    //   total += i.price;
+    // });
   }
 
   async function createOrder() {
-    await OrderServices.CreateOrder([
-      {vendorId: 1, deliveryCharges: 99, orderItems: props.route.params},
-    ]);
+    // to fix
+    // await OrderServices.CreateOrder([
+    //   {vendorId: 1, deliveryCharges: 99, orderItems: route.params},
+    // ]);
   }
 
   getTotal();
@@ -89,7 +81,7 @@ const Payment = (props: {
                 viewBox="0 0 24 24"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                {...props}>
+                >
                 <Circle cx={12} cy={12} r={9.5} fill="#fff" stroke="#7E72FF" />
                 <Rect
                   x={1}
@@ -127,7 +119,7 @@ const Payment = (props: {
                 viewBox="0 0 24 24"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                {...props}>
+                >
                 <Circle cx={12} cy={12} r={9.5} fill="#fff" stroke="#7E72FF" />
                 <Rect
                   x={1}
@@ -153,8 +145,7 @@ const Payment = (props: {
               viewBox="0 0 38 16"
               fill="none"
               //@ts-expect-error
-              xmlns="http://www.w3.org/2000/svg"
-              {...props}>
+              xmlns="http://www.w3.org/2000/svg">
               <G clipPath="url(#clip0_212_3619)">
                 <Path
                   d="M26.936 4.318c1.045 0 1.852.301 2.47.903.617.603.901 1.406.901 2.41v4.816h-1.33v-1.103h-.047c-.57.903-1.377 1.354-2.326 1.354-.808 0-1.52-.25-2.09-.752a2.733 2.733 0 01-.855-1.957c0-.803.285-1.456.855-1.957.57-.502 1.377-.703 2.327-.703.855 0 1.52.15 2.042.502V7.48c0-.469-.166-.937-.497-1.242l-.073-.063a2.006 2.006 0 00-1.377-.552c-.807 0-1.425.351-1.852 1.054l-1.235-.803c.76-1.054 1.757-1.556 3.087-1.556zM20.24.906c.852 0 1.661.313 2.309.898l.112.105c.665.603.997 1.506.997 2.46 0 .953-.332 1.806-.997 2.458-.665.653-1.472 1.004-2.421 1.004l-2.28-.05v4.667h-1.424V.905h3.704zm6.885 7.627c-.57 0-1.045.15-1.425.452-.38.25-.57.602-.57 1.054 0 .401.19.752.475.953.333.251.713.402 1.092.402a2.16 2.16 0 001.48-.615l.087-.088c.475-.452.713-1.003.713-1.606-.428-.35-1.045-.552-1.852-.552zm-6.79-6.222H17.96v4.014h2.375c.522 0 1.044-.2 1.377-.602.76-.752.76-2.007.047-2.76l-.047-.05c-.38-.401-.855-.652-1.378-.602zM38 4.569L33.299 15.96h-1.425l1.757-3.964-3.086-7.377h1.52l2.231 5.67h.048l2.184-5.67H38v-.05z"
@@ -200,7 +191,7 @@ const Payment = (props: {
                 viewBox="0 0 20 20"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                {...props}>
+                >
                 <Circle cx={10} cy={10} r={9.5} fill="#fff" stroke="#7E72FF" />
               </Svg>
               <Text style={{marginLeft: 5, color: 'black'}}>Phone Pay</Text>
@@ -212,8 +203,7 @@ const Payment = (props: {
               viewBox="0 0 24 24"
               fill="none"
               //@ts-expect-error
-              xmlns="http://www.w3.org/2000/svg"
-              {...props}>
+              xmlns="http://www.w3.org/2000/svg">
               <Path
                 d="M10.206 9.94h2.949v4.693c-.402.2-.938.268-1.34.268-1.072 0-1.61-.536-1.61-1.743V9.94zm13.47 4.817c-1.523 6.449-7.985 10.442-14.433 8.919C2.793 22.154-1.2 15.69.323 9.243 1.848 2.793 8.31-1.2 14.758.323c6.449 1.524 10.442 7.986 8.919 14.434zm-6.231-5.888a.887.887 0 00-.871-.871h-1.61L11.28 3.776c-.335-.402-.871-.536-1.407-.402l-1.274.4c-.201.068-.268.336-.134.47l4.02 3.82H6.387c-.201 0-.335.134-.335.335v.67c0 .469.402.87.87.87h.939v3.218c0 2.413 1.273 3.82 3.418 3.82.67 0 1.206-.067 1.877-.335v2.145c0 .603.469 1.072 1.072 1.072h.938a.432.432 0 00.402-.402V9.874h1.542c.2 0 .335-.134.335-.335v-.67z"
                 fill="#82E"
@@ -238,8 +228,7 @@ const Payment = (props: {
                 viewBox="0 0 30 18"
                 fill="none"
                 //@ts-expect-error
-                xmlns="http://www.w3.org/2000/svg"
-                {...props}>
+                xmlns="http://www.w3.org/2000/svg">
                 <Path
                   d="M19.688 9a4.687 4.687 0 10-9.375 0 4.687 4.687 0 009.374 0zm9.375 7.5v-15a.938.938 0 00-.938-.938H1.875a.937.937 0 00-.938.938v15a.937.937 0 00.938.938h26.25a.938.938 0 00.938-.938zm-1.875-5.432a6.653 6.653 0 00-4.495 4.495H7.307a6.654 6.654 0 00-4.495-4.495V6.932a6.654 6.654 0 004.495-4.495h15.386a6.653 6.653 0 004.494 4.495v4.136z"
                   fill="#333"
@@ -255,8 +244,7 @@ const Payment = (props: {
               viewBox="0 0 14 8"
               fill="none"
               //@ts-expect-error
-              xmlns="http://www.w3.org/2000/svg"
-              {...props}>
+              xmlns="http://www.w3.org/2000/svg">
               <Path
                 d="M13 1L7 7 1 1"
                 stroke="#000"
@@ -279,8 +267,7 @@ const Payment = (props: {
                 viewBox="0 0 30 18"
                 fill="none"
                 //@ts-expect-error
-                xmlns="http://www.w3.org/2000/svg"
-                {...props}>
+                xmlns="http://www.w3.org/2000/svg">
                 <Path
                   d="M19.688 9a4.687 4.687 0 10-9.375 0 4.687 4.687 0 009.374 0zm9.375 7.5v-15a.938.938 0 00-.938-.938H1.875a.937.937 0 00-.938.938v15a.937.937 0 00.938.938h26.25a.938.938 0 00.938-.938zm-1.875-5.432a6.653 6.653 0 00-4.495 4.495H7.307a6.654 6.654 0 00-4.495-4.495V6.932a6.654 6.654 0 004.495-4.495h15.386a6.653 6.653 0 004.494 4.495v4.136z"
                   fill="#333"
@@ -294,8 +281,7 @@ const Payment = (props: {
               viewBox="0 0 14 8"
               fill="none"
               //@ts-expect-error
-              xmlns="http://www.w3.org/2000/svg"
-              {...props}>
+              xmlns="http://www.w3.org/2000/svg">
               <Path
                 d="M13 1L7 7 1 1"
                 stroke="#000"
@@ -318,8 +304,7 @@ const Payment = (props: {
                 viewBox="0 0 30 18"
                 fill="none"
                 //@ts-expect-error
-                xmlns="http://www.w3.org/2000/svg"
-                {...props}>
+                xmlns="http://www.w3.org/2000/svg">
                 <Path
                   d="M19.688 9a4.687 4.687 0 10-9.375 0 4.687 4.687 0 009.374 0zm9.375 7.5v-15a.938.938 0 00-.938-.938H1.875a.937.937 0 00-.938.938v15a.937.937 0 00.938.938h26.25a.938.938 0 00.938-.938zm-1.875-5.432a6.653 6.653 0 00-4.495 4.495H7.307a6.654 6.654 0 00-4.495-4.495V6.932a6.654 6.654 0 004.495-4.495h15.386a6.653 6.653 0 004.494 4.495v4.136z"
                   fill="#333"
@@ -333,8 +318,7 @@ const Payment = (props: {
               viewBox="0 0 14 8"
               fill="none"
               //@ts-expect-error
-              xmlns="http://www.w3.org/2000/svg"
-              {...props}>
+              xmlns="http://www.w3.org/2000/svg">
               <Path
                 d="M13 1L7 7 1 1"
                 stroke="#000"
@@ -357,8 +341,7 @@ const Payment = (props: {
                 viewBox="0 0 30 18"
                 fill="none"
                 //@ts-expect-error
-                xmlns="http://www.w3.org/2000/svg"
-                {...props}>
+                xmlns="http://www.w3.org/2000/svg">
                 <Path
                   d="M19.688 9a4.687 4.687 0 10-9.375 0 4.687 4.687 0 009.374 0zm9.375 7.5v-15a.938.938 0 00-.938-.938H1.875a.937.937 0 00-.938.938v15a.937.937 0 00.938.938h26.25a.938.938 0 00.938-.938zm-1.875-5.432a6.653 6.653 0 00-4.495 4.495H7.307a6.654 6.654 0 00-4.495-4.495V6.932a6.654 6.654 0 004.495-4.495h15.386a6.653 6.653 0 004.494 4.495v4.136z"
                   fill="#333"
@@ -372,8 +355,7 @@ const Payment = (props: {
               viewBox="0 0 14 8"
               fill="none"
               //@ts-expect-error
-              xmlns="http://www.w3.org/2000/svg"
-              {...props}>
+              xmlns="http://www.w3.org/2000/svg">
               <Path
                 d="M13 1L7 7 1 1"
                 stroke="#000"
@@ -438,7 +420,7 @@ const Payment = (props: {
             }}>
             <Text style={{}}>Quantity</Text>
             <Text style={{fontSize: 18, color: 'black'}}>
-              x{props.route.params.length}
+              x{route.params.length}
             </Text>
           </View>
 

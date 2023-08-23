@@ -23,7 +23,9 @@ const FooterButtons = (props: {
 
   const [timeBarVisible, settimeBarVisible] = useState(false);
 
-  const [selectedTime, setselectedTime] = useState('Select preffered delivery time');
+  const [selectedTime, setselectedTime] = useState(
+    'Select preffered delivery time',
+  );
 
   return (
     <View>
@@ -39,7 +41,25 @@ const FooterButtons = (props: {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.right}
-          onPress={() => setvisible(!visible)}>
+          onPress={() => {
+            // setvisible(!visible);
+            // props.navigation.navigate('Payment', {
+            // productId: props.id,
+            // varientId: props.vid,
+            // price: props.price,
+            // discount: 0,
+            // quantity: props.qty,
+            // orderStatus: 0,
+            // });
+            props.navigation.navigate('BuyNow', {
+              productId: props.id,
+              variantId: props.vid,
+              price: props.price,
+              discount: 0,
+              quantity: props.qty,
+              orderStatus: 0,
+            });
+          }}>
           <View>
             <Text style={[styles.text, {color: 'white'}]}>Buy Now</Text>
           </View>
@@ -80,9 +100,7 @@ const FooterButtons = (props: {
             <TouchableOpacity
               style={styles.box}
               onPress={() => settimeBarVisible(!timeBarVisible)}>
-              <Text style={{fontSize: 16}}>
-                {selectedTime}
-              </Text>
+              <Text style={{fontSize: 16}}>{selectedTime}</Text>
               <Svg
                 width={14}
                 height={8}
@@ -100,7 +118,7 @@ const FooterButtons = (props: {
                 />
               </Svg>
             </TouchableOpacity>
-            <TimeSlots selected={timeBarVisible} onSelect={setselectedTime}/>
+            <TimeSlots selected={timeBarVisible} onSelect={setselectedTime} />
             <TouchableOpacity
               style={styles.footer}
               onPress={() => {
@@ -187,7 +205,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop:30
+    marginTop: 30,
   },
   box: {
     width: '95%',

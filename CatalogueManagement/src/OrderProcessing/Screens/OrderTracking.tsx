@@ -1,6 +1,5 @@
 import {StyleSheet, Text, View, Image, ScrollView} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import API from '../../Services/API_Services';
 import Svg, {Path} from 'react-native-svg';
 import Divider from '../../Components/Divider';
 import CheckPoint from '../Components/Timeline/CheckPoint';
@@ -8,11 +7,29 @@ import Timeline from '../Components/Timeline/Timeline';
 import OrderServices from '../Services/OrderServices';
 
 const OrderTracking = (props: any) => {
-  let data = API.getProductDetails('');
+  const data = {
+    category: 'Electronics',
+    subCategory: 'Mobile',
+    Name: 'Google Pixel 6a (Charcoal, 128 GB) (6 GB RAM)',
+    Varients: [
+      {
+        description:
+          'Experience intuitiveness and enjoy seamless operation with smooth transition with the 5G-ready Google Pixel 6a that comes bundled with a myriad of innovative features.',
+        price: '₹27,999',
+        available: true,
+        rating: 4.5,
+      },
+    ],
+    Attachment: [
+      'https://rukminim1.flixcart.com/image/416/416/xif0q/mobile/s/y/0/-original-imaggbrbxkqr3v3u.jpeg?q=70',
+      'https://rukminim1.flixcart.com/image/416/416/xif0q/mobile/r/9/t/-original-imaggbrb3gyagad8.jpeg?q=70',
+      'https://rukminim1.flixcart.com/image/416/416/xif0q/mobile/y/b/t/-original-imaggbrbkxzra38y.jpeg?q=70',
+      'https://rukminim1.flixcart.com/image/416/416/xif0q/mobile/r/s/c/-original-imaggbrb42866wgx.jpeg?q=70',
+      'https://rukminim1.flixcart.com/image/416/416/xif0q/mobile/p/l/m/-original-imaggbrbkzgzffez.jpeg?q=70',
+    ],
+  };
 
-
-
-  const [items, setitems] = useState<{title:string,complete:boolean}[]>([])
+  const [items, setitems] = useState<{title: string; complete: boolean}[]>([]);
   const [timelineData, settimelineData] = useState<
     {orderStatusId: number; timestamp: string}[]
   >([]);
@@ -31,14 +48,12 @@ const OrderTracking = (props: any) => {
         timelineData[i].orderStatusId == 10
       ) {
         items.push({
-          title:order_status[timelineData[i].orderStatusId-1].name,
-          complete:true
+          title: order_status[timelineData[i].orderStatusId - 1].name,
+          complete: true,
         });
         setitems(items);
       }
-
     }
-    
   }
 
   useEffect(() => {
