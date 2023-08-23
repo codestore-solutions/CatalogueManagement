@@ -38,7 +38,7 @@ const HeaderIcons = (props: {
   return (
     <View>
       <FlatList
-        data={categories.splice(0, 4)}
+        data={categories?.splice(0, 4)}
         horizontal
         showsHorizontalScrollIndicator={false}
         renderItem={({item, index}) => (

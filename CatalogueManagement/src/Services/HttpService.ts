@@ -1,7 +1,7 @@
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {store} from '../redux/store';
-import Axios from './AxiosHttpService';
+import Axios from './AxiosHttpServices';
 import AxiosInterceptor from './AxiosInterceptor';
 
 class Http extends Axios {
