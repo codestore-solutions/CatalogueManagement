@@ -6,19 +6,18 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import React from 'react';
-import {theme} from 'native-base';
 import Divider from '../../Components/Divider';
 import {COLORS} from '../../Constants/colors';
-import {DeliverySlotsEnum} from '../../Enums/DeliverySlotsEnum';
 import {DeliverySlotMapper} from '../../Enums/EnumMapper';
 import {useState} from 'react';
 import moment from 'moment';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {useEffect} from 'react';
 import OrderingService from '../../services/OrderingService';
+import AddressCard from '../../Components/ReusableComponent/AddressCard';
 
 const DeliveryTimeSelection = () => {
-  const [selectedTimeSlot, setSelectedTimeSlot] = useState(10);
+  const [selectedTimeSlot, setSelectedTimeSlot] = useState(0);
   const [selectedDate, setSelectedDate] = useState('');
   const [slotsData, setSlotsData] = useState([]);
   const route = useRoute();
@@ -30,6 +29,8 @@ const DeliveryTimeSelection = () => {
       .then(res => {
         setSlotsData(res.data.data);
         setSlotsLoading(false);
+        setSelectedTimeSlot(res.data.data[0].id);
+        console.log(res.data.data);
       })
       .catch(console.log);
   }, []);
@@ -41,26 +42,9 @@ const DeliveryTimeSelection = () => {
         backgroundColor: '#fff',
       }}>
       <Divider width={'100%'} />
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          marginVertical: 15,
-          paddingHorizontal: '4%',
-        }}>
-        <Text style={{fontSize: 16}}>
-          Delivery to :{' '}
-          <Text style={{color: '#000', fontWeight: '700'}}>
-            G-18, Noida Sec- 63
-          </Text>
-        </Text>
-        <Text
-          onPress={() => {
-            // setbottomSheet(true);
-          }}
-          style={{fontWeight: '600', color: COLORS.PrimaryColor}}>
-          Change
-        </Text>
+
+      <View style={{paddingHorizontal: '4%'}}>
+        <AddressCard />
       </View>
       <Divider width={'100%'} />
       <ScrollView>
@@ -135,18 +119,41 @@ const DeliveryTimeSelection = () => {
             style={{
               paddingHorizontal: '4%',
               marginVertical: 20,
+              flexDirection: 'row',
+              alignItems: 'center',
             }}>
             <Text numberOfLines={1} style={{fontSize: 18, color: '#000'}}>
               Estimated Delivery Data :{' '}
+            </Text>
+            <View
+              style={{
+                backgroundColor: COLORS.PrimaryColor,
+                paddingVertical: 10,
+                borderRadius: 15,
+                borderColor: '#fff',
+                borderWidth: 3,
+                elevation: 5,
+                width: 80,
+                marginHorizontal: 10,
+              }}>
               <Text
                 style={{
-                  fontSize: 18,
-                  fontWeight: '600',
-                  color: COLORS.DarkGrey,
+                  color: '#fff',
+                  textAlign: 'center',
+                  fontSize: 20,
+                  fontWeight: '700',
                 }}>
-                {moment().add(2, 'days').format('DD/MM/YYYY')}
+                {moment().add(2, 'days').format('DD')}
               </Text>
-            </Text>
+              <Text
+                style={{
+                  color: '#fff',
+                  textAlign: 'center',
+                  fontSize: 16,
+                }}>
+                {moment().add(2, 'days').format('dd')}
+              </Text>
+            </View>
           </View>
         )}
         {/* Date Selection End*/}
@@ -226,7 +233,7 @@ const DeliveryTimeSelection = () => {
         }}
         disabled={slotsLoading}
         onPress={() => {
-          navigation.navigate('BuyNow', {...route.params});
+          navigation.navigate('Payment', {...route.params});
         }}>
         <Text
           style={{

@@ -44,6 +44,7 @@ const ProductDetails = () => {
   async function getData() {
     const res = await ProductServices.getProduct(route.params.id);
     setData(res?.data);
+    console.log(res?.data);
   }
 
   const [selectedVariant, setSelectedVariant] = useState(0);

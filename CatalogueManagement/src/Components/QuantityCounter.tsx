@@ -1,10 +1,7 @@
 import React, {useState} from 'react';
 import {View, Text, Button, StyleSheet, TouchableOpacity} from 'react-native';
 
-const QuantityCounter = (props: {
-  quantity: number;
-  setQuant: (arg: number) => void;
-}) => {
+const QuantityCounter = (props: {quantity: number; setQuant: Function}) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity

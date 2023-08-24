@@ -24,6 +24,7 @@ import WishlistProducts from '../CatalogueModule/Screens/WishlistProducts';
 import FeedbackForm from '../FeedbackManagement/Screens/FeedbackForm';
 import FeedbackView from '../FeedbackManagement/Screens/FeedbackView';
 import DeliveryTimeSelection from '../OrderProcessing/Screens/DeliveryTimeSelection';
+import Address from '../OrderProcessing/Screens/Address';
 const RootNavigator = () => {
   const Stack = createNativeStackNavigator();
   return (
@@ -130,6 +131,7 @@ const RootNavigator = () => {
         <Stack.Screen name="Gateway" component={Gateway} />
 
         <Stack.Screen name="OrderTracking" component={OrderTracking} />
+        <Stack.Screen name="Address" component={Address} />
 
         <Stack.Screen
           name="WishlistProducts"

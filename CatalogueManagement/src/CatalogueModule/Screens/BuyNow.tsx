@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Modal,
   Alert,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import CartItem from '../../Components/CartItem';
@@ -14,46 +15,55 @@ import Divider from '../../Components/Divider';
 import BankOffers from '../../OrderProcessing/Components/BankOffers';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {COLORS} from '../../Constants/colors';
+import ProductServices from '../Services/ProductsServices';
+import AddressCard from '../../Components/ReusableComponent/AddressCard';
 
 const BuyNow = () => {
   const navigate: any = useNavigation();
-  const route = useRoute();
-  const [data, setData] = useState([route.params]);
+  const route: any = useRoute();
+  const [data, setData] = useState({});
+  const [variantData, setVariantData] = useState({price: ''});
   const [bottomSheet, setBottomSheet] = useState(false);
-  const [setQuantity, setSetQuantity] = useState(1);
+  const [quantity, setQuantity] = useState(1);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    ProductServices.getProduct(route.params.productId)
+      .then(res => {
+        setData(res?.data);
+        setIsLoading(false);
+        const filteredData = res?.data.varients.filter(
+          (item: any) => item.id == route.params.variantId,
+        );
+        setVariantData(filteredData[0]);
+      })
+      .catch(console.log);
+  }, []);
+
+  if (isLoading)
+    return (
+      <View style={styles.body}>
+        <ActivityIndicator style={{margin: 40}} size={30} />
+      </View>
+    );
 
   return (
     <View style={styles.body}>
       <Divider width={'100%'} />
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          marginVertical: 15,
-        }}>
-        <Text style={{fontSize: 16}}>Delivery to : G-18, Noida Sec-63</Text>
-        <Text style={{color: 'blue'}} onPress={() => {}}>
-          Change
-        </Text>
-      </View>
+      <AddressCard />
       <Divider width={'100%'} />
       <BankOffers />
       <Divider width={'100%'} />
       <View>
-        <FlatList
+        <CartItem
+          variantId={route.params.variantId}
           data={data}
-          renderItem={({item, index}: any) => (
-            <View>
-              <CartItem
-                id={item.productId}
-                quantity={item.quantity}
-                // setQuantity={setQuantity}
-                index={index}
-              />
-              <Divider width={'100%'} />
-            </View>
-          )}
+          index={1}
+          setQty={setQuantity}
+          qty={quantity}
         />
+        <Divider width={'100%'} />
+
         <View style={{marginVertical: 20}}>
           <Text style={{fontSize: 22, fontWeight: '600', color: '#000'}}>
             Price Details (1 items)
@@ -73,7 +83,7 @@ const BuyNow = () => {
               Subtotal
             </Text>
             <Text style={{fontSize: 20, fontWeight: '600', color: '#000'}}>
-              ₹1,499
+              ₹{variantData.price}
             </Text>
           </View>
           <View
@@ -128,7 +138,7 @@ const BuyNow = () => {
               Total Amount
             </Text>
             <Text style={{fontSize: 20, fontWeight: '600', color: '#000'}}>
-              ₹1,647
+              ₹{variantData.price + 49 + 99}
             </Text>
           </View>
         </View>

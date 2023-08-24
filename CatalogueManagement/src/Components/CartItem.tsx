@@ -1,85 +1,32 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-  ActivityIndicator,
-} from 'react-native';
+import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import ProductServices from '../CatalogueModule/Services/ProductsServices';
 import Svg, {Path} from 'react-native-svg';
 import QuantityCounter from './QuantityCounter';
 import {COLORS} from '../Constants/colors';
 
 const CartItem = (props: {
-  id: number;
-  quantity: number;
-  // setQuantity: (arg0: string, arg1: boolean, arg2: number) => void;
-  remove?: (arg0: number) => void;
-  items?: {
-    productId: number;
-    varientId: number;
-    price: number;
-    discount: number;
-    quantity: number;
-    orderStatus: number;
-  }[];
-  setItems?: any;
-  index: number;
+  data: any;
+  index?: number;
+  setQty: Function;
+  qty: number;
+  remove?: Function;
+  variantId: number;
 }) => {
-  const [qty, setQty] = useState(props.quantity);
-  const [isLoading, setIsLoading] = useState(true);
-
-  const [data, setData] = useState<{
-    name: string;
-    id: number;
-    rating: number;
-    varients: {
-      id: number;
-      productId: 0;
-      description: string;
-      isActive: boolean;
-      price: number;
-      availableStock: number;
-      attachment: string[];
-    }[];
-  }>(Object);
-
-  async function getData() {
-    ProductServices.getProduct(props.id)
-      .then(res => {
-        setData(res?.data);
-        setIsLoading(false);
-        console.log(res?.data);
-      })
-      .catch(console.log);
-    if (props.items) {
-      props.items[props.index] = {
-        productId: props.id,
-        varientId: props.id,
-        price: data.varients[0].price,
-        discount: 0,
-        quantity: props.quantity,
-        orderStatus: 0,
-      };
-      props.setItems(props.items);
-    }
-  }
+  const [variantData, setVariantData] = useState({price: '', name: ''});
 
   useEffect(() => {
-    getData();
+    const filteredData = props.data.varients.filter(
+      (item: any) => item.id == props.variantId,
+    );
+    setVariantData(filteredData[0]);
   }, []);
-
-  if (isLoading) return <ActivityIndicator size={30} style={{margin: 40}} />;
-
   return (
     <View style={styles.card}>
       <View style={styles.image}>
         <Image
           style={{height: '100%', width: '100%'}}
           resizeMode="contain"
-          // source={{uri: data.varients[0].attachment[0]}}
+          // source={{uri: props.data.varients[0].attachment[0]}}
           source={require('../Assets/Images/sampleProductImage.png')}
         />
       </View>
@@ -93,13 +40,13 @@ const CartItem = (props: {
               color: 'black',
               width: '70%',
             }}>
-            {data.name}
+            {variantData.name}
           </Text>
           {/* Dustbin Icon */}
           {props.remove && (
             <TouchableOpacity
               onPress={() => {
-                props.remove && props.remove(props.id);
+                props.remove && props.remove(props.data.id);
               }}
               style={{
                 alignItems: 'center',
@@ -137,7 +84,7 @@ const CartItem = (props: {
             <Text style={{fontSize: 16, marginLeft: 10, color: 'black'}}>
               Qty.{' '}
             </Text>
-            <QuantityCounter quantity={qty} setQuant={setQty} />
+            <QuantityCounter quantity={props.qty} setQuant={props.setQty} />
             <View>
               {/* <Text style={{fontSize: 20, marginLeft: 10}}>
                   {props.quantity}
@@ -146,7 +93,7 @@ const CartItem = (props: {
           </View>
         </View>
         <Text style={{fontSize: 22, color: '#000', alignItems: 'center'}}>
-          ₹{data.varients[0].price}/-{'  '}
+          ₹{variantData.price}/-{'  '}
           <Text
             style={{
               fontSize: 20,

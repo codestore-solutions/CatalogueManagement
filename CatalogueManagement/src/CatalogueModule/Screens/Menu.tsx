@@ -1,67 +1,74 @@
-import { StyleSheet, Text, View, TouchableOpacity} from 'react-native'
-import React from 'react'
-import Divider from '../../Components/Divider'
-import ProfileCard from '../../Components/ProfileCard'
-import CartIcon from '../../Components/SvgIcons/CartIcon'
-import StarIcon from '../../Components/SvgIcons/StarIcon'
-import CouponIcon from '../../Components/SvgIcons/CouponIcon'
-import SettingsIcon from '../../Components/SvgIcons/SettingsIcon'
-import LogOutIcon from '../../Components/SvgIcons/LogOutIcon'
+import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import React from 'react';
+import Divider from '../../Components/Divider';
+import ProfileCard from '../../Components/ProfileCard';
+import CartIcon from '../../Components/SvgIcons/CartIcon';
+import StarIcon from '../../Components/SvgIcons/StarIcon';
+import CouponIcon from '../../Components/SvgIcons/CouponIcon';
+import SettingsIcon from '../../Components/SvgIcons/SettingsIcon';
+import LogOutIcon from '../../Components/SvgIcons/LogOutIcon';
+import {useNavigation} from '@react-navigation/native';
 
-const Menu = (props: { navigation: { navigate: (arg0: string) => void } }) => {
+const Menu = (props: {navigation: {navigate: (arg0: string) => void}}) => {
+  const navigate: any = useNavigation();
   return (
     <View style={styles.body}>
-      <ProfileCard/>
-      <Divider width={'100%'}/>
-      <TouchableOpacity style={styles.card}
-      onPress={()=>{props.navigation.navigate('Orders')}}
-      >
-        <CartIcon/>
+      <ProfileCard />
+      <Divider width={'100%'} />
+      <TouchableOpacity
+        style={styles.card}
+        onPress={() => {
+          props.navigation.navigate('Orders');
+        }}>
+        <CartIcon />
         <Text style={styles.title}>Orders</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.card}>
-        <StarIcon/>
+        <StarIcon />
         <Text style={styles.title}>Reviews</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.card}>
-        <CouponIcon/>
+        <CouponIcon />
         <Text style={styles.title}>Coupons</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.card}>
-        <SettingsIcon/>
+        <SettingsIcon />
         <Text style={styles.title}>Settings</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.log}>
-        <LogOutIcon/>
+      <TouchableOpacity
+        style={styles.log}
+        onPress={() => navigate.navigate('Login')}>
+        <LogOutIcon />
         <Text style={styles.title}>Log Out</Text>
       </TouchableOpacity>
     </View>
-  )
-}
+  );
+};
 
-export default Menu
+export default Menu;
 
 const styles = StyleSheet.create({
-    body:{
-        backgroundColor:'white',
-        height:'100%'
-    },
-    title:{
-        fontSize:22,
-        fontWeight:'400',
-        color:'black',
-        marginLeft:30
-    },
-    card:{
-      flexDirection:'row',
-      padding:20,
-    },
-    log:{
-      flexDirection:'row',
-      backgroundColor:'rgba(241, 243, 246, 1)',
-      padding:15,
-      bottom:20,
-      position:'absolute',
-      width:'100%'
-    }
-})
+  body: {
+    backgroundColor: 'white',
+    height: '100%',
+  },
+  title: {
+    fontSize: 22,
+    fontWeight: '400',
+    color: 'black',
+    marginLeft: 30,
+  },
+  card: {
+    flexDirection: 'row',
+    padding: 20,
+  },
+  log: {
+    flexDirection: 'row',
+    backgroundColor: 'rgba(241, 243, 246, 1)',
+    padding: 15,
+    bottom: 20,
+    position: 'absolute',
+    width: '100%',
+    paddingBottom: 50,
+  },
+});
