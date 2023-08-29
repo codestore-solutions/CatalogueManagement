@@ -7,4 +7,5 @@ export const COLORS = {
   DarkGrey: '#7E8299',
   BorderColor: '#EAEAEA',
   TextLight: '#999999',
+  Danger: 'red',
 };

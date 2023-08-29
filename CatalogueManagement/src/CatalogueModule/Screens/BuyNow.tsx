@@ -83,7 +83,7 @@ const BuyNow = () => {
               Subtotal
             </Text>
             <Text style={{fontSize: 20, fontWeight: '600', color: '#000'}}>
-              ₹{variantData.price}
+              ₹{parseInt(variantData.price) * quantity}
             </Text>
           </View>
           <View
@@ -138,7 +138,7 @@ const BuyNow = () => {
               Total Amount
             </Text>
             <Text style={{fontSize: 20, fontWeight: '600', color: '#000'}}>
-              ₹{variantData.price + 49 + 99}
+              ₹{parseInt(variantData.price) * quantity + 49 + 99}
             </Text>
           </View>
         </View>

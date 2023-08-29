@@ -5,11 +5,13 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {COLORS} from '../../Constants/colors';
 import AddressBox from '../../Components/ReusableComponent/AddressBox';
+import EditAddressModal from '../../Components/Modals/EditAddressModal';
 
 const Address = () => {
+  const [showModal, setShowModal] = useState(false);
   return (
     <View
       style={{
@@ -19,6 +21,7 @@ const Address = () => {
         paddingTop: 20,
       }}>
       <StatusBar backgroundColor={COLORS.Light} />
+      <EditAddressModal show={showModal} setShow={setShowModal} />
       <View
         style={{
           alignItems: 'center',
@@ -34,7 +37,7 @@ const Address = () => {
           Default Address
         </Text>
       </View>
-      <AddressBox />
+      <AddressBox showDelete />
       <TouchableOpacity
         style={{
           width: '100%',
@@ -47,7 +50,7 @@ const Address = () => {
           alignItems: 'center',
         }}
         onPress={() => {
-          // setShow(false);
+          setShowModal(true);
         }}>
         <Text style={{color: 'white'}}>Add New Address</Text>
       </TouchableOpacity>

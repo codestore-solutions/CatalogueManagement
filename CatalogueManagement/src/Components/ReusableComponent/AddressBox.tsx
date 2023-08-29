@@ -3,7 +3,7 @@ import React from 'react';
 import {COLORS} from '../../Constants/colors';
 import RadioActive from '../SvgIcons/RadioActive';
 
-const AddressBox = () => {
+const AddressBox = ({showDelete}: {showDelete?: boolean}) => {
   return (
     <View
       style={{
@@ -69,23 +69,25 @@ const AddressBox = () => {
             </Text>
           </Text>
           <View style={{flexDirection: 'row', gap: 10}}>
-            <TouchableOpacity
-              style={{
-                borderWidth: 1,
-                borderColor: COLORS.TextLight,
-                borderRadius: 5,
-                paddingHorizontal: 15,
-                paddingVertical: 3,
-              }}>
-              <Text
+            {showDelete && (
+              <TouchableOpacity
                 style={{
-                  color: '#000',
-                  fontSize: 15,
-                  textAlignVertical: 'center',
+                  borderWidth: 1,
+                  borderColor: COLORS.TextLight,
+                  borderRadius: 5,
+                  paddingHorizontal: 15,
+                  paddingVertical: 3,
                 }}>
-                Delete
-              </Text>
-            </TouchableOpacity>
+                <Text
+                  style={{
+                    color: '#000',
+                    fontSize: 15,
+                    textAlignVertical: 'center',
+                  }}>
+                  Delete
+                </Text>
+              </TouchableOpacity>
+            )}
             <TouchableOpacity
               style={{
                 borderWidth: 1,

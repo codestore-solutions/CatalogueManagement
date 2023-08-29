@@ -17,7 +17,6 @@ function AddressModal({show, setShow}: {show: boolean; setShow: Function}) {
         <TouchableOpacity onPress={() => setShow(false)} style={{flex: 1}} />
         <View
           style={{
-            height: '40%',
             backgroundColor: 'white',
             position: 'absolute',
             bottom: 0,
@@ -61,11 +60,10 @@ function AddressModal({show, setShow}: {show: boolean; setShow: Function}) {
           <AddressBox />
           <TouchableOpacity
             style={{
-              width: '96%',
+              width: '100%',
               height: 50,
               backgroundColor: '#7E72FF',
-              position: 'absolute',
-              bottom: 15,
+              marginVertical: 15,
               alignSelf: 'center',
               borderRadius: 15,
               justifyContent: 'center',
