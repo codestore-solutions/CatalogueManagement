@@ -30,12 +30,12 @@ const CartItem = (props: {
           source={require('../Assets/Images/sampleProductImage.png')}
         />
       </View>
-      <View>
+      <View style={{flexShrink: 1}}>
         <View style={{flexDirection: 'row'}}>
           <Text
             numberOfLines={2}
             style={{
-              fontSize: 18,
+              fontSize: 16,
               fontWeight: '600',
               color: 'black',
               width: '70%',
@@ -75,13 +75,20 @@ const CartItem = (props: {
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
+            flexShrink: 1,
           }}>
           <View style={styles.varientCard}>
-            <Text>Color : </Text>
-            <Text style={{color: 'black', fontWeight: '500'}}>Charcoal</Text>
+            <Text style={{fontSize: 13}}>Color : </Text>
+            <Text style={{color: 'black', fontWeight: '500', fontSize: 13}}>
+              Charcoal
+            </Text>
           </View>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Text style={{fontSize: 16, marginLeft: 10, color: 'black'}}>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}>
+            <Text style={{fontSize: 14, marginLeft: 10, color: 'black'}}>
               Qty.{' '}
             </Text>
             <QuantityCounter quantity={props.qty} setQuant={props.setQty} />
@@ -92,11 +99,11 @@ const CartItem = (props: {
             </View>
           </View>
         </View>
-        <Text style={{fontSize: 22, color: '#000', alignItems: 'center'}}>
+        <Text style={{fontSize: 20, color: '#000', alignItems: 'center'}}>
           ₹{variantData.price}/-{'  '}
           <Text
             style={{
-              fontSize: 20,
+              fontSize: 18,
               color: COLORS.TextLight,
               marginLeft: 10,
               textDecorationLine: 'line-through',
@@ -105,7 +112,7 @@ const CartItem = (props: {
           </Text>
           <Text
             style={{
-              fontSize: 18,
+              fontSize: 16,
               color: COLORS.PrimaryColor,
               marginLeft: 10,
             }}>

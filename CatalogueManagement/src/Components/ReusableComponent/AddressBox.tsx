@@ -3,7 +3,8 @@ import React from 'react';
 import {COLORS} from '../../Constants/colors';
 import RadioActive from '../SvgIcons/RadioActive';
 
-const AddressBox = ({showDelete}: {showDelete?: boolean}) => {
+const AddressBox = ({showDelete, data}: {showDelete?: boolean; data: any}) => {
+  console.log(data);
   return (
     <View
       style={{
@@ -35,8 +36,15 @@ const AddressBox = ({showDelete}: {showDelete?: boolean}) => {
                 color: COLORS.TextLight,
                 flexShrink: 1,
               }}>
-              G-18 Noida sector - 63 Near Fortis Hospital Noida, Uttar Pradesh
-              2013021
+              {data.street +
+                ' ' +
+                data.city +
+                ', ' +
+                data.state +
+                ' ' +
+                data.country +
+                ' ' +
+                data.postalCode}
             </Text>
           </View>
           <Text
@@ -60,12 +68,18 @@ const AddressBox = ({showDelete}: {showDelete?: boolean}) => {
             justifyContent: 'space-between',
             marginVertical: 5,
             alignItems: 'center',
+            gap: 10,
           }}>
           <Text
-            style={{fontWeight: '300', fontSize: 15, color: COLORS.TextLight}}>
+            style={{
+              fontWeight: '300',
+              fontSize: 14,
+              color: COLORS.TextLight,
+              flexShrink: 1,
+            }}>
             Mobile :{' '}
-            <Text style={{fontWeight: '700', fontSize: 15, color: '#000'}}>
-              8067564398
+            <Text style={{fontWeight: '700', fontSize: 14, color: '#000'}}>
+              {data.countryCode + ' ' + data.phoneNumber}
             </Text>
           </Text>
           <View style={{flexDirection: 'row', gap: 10}}>

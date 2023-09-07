@@ -7,6 +7,11 @@ class OrderingService {
     const response = await Http.get(url);
     return response;
   }
+  public static async getAllAddress(userId: number) {
+    const url = `${ApiDetails.GET_ALL_ADDRESS}?userId=${userId}`;
+    const response = await Http.get(url);
+    return response;
+  }
 }
 
 export default OrderingService;

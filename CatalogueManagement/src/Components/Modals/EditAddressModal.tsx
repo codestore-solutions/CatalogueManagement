@@ -303,7 +303,9 @@ function EditAddressModal({show, setShow}: {show: boolean; setShow: Function}) {
               alignItems: 'center',
             }}
             onPress={handleSubmit}>
-            <Text style={{color: 'white'}}>Save Address</Text>
+            <Text style={{color: 'white', fontSize: 18, fontWeight: '700'}}>
+              Save Address
+            </Text>
           </TouchableOpacity>
         </View>
       </View>

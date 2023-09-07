@@ -57,7 +57,23 @@ function AddressModal({show, setShow}: {show: boolean; setShow: Function}) {
               </Text>
             </TouchableOpacity>
           </View>
-          <AddressBox />
+          <AddressBox
+            data={{
+              id: 1,
+              userId: 5,
+              street: 'Block B, Industrial Area, Sector 62',
+              city: 'Noida',
+              state: 'Uttar Pradesh',
+              country: 'India',
+              countryCode: '+91',
+              postalCode: '201309',
+              phoneNumber: '9034906248',
+              alternateNumber: null,
+              addressType: 1,
+              latitude: 28.620813,
+              longitude: 77.383164,
+            }}
+          />
           <TouchableOpacity
             style={{
               width: '100%',
@@ -72,7 +88,9 @@ function AddressModal({show, setShow}: {show: boolean; setShow: Function}) {
             onPress={() => {
               setShow(false);
             }}>
-            <Text style={{color: 'white'}}>Place Order</Text>
+            <Text style={{color: 'white', fontSize: 18, fontWeight: '700'}}>
+              Save Address
+            </Text>
           </TouchableOpacity>
         </View>
       </View>

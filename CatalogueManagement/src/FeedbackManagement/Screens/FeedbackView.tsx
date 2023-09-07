@@ -1,13 +1,46 @@
-import {View, Text, ActivityIndicator} from 'react-native';
-import React, {useEffect} from 'react';
+import React from 'react';
 import WebView from 'react-native-webview';
 import {useRoute} from '@react-navigation/native';
-import ProductServices from '../../CatalogueModule/Services/ProductsServices';
-import {useState} from 'react';
 
 const FeedbackView = () => {
   const route = useRoute<any>();
-  return <WebView source={{uri: route.params.feedbackUrl}} style={{flex: 1}} />;
+
+  const debugging = `
+  window.localStorage.setItem('name', JSON.stringify('${route.params.name}'));
+  const consoleLog = (type, log) => window.ReactNativeWebView.postMessage(JSON.stringify({'type': 'Console', 'data': {'type': type, 'log': log}}));
+  console = {
+      log: (log) => consoleLog('log', log),
+      debug: (log) => consoleLog('debug', log),
+      info: (log) => consoleLog('info', log),
+      warn: (log) => consoleLog('warn', log),
+      error: (log) => consoleLog('error', log),
+    };
+`;
+
+  const onMessage = (payload: any) => {
+    let dataPayload;
+    try {
+      dataPayload = JSON.parse(payload.nativeEvent.data);
+    } catch (e) {}
+
+    if (dataPayload) {
+      if (dataPayload.type === 'Console') {
+        console.info(`[Console] ${JSON.stringify(dataPayload.data)}`);
+      } else {
+        console.log(dataPayload);
+      }
+    }
+  };
+
+  return (
+    <WebView
+      source={{uri: route.params.feedbackUrl}}
+      injectedJavaScript={debugging}
+      javaScriptEnabled
+      style={{flex: 1}}
+      onMessage={onMessage}
+    />
+  );
 };
 
 export default FeedbackView;

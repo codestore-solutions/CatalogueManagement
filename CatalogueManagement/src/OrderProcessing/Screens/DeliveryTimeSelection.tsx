@@ -18,7 +18,9 @@ import AddressCard from '../../Components/ReusableComponent/AddressCard';
 
 const DeliveryTimeSelection = () => {
   const [selectedTimeSlot, setSelectedTimeSlot] = useState(0);
-  const [selectedDate, setSelectedDate] = useState('');
+  const [selectedDate, setSelectedDate] = useState(
+    moment().add(2, 'days').format('YYYY-DD-MM'),
+  );
   const [slotsData, setSlotsData] = useState([]);
   const route = useRoute();
   const navigation: any = useNavigation();
@@ -233,7 +235,11 @@ const DeliveryTimeSelection = () => {
         }}
         disabled={slotsLoading}
         onPress={() => {
-          navigation.navigate('Payment', {...route.params});
+          navigation.navigate('Payment', {
+            ...route.params,
+            deliveryDate: selectedDate,
+            deliverySlotId: selectedTimeSlot,
+          });
         }}>
         <Text
           style={{

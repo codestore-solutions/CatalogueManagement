@@ -87,7 +87,6 @@ const RootNavigator = () => {
         />
 
         <Stack.Screen name="Cart" component={Cart} />
-        {/* <Stack.Screen name="BuyNow" component={Cart} /> */}
 
         <Stack.Screen
           name="BuyNow"
@@ -114,23 +113,35 @@ const RootNavigator = () => {
           }}
         />
 
-        <Stack.Screen name="Payment" component={Payment} />
+        <Stack.Screen
+          name="Payment"
+          component={Payment}
+          options={{headerShadowVisible: false}}
+        />
 
         <Stack.Screen
           name="DeliveryTimeSelection"
           component={DeliveryTimeSelection}
-          options={{title: 'Cart', headerShadowVisible: false}}
+          options={{title: 'Buy Now', headerShadowVisible: false}}
         />
 
         <Stack.Screen name="Orders" component={Orders} />
 
         <Stack.Screen name="CancelOrder" component={CancelOrder} />
 
-        <Stack.Screen name="OrderDetails" component={OrderDetails} />
+        <Stack.Screen
+          name="OrderDetails"
+          component={OrderDetails}
+          options={{title: 'View Order Details', headerShadowVisible: false}}
+        />
 
         <Stack.Screen name="Gateway" component={Gateway} />
 
-        <Stack.Screen name="OrderTracking" component={OrderTracking} />
+        <Stack.Screen
+          name="OrderTracking"
+          component={OrderTracking}
+          options={{title: 'Track Order', headerShadowVisible: false}}
+        />
         <Stack.Screen name="Address" component={Address} />
 
         <Stack.Screen

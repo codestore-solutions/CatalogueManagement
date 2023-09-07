@@ -39,8 +39,9 @@ const BankOffers = (props: any) => {
       </Svg>
     );
 
-    const content = open==true? 
-    <View style={styles.offer}>
+  const content =
+    open == true ? (
+      <View style={styles.offer}>
         <Text style={styles.offerText}>
           10% Instant Discount on Kotak Credit and Debit Cards on a min spend of
           Rs 3,000. TCA
@@ -49,7 +50,10 @@ const BankOffers = (props: any) => {
           Get up to Rs 500 Cashback on CRED Pay UPI (Android Devices only) on a
           minimum spend of Rs 1000. TCA
         </Text>
-      </View>:<View></View>
+      </View>
+    ) : (
+      <View></View>
+    );
   return (
     <View>
       <TouchableOpacity
@@ -76,7 +80,13 @@ const BankOffers = (props: any) => {
               stroke="#000"
             />
           </Svg>
-          <Text style={{fontSize: 20, fontWeight: '500', marginLeft: 20}}>
+          <Text
+            style={{
+              fontSize: 18,
+              fontWeight: '700',
+              marginLeft: 20,
+              color: '#000',
+            }}>
             Available Offers
           </Text>
         </View>

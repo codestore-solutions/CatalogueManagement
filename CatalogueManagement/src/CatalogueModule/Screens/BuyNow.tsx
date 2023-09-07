@@ -17,6 +17,7 @@ import {useNavigation, useRoute} from '@react-navigation/native';
 import {COLORS} from '../../Constants/colors';
 import ProductServices from '../Services/ProductsServices';
 import AddressCard from '../../Components/ReusableComponent/AddressCard';
+import PriceDetails from '../../Components/ReusableComponent/PriceDetails';
 
 const BuyNow = () => {
   const navigate: any = useNavigation();
@@ -64,91 +65,16 @@ const BuyNow = () => {
         />
         <Divider width={'100%'} />
 
-        <View style={{marginVertical: 20}}>
-          <Text style={{fontSize: 22, fontWeight: '600', color: '#000'}}>
-            Price Details (1 items)
-          </Text>
-          <View
-            style={{
-              marginTop: 15,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-            }}>
-            <Text
-              style={{
-                fontSize: 18,
-                fontWeight: '300',
-                color: COLORS.TextLight,
-              }}>
-              Subtotal
-            </Text>
-            <Text style={{fontSize: 20, fontWeight: '600', color: '#000'}}>
-              ₹{parseInt(variantData.price) * quantity}
-            </Text>
-          </View>
-          <View
-            style={{
-              marginTop: 15,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-            }}>
-            <Text
-              style={{
-                fontSize: 18,
-                fontWeight: '300',
-                color: COLORS.TextLight,
-              }}>
-              Taxes
-            </Text>
-            <Text style={{fontSize: 20, fontWeight: '600', color: '#000'}}>
-              ₹49
-            </Text>
-          </View>
-          <View
-            style={{
-              marginVertical: 15,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-            }}>
-            <Text
-              style={{
-                fontSize: 18,
-                fontWeight: '300',
-                color: COLORS.TextLight,
-              }}>
-              Delivery Charges
-            </Text>
-            <Text style={{fontSize: 20, fontWeight: '600', color: '#000'}}>
-              ₹99
-            </Text>
-          </View>
-          <Divider width={'100%'} />
-          <View
-            style={{
-              marginVertical: 15,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-            }}>
-            <Text
-              style={{
-                fontSize: 20,
-                fontWeight: '600',
-                color: '#000',
-              }}>
-              Total Amount
-            </Text>
-            <Text style={{fontSize: 20, fontWeight: '600', color: '#000'}}>
-              ₹{parseInt(variantData.price) * quantity + 49 + 99}
-            </Text>
-          </View>
-        </View>
+        <PriceDetails variantData={variantData} quantity={quantity} />
       </View>
       <TouchableOpacity
         style={styles.footer}
         onPress={() => {
           navigate.navigate('DeliveryTimeSelection', {...route.params});
         }}>
-        <Text style={{color: 'white'}}>Place Order</Text>
+        <Text style={{fontSize: 16, fontWeight: '700', color: 'white'}}>
+          Place Order
+        </Text>
       </TouchableOpacity>
     </View>
   );

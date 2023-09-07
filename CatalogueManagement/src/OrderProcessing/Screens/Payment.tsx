@@ -13,10 +13,14 @@ import RadioButton from '../Components/RadioButton';
 import Input from '../Components/Input';
 import BankOffers from '../Components/BankOffers';
 import OrderServices from '../Services/OrderServices';
-import {useRoute} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import AddressCard from '../../Components/ReusableComponent/AddressCard';
+import PriceDetails from '../../Components/ReusableComponent/PriceDetails';
+import {COLORS} from '../../Constants/colors';
 
 const Payment = () => {
-  const route = useRoute();
+  const route: any = useRoute();
+  const navigation: any = useNavigation();
   const [bottomSheet, setbottomSheet] = useState(false);
   console.log(route);
   let total = 0;
@@ -44,25 +48,20 @@ const Payment = () => {
   return (
     <View>
       <ScrollView style={styles.body}>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginVertical: 15,
-          }}>
-          <Text style={{fontSize: 16}}>Delivery to :{}</Text>
-          <Text
-            onPress={() => {
-              setbottomSheet(true);
-            }}
-            style={{color: 'blue'}}>
-            Change
-          </Text>
-        </View>
+        <Divider width={'100%'} />
+
+        <AddressCard />
+
         <Divider width={'100%'} />
         <BankOffers />
         <Divider width={'100%'} />
-        <Text style={{fontSize: 18, color: 'black', marginVertical: 10}}>
+        <Text
+          style={{
+            fontSize: 18,
+            color: 'black',
+            marginVertical: 10,
+            fontWeight: '700',
+          }}>
           Recommended Payment Option
         </Text>
         <View style={styles.darkbox}>
@@ -211,7 +210,13 @@ const Payment = () => {
             </Svg>
           </TouchableOpacity>
         </View>
-        <Text style={{fontSize: 18, color: 'black', marginVertical: 10}}>
+        <Text
+          style={{
+            fontSize: 18,
+            color: 'black',
+            marginVertical: 10,
+            fontWeight: '700',
+          }}>
           Other Payment Option
         </Text>
         <View style={styles.darkbox}>
@@ -398,81 +403,11 @@ const Payment = () => {
             <Text style={styles.tipText}>₹100</Text>
           </TouchableOpacity>
         </View>
-        <Text style={{fontSize: 18, color: 'black', marginBottom: 10}}>
-          Price Details
-        </Text>
-        <View>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              marginVertical: 10,
-            }}>
-            <Text style={{}}>Total MRP</Text>
-            <Text style={{fontSize: 18, color: 'black'}}>₹{total}</Text>
-          </View>
-
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              marginVertical: 10,
-            }}>
-            <Text style={{}}>Quantity</Text>
-            <Text style={{fontSize: 18, color: 'black'}}>
-              x{route.params.length}
-            </Text>
-          </View>
-
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              marginVertical: 10,
-            }}>
-            <Text style={{}}>Discount</Text>
-            <Text style={{fontSize: 18, color: 'black'}}>₹0.0</Text>
-          </View>
-
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              marginVertical: 10,
-            }}>
-            <Text style={{}}>Tip</Text>
-            <Text style={{fontSize: 18, color: 'black'}}>₹{tip}</Text>
-          </View>
-
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              marginVertical: 10,
-            }}>
-            <Text style={{}}>Delivery Charges</Text>
-            <Text style={{fontSize: 18, color: 'black'}}>₹99</Text>
-          </View>
-
-          <Divider width={'100%'} />
-
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              marginVertical: 10,
-            }}>
-            <Text style={{}}>Toatl Amount</Text>
-            <Text style={{fontSize: 18, color: 'black'}}>
-              ₹{total + 99 + tip}
-            </Text>
-          </View>
-        </View>
+        <PriceDetails variantData={route.params} quantity={1} />
         <View style={{height: 150}}></View>
       </ScrollView>
 
       <View style={styles.footer}>
-        <View style={{height: 4, backgroundColor: '#DADADA'}}></View>
         <View
           style={{
             flexDirection: 'row',
@@ -480,12 +415,20 @@ const Payment = () => {
             height: '100%',
             justifyContent: 'space-between',
           }}>
-          <Text style={{fontSize: 18, color: 'black', marginLeft: 25}}>
-            ₹{total + 99 + tip}
+          <Text
+            style={{
+              fontSize: 20,
+              fontWeight: '700',
+              color: 'black',
+              marginLeft: 25,
+              flex: 1,
+            }}>
+            ₹{parseInt(route.params?.price) * 1 + 49 + 99}
           </Text>
           <TouchableOpacity
+            style={{flex: 1}}
             onPress={() => {
-              props.navigation.navigate('Gateway');
+              navigation.navigate('Gateway');
               createOrder();
             }}>
             <View style={styles.right}>
@@ -494,47 +437,6 @@ const Payment = () => {
           </TouchableOpacity>
         </View>
       </View>
-      <Modal transparent visible={bottomSheet} animationType="slide">
-        <TouchableOpacity
-          onPress={() => {
-            setbottomSheet(false);
-          }}
-          style={{
-            height: '100%',
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-          }}>
-          <View style={styles.bottom}>
-            <Text
-              style={{
-                fontSize: 18,
-                color: 'black',
-                fontWeight: '400',
-                padding: 20,
-              }}>
-              Address
-            </Text>
-            <View>
-              <Input placeholder="Pin Code" />
-              <Input placeholder="Address (House No. Building, Street, Area)*" />
-              <Input placeholder="Locality/Town" />
-              <View
-                style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                <Input placeholder="City" width="48%" />
-                <Input placeholder="State" width="48%" />
-              </View>
-            </View>
-            <Divider width={'100%'} />
-            <TouchableOpacity
-              style={styles.foot}
-              onPress={() => {
-                setbottomSheet(false);
-                // props.navigation.navigate('Payment')
-              }}>
-              <Text style={{color: 'white'}}>Place Order</Text>
-            </TouchableOpacity>
-          </View>
-        </TouchableOpacity>
-      </Modal>
     </View>
   );
 };
@@ -571,9 +473,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 25,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 10,
+    borderRadius: 12,
     backgroundColor: '#7E72FF',
-    paddingVertical: 6,
+    paddingVertical: 10,
     marginRight: 25,
   },
   text: {
@@ -582,17 +484,19 @@ const styles = StyleSheet.create({
   },
   body: {
     backgroundColor: 'white',
-    paddingHorizontal: 10,
+    paddingHorizontal: '4%',
     height: '100%',
   },
   darkbox: {
     backgroundColor: '#F9F9F9',
-    width: '97%',
+    width: '100%',
     alignSelf: 'center',
     paddingHorizontal: 20,
-    borderRadius: 5,
+    borderRadius: 6,
   },
   footer: {
+    borderColor: COLORS.BorderColor,
+    borderTopWidth: 1,
     height: '8%',
     position: 'absolute',
     backgroundColor: 'white',

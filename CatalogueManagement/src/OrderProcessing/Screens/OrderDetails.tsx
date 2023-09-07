@@ -16,6 +16,8 @@ import {useNavigation, useRoute} from '@react-navigation/native';
 import ProductServices from '../../CatalogueModule/Services/ProductsServices';
 import Clipboard from '@react-native-clipboard/clipboard';
 import InAppBrowser from 'react-native-inappbrowser-reborn';
+import moment from 'moment';
+import ImageComp from '../../Components/ImageComp';
 
 const OrderDetails = () => {
   const navigation = useNavigation<any>();
@@ -69,10 +71,8 @@ const OrderDetails = () => {
     let res = await OrderServices.getOrderDetails(route.params.id);
     setorder(res.data.data[0]);
     ProductServices.getFeedbackURL({
-      authorId: res.data.data[0].userId,
       entityId: res.data.data[0]?.orderItems[0]?.productId,
       entityName: data.Name,
-      authorName: 'Ramesh Kapoor',
     })
       .then((res: any) => {
         setFeedbackUrl(res.data.response);
@@ -89,6 +89,7 @@ const OrderDetails = () => {
     return (
       <View>
         <ScrollView style={styles.body}>
+          <Divider width={'100%'} />
           <View
             style={{
               flexDirection: 'row',
@@ -96,8 +97,8 @@ const OrderDetails = () => {
               marginVertical: 10,
             }}>
             <Text style={{}}>Order Date</Text>
-            <Text style={{fontSize: 18, color: 'black'}}>
-              {order.createdDate.split('T')[0]}
+            <Text style={{fontSize: 18, color: 'black', fontWeight: '800'}}>
+              {moment(order.createdDate).format('Do-MMM-YYYY')}
             </Text>
           </View>
 
@@ -109,8 +110,8 @@ const OrderDetails = () => {
             }}>
             <Text style={{}}>Order #</Text>
             {/* to fix below line */}
-            <Text style={{fontSize: 18, color: 'black'}}>
-              {route.params?.toString()}
+            <Text style={{fontSize: 18, color: 'black', fontWeight: '800'}}>
+              {route.params?.id}
             </Text>
           </View>
 
@@ -121,10 +122,11 @@ const OrderDetails = () => {
               marginVertical: 10,
             }}>
             <Text style={{}}>Order Total</Text>
-            <Text style={{fontSize: 18, color: '#34A893'}}>
+            <Text style={{fontSize: 18, color: '#34A893', fontWeight: '800'}}>
               ₹{order.orderItems[0].price} (1 item)
             </Text>
           </View>
+
           {/* <Divider width={'100%'} />
           <View
             style={{
@@ -147,41 +149,69 @@ const OrderDetails = () => {
             </TouchableOpacity>
           </View> */}
           <Divider width={'100%'} />
-          <Text style={{fontSize: 20, color: 'black', marginVertical: 15}}>
+          <Text
+            style={{
+              fontSize: 20,
+              color: 'black',
+              marginVertical: 15,
+              fontWeight: '700',
+            }}>
             Shipment Details
           </Text>
-          <Text style={{fontSize: 14, color: 'black'}}>dispatched</Text>
-          <Text style={{color: '#7E72FF'}}>Arriving by Monday</Text>
+          <Text style={{fontSize: 14, color: 'black'}}>Dispatched</Text>
+          <Text
+            style={{
+              color: '#7E72FF',
+              fontSize: 15,
+              paddingTop: 2,
+              fontWeight: '700',
+            }}>
+            Arriving by Monday
+          </Text>
           <View style={{flexDirection: 'row', marginTop: 20}}>
-            <Image
-              source={{uri: data.Attachment[0]}}
-              style={{height: 100, width: 100}}
+            <ImageComp
+              resizeMode="contain"
+              imageStyle={styles.image}
+              url={data.Attachment[0]}
             />
             <View style={{width: '65%'}}>
               <Text
                 numberOfLines={2}
-                style={{fontSize: 18, color: 'black', marginBottom: 10}}>
+                style={{
+                  fontSize: 16,
+                  fontWeight: '700',
+                  color: 'black',
+                  marginBottom: 10,
+                }}>
                 {data.Name}
               </Text>
               <Text>Qty: 1</Text>
             </View>
           </View>
-          <View style={{flexDirection: 'row', gap: 20}}>
+          <View
+            style={{
+              flexDirection: 'row',
+              gap: 20,
+              justifyContent: 'space-between',
+              marginVertical: 10,
+              marginTop: 20,
+            }}>
             {feedbackUrl && (
               <>
                 <Text
                   style={styles.feedback}
                   onPress={async () => {
-                    // navigation.navigate('Feedback', {
-                    //   feedbackUrl: feedbackUrl,
-                    // });
-                    if (await InAppBrowser.isAvailable()) {
-                      InAppBrowser.open(feedbackUrl);
-                    } else {
-                      Linking.openURL(feedbackUrl).catch(err =>
-                        console.error("Couldn't load page", err),
-                      );
-                    }
+                    navigation.navigate('Feedback', {
+                      feedbackUrl: feedbackUrl,
+                      name: 'Ramesh Kapoor',
+                    });
+                    // if (await InAppBrowser.isAvailable()) {
+                    //   InAppBrowser.open(feedbackUrl);
+                    // } else {
+                    //   Linking.openURL(feedbackUrl).catch(err =>
+                    //     console.error("Couldn't load page", err),
+                    //   );
+                    // }
                   }}>
                   Write a feedback
                 </Text>
@@ -191,7 +221,7 @@ const OrderDetails = () => {
                   onPress={() => {
                     Clipboard.setString(feedbackUrl);
                   }}>
-                  Copy Link
+                  Copy feedback link
                 </Text>
               </>
             )}
@@ -204,26 +234,55 @@ const OrderDetails = () => {
               marginBottom: 10,
             }}>
             <View style={{width: '45%'}}>
-              <Text style={{fontSize: 20, color: 'black', marginVertical: 15}}>
+              <Text
+                style={{
+                  fontSize: 20,
+                  color: 'black',
+                  marginVertical: 15,
+                  fontWeight: '700',
+                }}>
                 Billing Address
               </Text>
-              <Text style={{fontSize: 14, color: 'black'}}>
+              <Text
+                style={{
+                  fontSize: 14,
+                  color: 'black',
+                  lineHeight: 22,
+                }}>
                 G-18 Noida sector - 63 Near Fortis Hospital Noida, Uttar Pradesh
                 2013021
               </Text>
             </View>
             <View style={{width: '45%', alignItems: 'flex-end'}}>
-              <Text style={{fontSize: 20, color: 'black', marginVertical: 15}}>
+              <Text
+                style={{
+                  fontSize: 20,
+                  color: 'black',
+                  marginVertical: 15,
+                  fontWeight: '700',
+                }}>
                 Shipping Address
               </Text>
-              <Text style={{fontSize: 14, color: 'black', textAlign: 'right'}}>
+              <Text
+                style={{
+                  lineHeight: 22,
+                  fontSize: 14,
+                  color: 'black',
+                  textAlign: 'right',
+                }}>
                 G-18 Noida sector - 63 Near Fortis Hospital Noida, Uttar Pradesh
                 2013021
               </Text>
             </View>
           </View>
           <Divider width={'100%'} />
-          <Text style={{fontSize: 18, color: 'black', marginVertical: 10}}>
+          <Text
+            style={{
+              fontSize: 18,
+              color: 'black',
+              marginVertical: 10,
+              fontWeight: '700',
+            }}>
             Price Details
           </Text>
           <View>
@@ -234,7 +293,7 @@ const OrderDetails = () => {
                 marginVertical: 10,
               }}>
               <Text style={{}}>Total MRP</Text>
-              <Text style={{fontSize: 18, color: 'black'}}>
+              <Text style={{fontSize: 18, color: 'black', fontWeight: '700'}}>
                 ₹{order.orderItems[0].price}
               </Text>
             </View>
@@ -246,7 +305,9 @@ const OrderDetails = () => {
                 marginVertical: 10,
               }}>
               <Text style={{}}>Quantity</Text>
-              <Text style={{fontSize: 18, color: 'black'}}>x1</Text>
+              <Text style={{fontSize: 18, color: 'black', fontWeight: '700'}}>
+                x1
+              </Text>
             </View>
 
             <View
@@ -256,7 +317,9 @@ const OrderDetails = () => {
                 marginVertical: 10,
               }}>
               <Text style={{}}>Discount</Text>
-              <Text style={{fontSize: 18, color: 'black'}}>₹0.0</Text>
+              <Text style={{fontSize: 18, color: 'black', fontWeight: '700'}}>
+                ₹0.0
+              </Text>
             </View>
 
             <View
@@ -266,7 +329,7 @@ const OrderDetails = () => {
                 marginVertical: 10,
               }}>
               <Text style={{}}>Delivery Charges</Text>
-              <Text style={{fontSize: 18, color: 'black'}}>
+              <Text style={{fontSize: 18, color: 'black', fontWeight: '700'}}>
                 ₹{order.deliveryCharges}
               </Text>
             </View>
@@ -279,8 +342,15 @@ const OrderDetails = () => {
                 justifyContent: 'space-between',
                 marginVertical: 10,
               }}>
-              <Text style={{}}>Toatl Amount</Text>
-              <Text style={{fontSize: 18, color: 'black'}}>
+              <Text style={{fontWeight: '700', fontSize: 18, color: '#000'}}>
+                Total Amount
+              </Text>
+              <Text
+                style={{
+                  fontSize: 18,
+                  color: COLORS.PrimaryColor,
+                  fontWeight: '600',
+                }}>
                 ₹{order.orderItems[0].price + order.deliveryCharges}
               </Text>
             </View>
@@ -292,14 +362,18 @@ const OrderDetails = () => {
             style={[styles.right, {backgroundColor: '#CCCCCC'}]}
             onPress={() => navigation.navigate('CancelOrder')}>
             <View>
-              <Text style={[styles.text, {color: 'white'}]}>Cancel Order</Text>
+              <Text style={[styles.text, {color: 'white', fontWeight: '700'}]}>
+                Cancel Order
+              </Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.right, {backgroundColor: '#7e72ff'}]}
             onPress={() => navigation.navigate('OrderTracking')}>
             <View>
-              <Text style={[styles.text, {color: 'white'}]}>Track Order</Text>
+              <Text style={[styles.text, {color: 'white', fontWeight: '700'}]}>
+                Track Order
+              </Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -317,15 +391,25 @@ const styles = StyleSheet.create({
     height: '100%',
     paddingHorizontal: 20,
   },
+  image: {
+    height: 91,
+    width: 91,
+    marginRight: 20,
+    resizeMode: 'contain',
+    borderRadius: 20,
+    borderColor: '#eee',
+    borderWidth: 1,
+    padding: 5,
+  },
   footer: {
     position: 'absolute',
     height: 65,
     width: '100%',
-    backgroundColor: 'white',
     bottom: 0,
     flexDirection: 'row',
-    justifyContent: 'space-evenly',
     alignItems: 'center',
+    gap: 20,
+    paddingHorizontal: '4%',
   },
   right: {
     paddingHorizontal: 25,
@@ -334,6 +418,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     paddingVertical: 6,
     height: 40,
+    flex: 1,
     width: 180,
   },
   text: {
@@ -341,5 +426,7 @@ const styles = StyleSheet.create({
   },
   feedback: {
     color: COLORS.PrimaryColor,
+    fontWeight: '700',
+    fontSize: 15,
   },
 });

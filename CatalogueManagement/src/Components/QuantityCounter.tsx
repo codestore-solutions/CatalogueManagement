@@ -30,10 +30,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 10,
     borderWidth: 1,
-    height: 30,
+    height: 26,
   },
   quantity: {
-    marginHorizontal: 10,
+    marginHorizontal: 8,
     fontSize: 18,
     color: 'black',
   },
