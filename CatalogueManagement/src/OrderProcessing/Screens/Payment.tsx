@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Svg, {Circle, ClipPath, Defs, G, Path, Rect} from 'react-native-svg';
 import Divider from '../../Components/Divider';
 import RadioButton from '../Components/RadioButton';
@@ -24,6 +24,41 @@ const Payment = () => {
   const [bottomSheet, setbottomSheet] = useState(false);
   console.log(route);
   let total = 0;
+
+  const handleSubmit = () => {
+    //for buy now (1 item only)
+    let orderForVendors = [
+      {
+        vendorId: 1,
+        deliveryCharges: 99,
+        orderItems: [
+          {
+            productId: route.params.productId,
+            varientId: route.params.VariantId,
+            price: route.params.price,
+            discount: route.params.discount,
+            quantity: route.params.quantity,
+            orderStatus: route.params.orderStatus,
+          },
+        ],
+      },
+    ];
+    let payload = {
+      userId: 5, // to take from redux store
+      ordersForVendors: orderForVendors,
+      paymentId: 1, // to do
+      shippingAddressId: 1, //to do
+      tipAmount: 0, //to do
+      deliveryDate: route.params.deliveryDate,
+      deliverySlotId: route.params.deliverySlotId,
+      paymentMode: 1, // to do
+      paymentStatus: 0, // to do
+    };
+
+    navigation.navigate('Gateway', payload);
+    // createOrder();
+    console.log('==>', payload);
+  };
 
   const [radio, setradio] = useState([false, true, false]);
 
@@ -373,7 +408,7 @@ const Payment = () => {
         </View>
         <Divider width={'100%'} marginVertical={15} color="#EAEAEA" />
         <Input placeholder="Add a tip for your delivery partner(Optional)" />
-        <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           <TouchableOpacity
             style={styles.tip}
             onPress={() => {
@@ -428,8 +463,7 @@ const Payment = () => {
           <TouchableOpacity
             style={{flex: 1}}
             onPress={() => {
-              navigation.navigate('Gateway');
-              createOrder();
+              handleSubmit();
             }}>
             <View style={styles.right}>
               <Text style={styles.text}>Pay Now</Text>
@@ -465,9 +499,11 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   tip: {
-    backgroundColor: '#F9F9F9',
+    backgroundColor: COLORS.BorderColor,
     padding: 10,
     margin: 10,
+    flex: 1,
+    borderRadius: 5,
   },
   right: {
     paddingHorizontal: 25,
@@ -495,7 +531,7 @@ const styles = StyleSheet.create({
     borderRadius: 6,
   },
   footer: {
-    borderColor: COLORS.BorderColor,
+    borderColor: COLORS.Grey,
     borderTopWidth: 1,
     height: '8%',
     position: 'absolute',
@@ -516,5 +552,8 @@ const styles = StyleSheet.create({
   },
   tipText: {
     color: 'black',
+    textAlign: 'center',
+    fontSize: 14,
+    fontWeight: '700',
   },
 });

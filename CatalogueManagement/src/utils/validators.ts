@@ -12,6 +12,10 @@ export const validateAddress = (value: string, setError: Function) => {
     setError('Address is required');
     return false;
   }
+  if (value.length > 70) {
+    setError('Address should not be more then 70 characters');
+    return false;
+  }
   setError('');
   return true;
 };
@@ -20,23 +24,27 @@ export const validateLocality = (value: string, setError: Function) => {
     setError('Locality is required');
     return false;
   }
+  if (value.length > 20) {
+    setError('Locality should not be more then 20 characters');
+    return false;
+  }
   setError('');
   return true;
 };
 export const validateCity = (value: string, setError: Function) => {
-  // if (value == '') {
-  //   setError('City is required');
-  //   return false;
-  // }
+  if (value == '') {
+    setError('City is required');
+    return false;
+  }
   setError('');
   return true;
 };
 
 export const validateState = (value: string, setError: Function) => {
-  // if (value == '') {
-  //   setError('State is required');
-  //   return false;
-  // }
+  if (value == '') {
+    setError('State is required');
+    return false;
+  }
   setError('');
   return true;
 };
@@ -44,6 +52,10 @@ export const validateState = (value: string, setError: Function) => {
 export const validateName = (value: string, setError: Function) => {
   if (value == '') {
     setError('Name is required');
+    return false;
+  }
+  if (value.length > 50) {
+    setError('Name should not be more then 70 characters');
     return false;
   }
   setError('');

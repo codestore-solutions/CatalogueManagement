@@ -2,10 +2,8 @@ import {
   StyleSheet,
   Text,
   View,
-  FlatList,
   TouchableOpacity,
-  Modal,
-  Alert,
+  ScrollView,
   ActivityIndicator,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
@@ -49,24 +47,26 @@ const BuyNow = () => {
     );
 
   return (
-    <View style={styles.body}>
-      <Divider width={'100%'} />
-      <AddressCard />
-      <Divider width={'100%'} />
-      <BankOffers />
-      <Divider width={'100%'} />
-      <View>
-        <CartItem
-          variantId={route.params.variantId}
-          data={data}
-          index={1}
-          setQty={setQuantity}
-          qty={quantity}
-        />
+    <>
+      <ScrollView contentContainerStyle={styles.body}>
         <Divider width={'100%'} />
+        <AddressCard />
+        <Divider width={'100%'} />
+        <BankOffers />
+        <Divider width={'100%'} />
+        <View>
+          <CartItem
+            variantId={route.params.variantId}
+            data={data}
+            index={1}
+            setQty={setQuantity}
+            qty={quantity}
+          />
+          <Divider width={'100%'} />
 
-        <PriceDetails variantData={variantData} quantity={quantity} />
-      </View>
+          <PriceDetails variantData={variantData} quantity={quantity} />
+        </View>
+      </ScrollView>
       <TouchableOpacity
         style={styles.footer}
         onPress={() => {
@@ -76,7 +76,7 @@ const BuyNow = () => {
           Place Order
         </Text>
       </TouchableOpacity>
-    </View>
+    </>
   );
 };
 
@@ -98,6 +98,7 @@ const styles = StyleSheet.create({
     height: 50,
     backgroundColor: '#7E72FF',
     position: 'absolute',
+    zIndex: 4,
     bottom: 15,
     alignSelf: 'center',
     borderRadius: 15,
@@ -107,8 +108,9 @@ const styles = StyleSheet.create({
   body: {
     backgroundColor: 'white',
     paddingHorizontal: '4%',
-    height: '100%',
     paddingVertical: 10,
+    minHeight: '100%',
+    paddingBottom: 100,
   },
   bottom: {
     height: '40%',

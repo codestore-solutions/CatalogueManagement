@@ -196,7 +196,7 @@ const DeliveryTimeSelection = () => {
                 return (
                   <TouchableOpacity
                     onPress={() => setSelectedTimeSlot(item.id)}
-                    key={index}
+                    key={item.id}
                     style={{
                       backgroundColor: isActive
                         ? COLORS.PrimaryColor
@@ -205,7 +205,8 @@ const DeliveryTimeSelection = () => {
                       borderRadius: 15,
                       borderColor: isActive ? '#fff' : COLORS.BorderColor,
                       borderWidth: isActive ? 3 : 1,
-                      elevation: isActive ? 5 : 0,
+                      elevation: 5,
+                      shadowColor: isActive ? 'black' : 'white',
                     }}>
                     <Text
                       style={{
