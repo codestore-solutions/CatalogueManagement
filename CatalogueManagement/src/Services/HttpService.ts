@@ -6,7 +6,7 @@ import AxiosInterceptor from './AxiosInterceptor';
 
 class Http extends Axios {
   public static async headerBuilder() {
-    // const token = store.getState().tokenState.token;
+    const token = store.getState().TokenState.token;
 
     let headers: any = {
       headers: {
@@ -14,9 +14,9 @@ class Http extends Axios {
         'Content-Type': 'application/json',
       },
     };
-    // if (token) {
-    //   headers.headers.Authorization = `bearer ${token}`;
-    // }
+    if (token) {
+      headers.headers.Authorization = `bearer ${token}`;
+    }
     return headers;
   }
   public static async delete(url: string): Promise<any> {

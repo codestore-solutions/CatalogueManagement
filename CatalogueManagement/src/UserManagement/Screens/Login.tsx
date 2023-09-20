@@ -18,8 +18,11 @@ import Svg, {
 } from 'react-native-svg';
 import AuthService from '../../services/AuthService';
 import {useState} from 'react';
+import {useDispatch} from 'react-redux';
+import {setToken} from '../../redux/tokenState';
 
 const Login = (props: any) => {
+  const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isPasswordHidden, setIsPasswordHidden] = useState(false);
@@ -31,6 +34,7 @@ const Login = (props: any) => {
     })
       .then(res => {
         console.log(res.data);
+        dispatch(setToken(res.data));
         props.navigation.navigate('Tab');
       })
       .catch(console.log);
