@@ -8,14 +8,20 @@ import {
 import React, {useEffect} from 'react';
 import Svg, {G, Path, Defs} from 'react-native-svg';
 import {useRoute} from '@react-navigation/native';
+import OrderServices from '../Services/OrderServices';
+import OrderingService from '../../services/OrderingService';
 
 const Gateway = (props: any) => {
   const route: any = useRoute();
   useEffect(() => {
-    setTimeout(() => {
-      // props.navigation.navigate('Orders')
-      console.log('Order => ', route.params);
-    }, 4000);
+    // props.navigation.navigate('Orders')
+    console.log('Order => ', JSON.stringify(route.params));
+    OrderingService.createOrder(route.params)
+      .then((res: any) => {
+        console.log(res.data);
+        props.navigation.navigate('Orders');
+      })
+      .catch(console.log);
   }, []);
 
   return (

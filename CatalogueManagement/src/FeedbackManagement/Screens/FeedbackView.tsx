@@ -7,6 +7,7 @@ const FeedbackView = () => {
 
   const debugging = `
   window.localStorage.setItem('name', JSON.stringify('${route.params.name}'));
+  window.console.log(window.localStorage.getItem("name"));
   const consoleLog = (type, log) => window.ReactNativeWebView.postMessage(JSON.stringify({'type': 'Console', 'data': {'type': type, 'log': log}}));
   console = {
       log: (log) => consoleLog('log', log),

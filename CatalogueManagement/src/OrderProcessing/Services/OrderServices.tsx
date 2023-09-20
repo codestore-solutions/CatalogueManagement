@@ -6,7 +6,7 @@ class OrderServices {
     orders: {
       vendorId: number;
       deliveryCharges: number;
-      deliverySlotTime:'08:00 AM to 10:00 AM';
+      deliverySlotTime: '08:00 AM to 10:00 AM';
       orderItems: {
         productId: number;
         varientId: number;
@@ -32,7 +32,7 @@ class OrderServices {
     )
       .then(res => {
         console.log('Order Placed::');
-        
+
         return res;
       })
       .catch(err => {

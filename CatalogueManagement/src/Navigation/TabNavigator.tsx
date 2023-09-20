@@ -83,7 +83,7 @@ const TabNavigator = () => {
         component={Cart}
         name="Cart"
         options={{
-          headerShown: false,
+          headerShown: true,
           tabBarIcon: ({focused}) => {
             return <CartIcon focused={focused} />;
           },

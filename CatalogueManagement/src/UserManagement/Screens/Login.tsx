@@ -22,6 +22,7 @@ import {useState} from 'react';
 const Login = (props: any) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isPasswordHidden, setIsPasswordHidden] = useState(false);
 
   const onSubmit = () => {
     AuthService.signIn({
@@ -98,7 +99,7 @@ const Login = (props: any) => {
             style={{
               fontSize: 18,
               fontWeight: '200',
-              color: '#999999',
+              color: '#000',
             }}
           />
           <Svg
@@ -121,35 +122,37 @@ const Login = (props: any) => {
           <TextInput
             placeholder="Password"
             keyboardType="default"
-            secureTextEntry={true}
+            secureTextEntry={isPasswordHidden}
             onChangeText={text => setPassword(text)}
             style={{
               fontSize: 18,
               fontWeight: '200',
-              color: '#999999',
+              color: '#000',
             }}
           />
-          <Svg
-            width={24}
-            height={24}
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            {...props}>
-            <G
-              clipPath="url(#clip0_151_2459)"
-              stroke="#CCC"
-              strokeWidth={2}
-              strokeLinecap="round"
-              strokeLinejoin="round">
-              <Path d="M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.494 18.494 0 01-2.16 3.19m-6.72-1.07a2.998 2.998 0 01-5.194-2.098A3 3 0 019.88 9.88m8.06 8.06A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94l11.88 11.88zM1 1l22 22" />
-            </G>
-            <Defs>
-              <ClipPath id="clip0_151_2459">
-                <Path fill="#fff" d="M0 0H24V24H0z" />
-              </ClipPath>
-            </Defs>
-          </Svg>
+          <TouchableOpacity onPress={() => setIsPasswordHidden(pre => !pre)}>
+            <Svg
+              width={24}
+              height={24}
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              {...props}>
+              <G
+                clipPath="url(#clip0_151_2459)"
+                stroke="#CCC"
+                strokeWidth={2}
+                strokeLinecap="round"
+                strokeLinejoin="round">
+                <Path d="M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.494 18.494 0 01-2.16 3.19m-6.72-1.07a2.998 2.998 0 01-5.194-2.098A3 3 0 019.88 9.88m8.06 8.06A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94l11.88 11.88zM1 1l22 22" />
+              </G>
+              <Defs>
+                <ClipPath id="clip0_151_2459">
+                  <Path fill="#fff" d="M0 0H24V24H0z" />
+                </ClipPath>
+              </Defs>
+            </Svg>
+          </TouchableOpacity>
         </View>
         <Text
           style={{color: '#000000', fontWeight: '400', alignSelf: 'flex-end'}}>

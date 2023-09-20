@@ -1,15 +1,7 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Alert,
-  Modal,
-} from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import React, {useState} from 'react';
-import UserServices from '../CatalogueModule/Services/UserServices';
-import Svg, {Path} from 'react-native-svg';
-import TimeSlots from './TimeSlots';
+import OrderingService from '../services/OrderingService';
+import {COLORS} from '../Constants/colors';
 
 const FooterButtons = (props: {
   navigation: {navigate: (arg0: string, {}) => void};
@@ -19,38 +11,44 @@ const FooterButtons = (props: {
   price: number;
   vendorId: number;
 }) => {
-  const [visible, setvisible] = useState(false);
-
-  const [timeBarVisible, settimeBarVisible] = useState(false);
-
-  const [selectedTime, setselectedTime] = useState(
-    'Select preffered delivery time',
-  );
+  const [isAddedToCard, setIsAddedToCard] = useState(false);
+  const addToCart = async () => {
+    if (isAddedToCard) {
+      props.navigation.navigate('Cart', {});
+      return;
+    }
+    const payload = {
+      userId: 5,
+      productId: props.id,
+      variantId: props.vid,
+      quantity: props.qty,
+    };
+    console.log(payload);
+    await OrderingService.addToCart(payload)
+      .then((res: any) => {
+        console.log(res.data);
+        setIsAddedToCard(true);
+      })
+      .catch(console.log);
+  };
 
   return (
     <View>
       <View style={styles.body}>
-        <TouchableOpacity
-          onPress={async () => {
-            await UserServices.addToCart(props.id, props.vid, props.qty);
-            props.navigation.navigate('Cart', {qty: props.qty, id: props.id});
-          }}>
+        <TouchableOpacity onPress={addToCart}>
           <View style={styles.left}>
-            <Text style={styles.text}>Add To Cart</Text>
+            <Text
+              style={[
+                isAddedToCard ? {color: COLORS.PrimaryColor} : {},
+                styles.text,
+              ]}>
+              {isAddedToCard ? 'View Cart' : 'Add To Cart'}
+            </Text>
           </View>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.right}
           onPress={() => {
-            // setvisible(!visible);
-            // props.navigation.navigate('Payment', {
-            // productId: props.id,
-            // varientId: props.vid,
-            // price: props.price,
-            // discount: 0,
-            // quantity: props.qty,
-            // orderStatus: 0,
-            // });
             props.navigation.navigate('BuyNow', {
               productId: props.id,
               variantId: props.vid,
@@ -65,79 +63,6 @@ const FooterButtons = (props: {
           </View>
         </TouchableOpacity>
       </View>
-      <Modal transparent={true} visible={visible}>
-        <View style={styles.modal}>
-          <TouchableOpacity
-            onPress={() => {
-              setvisible(false);
-            }}></TouchableOpacity>
-          <View style={styles.bottom}>
-            <Text
-              style={{
-                fontSize: 18,
-                color: 'black',
-                fontWeight: '400',
-                padding: 20,
-              }}>
-              Select Address
-            </Text>
-            <View style={styles.addressBox}>
-              <Text>User Address</Text>
-              <Text>
-                G-18 Noida sector - 63 Near Fortis Hospital Noida, Uttar Pradesh
-                2013021
-              </Text>
-            </View>
-            <Text
-              style={{
-                fontSize: 18,
-                color: 'black',
-                fontWeight: '400',
-                paddingHorizontal: 10,
-              }}>
-              Select Preffered Delivery Time
-            </Text>
-            <TouchableOpacity
-              style={styles.box}
-              onPress={() => settimeBarVisible(!timeBarVisible)}>
-              <Text style={{fontSize: 16}}>{selectedTime}</Text>
-              <Svg
-                width={14}
-                height={8}
-                viewBox="0 0 14 8"
-                fill="none"
-                //@ts-expect-error
-                xmlns="http://www.w3.org/2000/svg"
-                {...props}>
-                <Path
-                  d="M13 1L7 7 1 1"
-                  stroke="#000"
-                  strokeWidth={2}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </Svg>
-            </TouchableOpacity>
-            <TimeSlots selected={timeBarVisible} onSelect={setselectedTime} />
-            <TouchableOpacity
-              style={styles.footer}
-              onPress={() => {
-                props.navigation.navigate('Payment', [
-                  {
-                    productId: props.id,
-                    varientId: props.vid,
-                    price: props.price,
-                    discount: 0,
-                    quantity: props.qty,
-                    orderStatus: 0,
-                  },
-                ]);
-              }}>
-              <Text style={{color: 'white'}}>Place Order</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
     </View>
   );
 };

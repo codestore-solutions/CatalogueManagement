@@ -86,7 +86,7 @@ const RootNavigator = () => {
           }}
         />
 
-        <Stack.Screen name="Cart" component={Cart} />
+        {/* <Stack.Screen name="Cart" component={Cart} /> */}
 
         <Stack.Screen
           name="BuyNow"

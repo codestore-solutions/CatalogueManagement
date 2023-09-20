@@ -1,6 +1,4 @@
 import {
-  Image,
-  Linking,
   ScrollView,
   StyleSheet,
   Text,
@@ -18,6 +16,7 @@ import Clipboard from '@react-native-clipboard/clipboard';
 import InAppBrowser from 'react-native-inappbrowser-reborn';
 import moment from 'moment';
 import ImageComp from '../../Components/ImageComp';
+import OrderedCompletedBanner from '../../Components/ReusableComponent/OrderedCompletedBanner';
 
 const OrderDetails = () => {
   const navigation = useNavigation<any>();
@@ -89,6 +88,7 @@ const OrderDetails = () => {
     return (
       <View>
         <ScrollView style={styles.body}>
+          <OrderedCompletedBanner />
           <Divider width={'100%'} />
           <View
             style={{

@@ -12,6 +12,29 @@ class OrderingService {
     const response = await Http.get(url);
     return response;
   }
+
+  public static async createOrder(data: any) {
+    const url = `${ApiDetails.CREATE_ORDER}`;
+    const response = await Http.post(url, data);
+    return response;
+  }
+
+  public static async getCart(userId: number) {
+    const url = `${ApiDetails.GET_CART}?userId=${userId}`;
+    const response = await Http.get(url);
+    return response;
+  }
+
+  public static async addToCart(data: {
+    userId: number;
+    productId: number | string;
+    variantId: number | string;
+    quantity: number;
+  }) {
+    const url = `${ApiDetails.ADD_TO_CART}`;
+    const response = await Http.post(url, data);
+    return response;
+  }
 }
 
 export default OrderingService;

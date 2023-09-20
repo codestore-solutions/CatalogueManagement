@@ -17,11 +17,13 @@ import {useNavigation, useRoute} from '@react-navigation/native';
 import AddressCard from '../../Components/ReusableComponent/AddressCard';
 import PriceDetails from '../../Components/ReusableComponent/PriceDetails';
 import {COLORS} from '../../Constants/colors';
+import {PaymentModeEnum, PaymentStatusEnum} from '../../Enums/PayementEnums';
 
 const Payment = () => {
   const route: any = useRoute();
   const navigation: any = useNavigation();
   const [bottomSheet, setbottomSheet] = useState(false);
+  const [paymentMode, setPaymentMode] = useState(PaymentModeEnum.Online);
   console.log(route);
   let total = 0;
 
@@ -34,7 +36,7 @@ const Payment = () => {
         orderItems: [
           {
             productId: route.params.productId,
-            varientId: route.params.VariantId,
+            variantId: route.params.variantId,
             price: route.params.price,
             discount: route.params.discount,
             quantity: route.params.quantity,
@@ -51,13 +53,15 @@ const Payment = () => {
       tipAmount: 0, //to do
       deliveryDate: route.params.deliveryDate,
       deliverySlotId: route.params.deliverySlotId,
-      paymentMode: 1, // to do
-      paymentStatus: 0, // to do
+      paymentMode: radio[0] ? PaymentModeEnum.COD : PaymentModeEnum.Online, // to do
+      paymentStatus: PaymentStatusEnum.Pending, // to do
     };
+
+    console.log('==>', JSON.stringify(payload));
 
     navigation.navigate('Gateway', payload);
     // createOrder();
-    console.log('==>', payload);
+    // console.log('==>', payload);
   };
 
   const [radio, setradio] = useState([false, true, false]);

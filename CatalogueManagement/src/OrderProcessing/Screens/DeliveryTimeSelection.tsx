@@ -19,7 +19,7 @@ import AddressCard from '../../Components/ReusableComponent/AddressCard';
 const DeliveryTimeSelection = () => {
   const [selectedTimeSlot, setSelectedTimeSlot] = useState(0);
   const [selectedDate, setSelectedDate] = useState(
-    moment().add(2, 'days').format('YYYY-DD-MM'),
+    moment().add(2, 'days').format('YYYY-MM-DD'),
   );
   const [slotsData, setSlotsData] = useState([]);
   const route = useRoute();
@@ -153,7 +153,7 @@ const DeliveryTimeSelection = () => {
                   textAlign: 'center',
                   fontSize: 16,
                 }}>
-                {moment().add(2, 'days').format('dd')}
+                {moment().add(2, 'days').format('ddd')}
               </Text>
             </View>
           </View>

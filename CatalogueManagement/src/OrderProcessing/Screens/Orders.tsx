@@ -42,7 +42,7 @@ const Orders = (props: any) => {
 
   async function fetchOrders() {
     let res = await OrderServices.GetOrders(1, 20);
-    setlist(res.data.data.list);
+    if (res?.data?.data) setlist(res.data.data.list);
   }
 
   useEffect(() => {
