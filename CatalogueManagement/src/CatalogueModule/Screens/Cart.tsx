@@ -5,12 +5,17 @@ import {
   TouchableOpacity,
   ScrollView,
   ActivityIndicator,
+  FlatList,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import CartItem from '../../Components/CartItem';
 import Divider from '../../Components/Divider';
 import BankOffers from '../../OrderProcessing/Components/BankOffers';
-import {useNavigation, useRoute} from '@react-navigation/native';
+import {
+  useFocusEffect,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
 import ProductServices from '../Services/ProductsServices';
 import AddressCard from '../../Components/ReusableComponent/AddressCard';
 import PriceDetails from '../../Components/ReusableComponent/PriceDetails';
@@ -22,33 +27,42 @@ const Cart = () => {
   const navigate: any = useNavigation();
   const route: any = useRoute();
   const [cartItems, setCartItems] = useState([]);
-  const [isLoading, setIsLoading] = useState(!true);
+  const [cartItemDetails, setCartItemDetails] = useState<any>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    OrderingService.getCart(5)
+  const getCart = async () => {
+    setCartItems([]);
+    setCartItemDetails([]);
+    setIsLoading(true);
+    console.log('hii');
+    await OrderingService.getCart(5)
       .then(res => {
         setCartItems(res.data.data);
+        console.log(res.data.data);
         res.data.data.map((item: any) => {
-          CatalogueServices.getProductDetail(2)
+          CatalogueServices.getProductDetail(item.productId)
             .then(res => {
-              console.log(res.data.id);
+              const cartItem = res.data;
+              cartItem.variantId = item.variantId;
+              cartItem.quantity = item.quantity;
+              setCartItemDetails((pre: any) => [...pre, cartItem]);
+              //console.log(res.data);
+              setIsLoading(false);
             })
             .catch(console.log);
         });
         //{"id": 38, "productId": 2, "quantity": 0, "userId": 5, "variantId": 0}
       })
       .catch(console.log);
-    // ProductServices.getProduct(route.params.productId)
-    //   .then(res => {
-    //     setData(res?.data);
-    //     setIsLoading(false);
-    //     const filteredData = res?.data.varients.filter(
-    //       (item: any) => item.id == route.params.variantId,
-    //     );
-    //     setVariantData(filteredData[0]);
-    //   })
-    //   .catch(console.log);
+  };
+
+  useEffect(() => {
+    getCart();
   }, []);
+
+  // useFocusEffect(() => {
+  //   console.log('hi');
+  // });
 
   if (isLoading)
     return (
@@ -66,18 +80,24 @@ const Cart = () => {
         <Divider width={'100%'} />
         <BankOffers />
         <Divider width={'100%'} />
-        {/* <View>
-          <CartIteme
-            variantId={route.params.variantId}
-            data={data}
-            index={1}
-            setQty={setQuantity}
-            qty={quantity}
-          />
-          <Divider width={'100%'} />
+        <View>
+          {cartItemDetails.map((item: any) => {
+            return (
+              <React.Fragment key={item.name + item.variantId}>
+                <CartItem
+                  variantId={item.variantId}
+                  data={item}
+                  index={1}
+                  setQty={() => {}}
+                  qty={item.quantity}
+                />
+                <Divider width={'100%'} />
+              </React.Fragment>
+            );
+          })}
 
-          <PriceDetails variantData={variantData} quantity={quantity} />
-        </View> */}
+          {/* <PriceDetails variantData={variantData} quantity={quantity} /> */}
+        </View>
       </ScrollView>
       <TouchableOpacity
         style={styles.footer}

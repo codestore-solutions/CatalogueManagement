@@ -20,14 +20,15 @@ const CartItem = (props: {
     );
     setVariantData(filteredData[0]);
   }, []);
+
   return (
     <View style={styles.card}>
       <View style={styles.image}>
         <Image
           style={{height: '100%', width: '100%'}}
           resizeMode="contain"
-          // source={{uri: props.data.varients[0].attachment[0]}}
-          source={require('../Assets/Images/sampleProductImage.png')}
+          source={{uri: props.data.varients[0].attachment[0]}}
+          // source={require('../Assets/Images/sampleProductImage.png')}
         />
       </View>
       <View style={{flexShrink: 1}}>
@@ -40,7 +41,7 @@ const CartItem = (props: {
               color: 'black',
               width: '70%',
             }}>
-            {variantData.name}
+            {variantData?.name}
           </Text>
           {/* Dustbin Icon */}
           {props.remove && (
@@ -100,7 +101,7 @@ const CartItem = (props: {
           </View>
         </View>
         <Text style={{fontSize: 20, color: '#000', alignItems: 'center'}}>
-          ₹{variantData.price}/-{'  '}
+          ₹{variantData?.price}/-{'  '}
           <Text
             style={{
               fontSize: 18,
