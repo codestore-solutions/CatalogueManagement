@@ -41,4 +41,4 @@ jobs:
           app-name: 'CatalogueManagementRG'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_FF3816327DFF4A3C8C47222B55191B7A }}
-          package: ./dist/catalogue-management/
+          package: ./dist
