@@ -29,15 +29,10 @@ jobs:
         run: npm run build --if-present
         working-directory: CatalogueManagement
 
-      - name: List Files in Working Directory
-        run: |
-            ls -R  # List files recursively in the working directory
-        working-directory: ./CatalogueManagement/dist/catalogue-management  # Set the working directory for this step
-
       - name: Deploy to Azure
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'CatalogueManagementRG'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_FF3816327DFF4A3C8C47222B55191B7A }}
-          package: ./dist/catalogue-management # Path to the Angular build output directory
+          package: ./CatalogueManagement/dist/catalogue-management # Path to the Angular build output directory
