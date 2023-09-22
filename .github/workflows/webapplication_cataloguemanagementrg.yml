@@ -29,6 +29,17 @@ jobs:
         run: npm run build --if-present
         working-directory: CatalogueManagement
 
+      - name: List Files in Working Directory
+        run: |
+            ls -R  # List files recursively in the working directory
+        working-directory: ./  # Set the working directory for this step
+
+      - name: List Files in Angular Build Directory
+        run: |
+            ls -R ./dist  # List files recursively in the 'dist' directory
+        working-directory: ./  # Set the working directory for this step
+
+
       - name: Deploy to Azure
         uses: azure/webapps-deploy@v2
         with:
