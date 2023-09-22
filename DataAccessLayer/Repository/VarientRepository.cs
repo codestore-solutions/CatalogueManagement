@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Repository
 {
-    public class VarientRepository : GenericRepository<Varient>, IVarientRepository
+    public class VarientRepository : GenericRepository<Variant>, IVariantRepository
     {
         private readonly ProductDbContext _context;
         public VarientRepository(ProductDbContext dbContext) : base(dbContext)
@@ -18,13 +18,13 @@ namespace DataAccessLayer.Repository
             _context = dbContext;
         }
 
-        public async Task<IEnumerable<Varient>> GetVarientsOfProduct(long productId)
+        public async Task<IEnumerable<Variant>> GetVariantsOfProduct(long productId)
         {
             var varients = await _context.Varients.Where(x => x.ProductId == productId).ToListAsync();
             return varients;
         }
 
-        public async Task MarkVarientInactive(long varientId)
+        public async Task MarkVariantInactive(long varientId)
         {
             var existingVarient = _context.Varients.FirstOrDefault(x => x.Id == varientId);
             if (existingVarient != null)
@@ -35,7 +35,7 @@ namespace DataAccessLayer.Repository
             await _context.SaveChangesAsync(CancellationToken.None);
         }
 
-        public async Task<decimal> GetPriceOfOneVarient(long productId)
+        public async Task<decimal> GetPriceOfOneVariant(long productId)
         {
             var varient = _context.Varients.FirstOrDefault(i => i.ProductId == productId);
             if(varient == null)

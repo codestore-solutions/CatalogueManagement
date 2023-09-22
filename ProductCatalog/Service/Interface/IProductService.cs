@@ -17,7 +17,7 @@ namespace ProductCatalog.Service.Interface
         Task<ResponseDto<IEnumerable<ProductOverview>>> GetAllBySubCategory(long subCategoryId);
 
         Task<ResponseDto<IEnumerable<ProductOverview>>> GetAllByCategory(long categoryId);
-        Task<long> AddProductWithDetails(ProductWithVarient productdetail);
+        Task<long> AddProductWithDetails(ProductWithVariant productdetail);
 
 
     }

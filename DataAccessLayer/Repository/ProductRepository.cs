@@ -38,7 +38,7 @@ namespace DataAccessLayer.Repository
             return attachment != null ? attachment.AttachmentURL : null;
         }
 
-        public async Task<IEnumerable<Varient>> GetVarientsByProductId(long id)
+        public async Task<IEnumerable<Variant>> GetVariantsByProductId(long id)
         {
             var varients = await _context.Varients.Where(x => x.ProductId == id).ToListAsync();
             return varients;

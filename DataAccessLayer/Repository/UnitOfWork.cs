@@ -17,7 +17,7 @@ namespace DataAccessLayer.Repository
         private IProductRepository? _productRepository;
         private IReviewRepository? _reviewRepository;
         private ISubCategoryRepository? _subCategoryRepository;
-        private IVarientRepository? _varientRepository;
+        private IVariantRepository? _varientRepository;
 
         public UnitOfWork(ProductDbContext context) => _context = context;
 
@@ -33,7 +33,7 @@ namespace DataAccessLayer.Repository
 
         public ISubCategoryRepository SubcategoryRepository => _subCategoryRepository ??= new SubCategoryRepository(_context);
 
-        public IVarientRepository VarientRepository => _varientRepository ??= new VarientRepository(_context);
+        public IVariantRepository VariantRepository => _varientRepository ??= new VarientRepository(_context);
 
         public void Dispose()
         {

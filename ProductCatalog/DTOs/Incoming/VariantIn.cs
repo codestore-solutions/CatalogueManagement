@@ -3,7 +3,7 @@
 namespace ProductCatalog.DTOs.Incoming
 {
 
-    public class VarientAdd
+    public class VariantAdd
     {
         [Required]
         [MinLength(20, ErrorMessage = "Description should be more then 20 character")]
@@ -21,7 +21,7 @@ namespace ProductCatalog.DTOs.Incoming
 
 
     }
-    public class VarientIn : VarientAdd
+    public class VariantIn : VariantAdd
     {
         [Required]
         public long ProductId { get; set; }
@@ -33,7 +33,7 @@ namespace ProductCatalog.DTOs.Incoming
 
     }
 
-    public class VarientOut : VarientIn
+    public class VariantOut : VariantIn
     {
         public long Id { get; set; }
     }

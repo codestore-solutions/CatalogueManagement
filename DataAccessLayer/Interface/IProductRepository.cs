@@ -11,7 +11,7 @@ namespace DataAccessLayer.Interface
     {
         decimal GetRating(long id);
         string? GetAttachment(long id);
-        Task<IEnumerable<Varient>> GetVarientsByProductId(long id);
+        Task<IEnumerable<Variant>> GetVariantsByProductId(long id);
         Task<IEnumerable<Attachment>> GetAttachmentsByProductId(long id);
         //Task<IEnumerable<Review>> GetReviewsByProductId(long id);
         Task<bool> MarkInactive(long id);

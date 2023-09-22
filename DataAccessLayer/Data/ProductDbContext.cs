@@ -48,7 +48,7 @@ namespace DataAccessLayer.Data
                 e.HasQueryFilter(x => x.TenantId == TenantId);
             });
 
-            modelBuilder.Entity<Varient>(e =>
+            modelBuilder.Entity<Variant>(e =>
             {
                 e.HasQueryFilter(x => x.TenantId == TenantId);
             });
@@ -79,7 +79,7 @@ namespace DataAccessLayer.Data
 
         public DbSet<Review> Reviews { get; set; }
 
-        public DbSet<Varient> Varients { get; set; }
+        public DbSet<Variant> Varients { get; set; }
 
         public DbSet<Seller> Sellers { get; set; }
 
