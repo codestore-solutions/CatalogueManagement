@@ -8,48 +8,30 @@ on:
     branches:
       - dev-webapp-cs
   workflow_dispatch:
-
+  
 jobs:
-  build:
-    runs-on: windows-latest
-
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      - name: Set up Node.js version
-        uses: actions/setup-node@v1
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
         with:
-          node-version: '18.x'
+          node-version: 14
 
-      - name: npm install, build, and test
-        working-directory: CatalogueManagement
-        run: |
-          npm install
-          npm run build --if-present
-             
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v2
-        with:
-          name: node-app
-          path: .
+      - name: Install dependencies
+        run: npm install
 
-  deploy:
-    runs-on: windows-latest
-    needs: build
-    environment:
-      name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+      - name: Build Angular application
+        run: npm run build -- --prod
 
-    steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v2
-        with:
-          name: node-app       
-      - name: 'Deploy to Azure Web App'
+      - name: Deploy to Azure
         uses: azure/webapps-deploy@v2
-        id: deploy-to-webapp
         with:
           app-name: 'CatalogueManagementRG'
-          slot-name: 'Production'
+          slot-name: 'Production' # You can specify the Azure deployment slot here
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_FF3816327DFF4A3C8C47222B55191B7A }}
-          package: .
+          package: ./dist/catalogue-management  # Path to the Angular build output directory
