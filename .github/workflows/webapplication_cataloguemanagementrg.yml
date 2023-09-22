@@ -25,7 +25,7 @@ jobs:
         run: npm install
 
       - name: npm install, build, and test
-        #working-directory: CatalogueManagement
+        working-directory: CatalogueManagement
         run: |
           npm install
           npm run build --if-present
