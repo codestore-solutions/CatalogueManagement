@@ -8,7 +8,7 @@ class ProductServices {
   public static async getAllProducts(id: string | number) {
     console.log('get product details called - LReignS');
     let res = await getApiData(
-      `https://backend-catalogue-dev.azurewebsites.net/api/Products/allProductsOfCategory/${id}`,
+      `https://catalog-dev-service.azurewebsites.net/api/Products/allProductsOfCategory/${id}`,
       'GET',
       {
         headers: {
@@ -23,7 +23,7 @@ class ProductServices {
     return res;
 
     // let res = await getApiData(
-    //   'https://backend-catalogue-dev.azurewebsites.net/api/Products/allProducts',
+    //   'https://catalog-dev-service.azurewebsites.net/api/Products/allProducts',
     //   'GET',
     // ).then(res => {
     //   return res})
@@ -32,7 +32,7 @@ class ProductServices {
 
   public static async getCategories() {
     let res = await getApiData(
-      'https://backend-catalogue-dev.azurewebsites.net/api/Category/allCategories',
+      'https://catalog-dev-service.azurewebsites.net/api/Category/allCategories',
       'GET',
       {
         headers: {
@@ -68,7 +68,7 @@ class ProductServices {
     console.log(data);
     console.log('api called - feedback');
     const res = await getApiData(
-      'https://feedbackbackend-dev.azurewebsites.net/api/v1/businessAdmin/createLink/64b14fe37d75d86fd1af82c1/2',
+      'https://feedback-dev-service.azurewebsites.net/api/v1/businessAdmin/createLink/64b14fe37d75d86fd1af82c1/2',
       'POST',
       {
         headers: {

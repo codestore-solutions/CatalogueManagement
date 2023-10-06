@@ -31,7 +31,7 @@ const Payment = () => {
     //for buy now (1 item only)
     let orderForVendors = [
       {
-        vendorId: 1,
+        vendorId: route.params.venderId,
         deliveryCharges: 99,
         orderItems: [
           {

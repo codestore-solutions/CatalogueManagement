@@ -50,6 +50,7 @@ const FooterButtons = (props: {
           style={styles.right}
           onPress={() => {
             props.navigation.navigate('BuyNow', {
+              venderId: props.vendorId,
               productId: props.id,
               variantId: props.vid,
               price: props.price,

@@ -35,6 +35,12 @@ class OrderingService {
     const response = await Http.post(url, data);
     return response;
   }
+
+  public static async getOrderDetail(id: any) {
+    const url = `${ApiDetails.GET_ORDER_DETAIL}?orderIds=${id}`;
+    const response = await Http.get(url);
+    return response;
+  }
 }
 
 export default OrderingService;
